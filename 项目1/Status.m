@@ -31,6 +31,10 @@
 {
     _StaBefore = _StaNow;
     _StaNow = newstatus;
+    
+#if TEST == 1
+    NSLog(@"StaBefore == %lx,StaNow == %lx",_StaBefore,_StaNow);
+#endif
 }
 
 //==========================
@@ -38,7 +42,7 @@
 //==========================
 -(void)lookStatu
 {
-    NSLog(@"状态码 = 0x%lx",(_StaBefore<<8) | (_StaNow));
+    NSLog(@"错误码 = 0x%lx",(_StaBefore<<8) | (_StaNow));
 }
 
 @end

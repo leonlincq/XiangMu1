@@ -72,42 +72,48 @@
 #if TEST == 1      //调试模式
             NSLog(@"读取到的按键=%@,长度=%lu",temp_data,temp_data.length);
 #endif
-            //数字个数的合法性
-            if(temp_data.length != 1)
+            //数值的合法性      超过int的max会取intmax，不用担心越界
+            int tempjudge = [temp_data intValue];
+#if TEST == 1      //调试模式
+            NSLog(@"转换后的数据 = %d",tempjudge);
+#endif
+            switch ( tempjudge )
             {
-                NSLog(@"无效指令，请重输%@",ERROR0x02);
-            }
-            else    //数值的合法性
-            {
-                switch ([temp_data intValue])
-                {
-                    case M_superUserSign:
-                        [(*tempstatu) StatuChange:(SuperUser | S_home)];       //超级管理员界面+nil
-                        return;
+                case M_superUserSign:
+                    [(*tempstatu) StatuChange:(SuperUser | S_home)];        //超级管理员界面+首页
+                    return;
                         
-                    case M_commonUserSign:
-                        [(*tempstatu) StatuChange:(CommonUser | C_home)];      //普通用户界面+nil
-                        return;
+                case M_commonUserSign:
+                    [(*tempstatu) StatuChange:(CommonUser | C_home)];       //普通用户界面+首页
+                    return;
                         
-                    case M_registerNewUser:
-                        [(*tempstatu) StatuChange:(MainInterface | M_registerNewUser)]; //欢迎界面+注册新用户
-                        return;
+                case M_registerNewUser:
+                    [(*tempstatu) StatuChange:(MainInterface | tempjudge)]; //欢迎界面+注册新用户
+                    return;
                         
-                    case M_foundPassWord:
-                        [(*tempstatu) StatuChange:(MainInterface | M_foundPassWord)]; //欢迎界面+找回密码
-                        return;
+                case M_foundPassWord:
+                    [(*tempstatu) StatuChange:(MainInterface | tempjudge)]; //欢迎界面+找回密码
+                    return;
                         
-                    case M_returnWelcome:
-                        [(*tempstatu) StatuChange:(MainInterface | M_home)];   //返回欢迎界面+nil
-                        return;
+                case M_returnWelcome:
+                    [(*tempstatu) StatuChange:(MainInterface | M_home)];    //返回主界面
+                    return;
                         
-                    default:
-                        NSLog(@"无效指令，请重输%@",ERROR0x03);
-                        break;
-                }
-            }//结束键值为为单个数字
-        }//结束键值不含字母
+                default:
+                    NSLog(@"无效指令，请重输%@",ERROR0x02);
+                    break;
+            }//判断数字
+        }//结束键值不含字母字符
     }//结束while(1)等待合法键值
+}
+
+//==========================
+//     Ui主界面功能升级中
+//==========================
+-(void)uiMainUping:(Status**)tempstatu
+{
+    NSLog(@"升级ing...");
+    [(*tempstatu) StatuChange:(MainInterface | M_home)];
 }
 
 //==========================
@@ -115,8 +121,7 @@
 //==========================
 -(void)uiMainRegisterNewUser:(Status**)tempstatu
 {
-    NSLog(@"升级ing...");
-    [(*tempstatu) StatuChange:(MainInterface | M_home)];
+    [self uiMainUping:(Status**)tempstatu];
 }
 
 //==========================
@@ -124,8 +129,7 @@
 //==========================
 -(void)uiMainFoundPassWord:(Status**)tempstatu
 {
-    NSLog(@"升级ing...");
-    [(*tempstatu) StatuChange:(MainInterface | M_home)];
+    [self uiMainUping:(Status**)tempstatu];
 }
 
 @end

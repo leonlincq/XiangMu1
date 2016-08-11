@@ -11,14 +11,12 @@
 @interface Status : NSObject
 
 //========================================================
-#define TEST        0x00    //调试模式
+#define TEST        0       //调试模式
 
 #define CHOOSE_UI   0xF0    //选择功能模块
 
-#define ERROR0x01 @"（错误代码0x01：含有字母）"
-#define ERROR0x02 @"（错误代码0x02：数字长度大于1个）"
-#define ERROR0x03 @"（错误代码0x03：数字不在指定范围）"
-#define ERROR0x04 @"（错误代码0x04：含有非法字符）"
+#define ERROR0x01 @"（错误代码0x01：含有字符或字母）"
+#define ERROR0x02 @"（错误代码0x02：操作序号不在指定范围内）"
 
 
 //主界面（登录界面）
