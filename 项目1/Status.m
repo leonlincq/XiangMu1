@@ -10,6 +10,21 @@
 
 @implementation Status
 
+
+static Status *Mystatus = nil;
+
+//==========================
+//      状态初始化
+//==========================
++(instancetype)statusShallOneData
+{
+    if (Mystatus == nil)
+    {
+        Mystatus = [[Status alloc]initStatu];
+    }
+    return Mystatus;
+}
+
 //==========================
 //      状态初始化
 //==========================
@@ -29,11 +44,11 @@
 //==========================
 -(void)StatuChange:(LCQSTATUS)newstatus
 {
-    _StaBefore = _StaNow;
-    _StaNow = newstatus;
+    Mystatus.StaBefore = Mystatus.StaNow;
+    Mystatus.StaNow = newstatus;
     
 #if TEST == 1
-    NSLog(@"StaBefore == %lx,StaNow == %lx",_StaBefore,_StaNow);
+    NSLog(@"StaBefore == %lx,StaNow == %lx",Mystatus.StaBefore,Mystatus.StaNow);
 #endif
 }
 
@@ -42,7 +57,7 @@
 //==========================
 -(void)lookStatu
 {
-    NSLog(@"错误码 = 0x%lx",(_StaBefore<<8) | (_StaNow));
+    NSLog(@"错误码 = 0x%lx",(Mystatus.StaBefore<<8) | (Mystatus.StaNow));
 }
 
 @end

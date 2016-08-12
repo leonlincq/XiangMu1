@@ -82,12 +82,12 @@
 //==========================
 //      错误界面
 //==========================
--(void)uiError:(Status *)statu
+-(void)uiError
 {
     NSLog(@"=========================");
     NSLog(@"*     异常状态,请重启      *");
     NSLog(@"=========================");
-    [self lookStatu];
+    [super lookStatu];
     while (1);
 }
 

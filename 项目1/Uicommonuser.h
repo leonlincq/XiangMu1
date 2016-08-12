@@ -11,24 +11,24 @@
 @interface Uicommonuser : Ui
 
 /** 普通用户接口 */
--(void)uiCommonUserInterface:(Status**)tempstatu;
+-(void)uiCommonUserInterface;
 /** 普通管理界面 */
--(void)uiCommonUserHome:(Status**)tempstatu;	
+-(void)uiCommonUserHome;	
 /** 用户存款 */
--(void)uiCommonUserUserDeposit:(Status**)tempstatu;
+-(void)uiCommonUserUserDeposit;
 /** 用户取款 */
--(void)uiCommonUserUserDrawMoney:(Status**)tempstatu;
+-(void)uiCommonUserUserDrawMoney;
 /** 查看用户资金走向 */
--(void)uiCommonUserLookMoneyGo:(Status**)tempstatu;
+-(void)uiCommonUserLookMoneyGo;
 /** 用户转账 */
--(void)uiCommonUserUsertGiro:(Status**)tempstatu;
+-(void)uiCommonUserUsertGiro;
 /** 修改密码 */
--(void)uiCommonUserUpPasswordData:(Status**)tempstatu;
+-(void)uiCommonUserUpPasswordData;
 /** 购买商品 */
--(void)uiCommonUserBuyWares:(Status**)tempstatu;
+-(void)uiCommonUserBuyWares;
 /** 订单操作 */
--(void)uiCommonUserOperaOrder:(Status**)tempstatu;
+-(void)uiCommonUserOperaOrder;
 /** 购物车 */
--(void)uiCommonUserShopCar:(Status**)tempstatu;
+-(void)uiCommonUserShopCar;
 
 @end

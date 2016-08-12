@@ -11,12 +11,12 @@
 @interface Uimain : Ui
 
 /** 主界面接口 */
--(void)uiMainInterface:(Status**)tempstatu;
+-(void)uiMainInterface;
 /** 主界面显示 */
--(void)uiMainHome:(Status**)tempstatu;
+-(void)uiMainHome;
 /** 主界面注册新用户 */
--(void)uiMainRegisterNewUser:(Status**)tempstatu;
+-(void)uiMainRegisterNewUser;
 /** 主界面找回密码 */
--(void)uiMainFoundPassWord:(Status**)tempstatu;
+-(void)uiMainFoundPassWord;
 
 @end

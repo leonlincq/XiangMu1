@@ -13,20 +13,22 @@
 //==========================
 //      开机主界面接口
 //==========================
--(void)uiMainInterface:(Status**)tempstatu
+-(void)uiMainInterface
 {
-    switch ((*tempstatu).StaNow)
+    Status *MyStatuP = [Status statusShallOneData];
+    
+    switch (MyStatuP.StaNow)
     {
         case (MainInterface | M_home):              //欢迎界面首页
-            [self uiMainHome:(Status**)tempstatu];
+            [self uiMainHome];
             break;
             
         case (MainInterface | M_registerNewUser):   //注册用户
-            [self uiMainRegisterNewUser:(Status**)tempstatu];
+            [self uiMainRegisterNewUser];
             break;
             
         case (MainInterface | M_foundPassWord):    //找回密码
-            [self uiMainFoundPassWord:(Status**)tempstatu];
+            [self uiMainFoundPassWord];
             break;
             
             //不应该出现的状态
@@ -34,7 +36,7 @@
         case (MainInterface | M_superUserSign):     //超级用户界面
         case (MainInterface | M_commonUserSign):    //普通用户界面
         default:
-            [self uiError:*tempstatu];
+            [super uiError];
             break;
     }
 }
@@ -42,16 +44,18 @@
 //==========================
 //      开机主界面显示
 //==========================
--(void)uiMainHome:(Status**)tempstatu
+-(void)uiMainHome
 {
-    NSLog(@"         🌳在线销售系统欢迎您🌳         ");
-    NSLog(@"======================================");
-    NSLog(@"*           🐴1.超级管理登录           *");
-    NSLog(@"*           🐑2.普通用户登录           *");
-    NSLog(@"*           🐧3.注册新的用户           *");
-    NSLog(@"*           🐶4.找回用户密码           *");
-    NSLog(@"*           🐘5.返回欢迎界面           *");
-    NSLog(@"======================================");
+    Status *MyStatuP = [Status statusShallOneData];
+    
+    printf("         🌳在线销售系统欢迎您🌳         \n");
+    printf("======================================\n");
+    printf("*           🐴1.超级管理登录           *\n");
+    printf("*           🐑2.普通用户登录           *\n");
+    printf("*           🐧3.注册新的用户           *\n");
+    printf("*           🐶4.找回用户密码           *\n");
+    printf("*           🐘5.返回欢迎界面           *\n");
+    printf("======================================\n");
     
     //等待保存读取出来的键值
     NSString *temp_data = [[NSString alloc]init];
@@ -61,7 +65,7 @@
     while (1)
     {
         printf("请输入操作序号(1~5):");
-        temp_bool = [self inputDataAndSave:&temp_data andJudge:onlyNumb];
+        temp_bool = [super inputDataAndSave:&temp_data andJudge:onlyNumb];
         //键值的合法性
         if ( temp_bool == NO )
         {
@@ -80,23 +84,23 @@
             switch ( tempjudge )
             {
                 case M_superUserSign:
-                    [(*tempstatu) StatuChange:(SuperUser | S_home)];        //超级管理员界面+首页
+                    [MyStatuP StatuChange:(SuperUser | S_home)];        //超级管理员界面+首页
                     return;
                         
                 case M_commonUserSign:
-                    [(*tempstatu) StatuChange:(CommonUser | C_home)];       //普通用户界面+首页
+                    [MyStatuP StatuChange:(CommonUser | C_home)];       //普通用户界面+首页
                     return;
                         
                 case M_registerNewUser:
-                    [(*tempstatu) StatuChange:(MainInterface | tempjudge)]; //欢迎界面+注册新用户
+                    [MyStatuP StatuChange:(MainInterface | tempjudge)]; //欢迎界面+注册新用户
                     return;
                         
                 case M_foundPassWord:
-                    [(*tempstatu) StatuChange:(MainInterface | tempjudge)]; //欢迎界面+找回密码
+                    [MyStatuP StatuChange:(MainInterface | tempjudge)]; //欢迎界面+找回密码
                     return;
                         
                 case M_returnWelcome:
-                    [(*tempstatu) StatuChange:(MainInterface | M_home)];    //返回主界面
+                    [MyStatuP StatuChange:(MainInterface | M_home)];    //返回主界面
                     return;
                         
                 default:
@@ -110,26 +114,32 @@
 //==========================
 //     Ui主界面功能升级中
 //==========================
--(void)uiMainUping:(Status**)tempstatu
+-(void)uiMainUping
 {
+    Status *MyStatuP = [Status statusShallOneData];
+    
     NSLog(@"升级ing...");
-    [(*tempstatu) StatuChange:(MainInterface | M_home)];
+    [MyStatuP StatuChange:(MainInterface | M_home)];
 }
 
 //==========================
 //      开机主界面注册新用户
 //==========================
--(void)uiMainRegisterNewUser:(Status**)tempstatu
+-(void)uiMainRegisterNewUser
 {
-    [self uiMainUping:(Status**)tempstatu];
+    Status *MyStatuP = [Status statusShallOneData];
+    
+    [self uiMainUping];
 }
 
 //==========================
 //      开机主界面找回密码
 //==========================
--(void)uiMainFoundPassWord:(Status**)tempstatu
+-(void)uiMainFoundPassWord
 {
-    [self uiMainUping:(Status**)tempstatu];
+    Status *MyStatuP = [Status statusShallOneData];
+    
+    [self uiMainUping];
 }
 
 @end

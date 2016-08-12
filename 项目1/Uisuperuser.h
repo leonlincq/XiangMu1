@@ -11,29 +11,29 @@
 @interface Uisuperuser : Ui
 
 /** 超级用户接口 */
--(void)uiSuperUserInterface:(Status**)tempstatu;
+-(void)uiSuperUserInterface;
 /** 超级用户界面 */
--(void)uiSuperUserHome:(Status**)tempstatu;
+-(void)uiSuperUserHome;
 /** 查看用户信息 */
--(void)uiSuperUserSeekUserData:(Status**)tempstatu;
+-(void)uiSuperUserSeekUserData;
 /** 修改用户信息 */
--(void)uiSuperUserUpUserData:(Status**)tempstatu;
+-(void)uiSuperUserUpUserData;
 /** 删除用户信息 */
--(void)uiSuperUserDeleUserData:(Status**)tempstatu;
+-(void)uiSuperUserDeleUserData;
 /** 用户资金操作 */
--(void)uiSuperUserOperaUserMoney:(Status**)tempstatu;
+-(void)uiSuperUserOperaUserMoney;
 /** 商品操作 */
--(void)uiSuperUserOperaWares:(Status**)tempstatu;
+-(void)uiSuperUserOperaWares;
 /** 订单操作 */
--(void)uiSuperUserOperaOrder:(Status**)tempstatu;
+-(void)uiSuperUserOperaOrder;
 /** 添加用户 */
--(void)uiSuperUserAddUser:(Status**)tempstatu;
+-(void)uiSuperUserAddUser;
 /** 密保库清0 */
--(void)uiSuperUserCleProPassWord:(Status**)tempstatu;
+-(void)uiSuperUserCleProPassWord;
 /** 资金历史记录清除 */
--(void)uiSuperUserClemoneyhistory:(Status**)tempstatu;
+-(void)uiSuperUserClemoneyhistory;
 /** 查看用户密保 */
--(void)uiSuperUserSeekProPassWord:(Status**)tempstatu;
+-(void)uiSuperUserSeekProPassWord;
 
 
 

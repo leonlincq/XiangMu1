@@ -71,6 +71,8 @@ typedef NSUInteger LCQSTATUS;
 @property (nonatomic,assign) LCQSTATUS StaNow;
 
 /** 初始化状态为主界面 */
++(instancetype)statusShallOneData;
+/** 初始化状态为主界面 */
 -(instancetype)initStatu;
 /** 状态更改 */
 -(void)StatuChange:(LCQSTATUS)newstatus;

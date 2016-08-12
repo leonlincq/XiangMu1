@@ -23,6 +23,6 @@ enum
 -(BOOL)inputDataAndSave:(NSString**)data andJudge:(LCQKeyChoose)numbchar;
 
 /** 错误提示界面 */
--(void)uiError:(Status*)statu;
+-(void)uiError;
 
 @end

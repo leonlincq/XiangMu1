@@ -13,59 +13,61 @@
 //==========================
 //      超级用户接口
 //==========================
--(void)uiSuperUserInterface:(Status**)tempstatu
+-(void)uiSuperUserInterface
 {
-    switch ((*tempstatu).StaNow)
+    Status *MyStatuP = [Status statusShallOneData];
+    
+    switch (MyStatuP.StaNow)
     {
         case (SuperUser | S_home):              //超级用户界面首页
-            [self uiSuperUserHome:(Status**)tempstatu];
+            [self uiSuperUserHome];
             break;
             
         case (SuperUser | S_seekUserData):      //查看用户信息
-            [self uiSuperUserSeekUserData:(Status**)tempstatu];
+            [self uiSuperUserSeekUserData];
             break;
             
         case (SuperUser | S_upUserData):        //修改用户信息
-            [self uiSuperUserUpUserData:(Status**)tempstatu];
+            [self uiSuperUserUpUserData];
             break;
             
         case (SuperUser | S_deleUserData):      //删除用户信息
-            [self uiSuperUserDeleUserData:(Status**)tempstatu];
+            [self uiSuperUserDeleUserData];
             break;
             
         case (SuperUser | S_operaUserMoney):    //用户资金操作
-            [self uiSuperUserOperaUserMoney:(Status**)tempstatu];
+            [self uiSuperUserOperaUserMoney];
             break;
             
         case (SuperUser | S_operaWares):        //商品操作
-            [self uiSuperUserOperaWares:(Status**)tempstatu];
+            [self uiSuperUserOperaWares];
             break;
             
         case (SuperUser | S_operaOrder):        //订单操作
-            [self uiSuperUserOperaOrder:(Status**)tempstatu];
+            [self uiSuperUserOperaOrder];
             break;
             
         case (SuperUser | S_addUser):           //添加用户
-            [self uiSuperUserAddUser:(Status**)tempstatu];
+            [self uiSuperUserAddUser];
             break;
             
         case (SuperUser | S_cleProPassWord):    //密保库清0
-            [self uiSuperUserCleProPassWord:(Status**)tempstatu];
+            [self uiSuperUserCleProPassWord];
             break;
             
         case (SuperUser | S_clemoneyhistory):   //资金历史记录清除
-            [self uiSuperUserClemoneyhistory:(Status**)tempstatu];
+            [self uiSuperUserClemoneyhistory];
             break;
             
         case (SuperUser | S_seekProPassWord):   //查看用户密保
-            [self uiSuperUserSeekProPassWord:(Status**)tempstatu];
+            [self uiSuperUserSeekProPassWord];
             break;
             
             
         //不应该出现的状态
         case (SuperUser | S_returnMain):        //返回主界面（登录界面）
         default:
-            [self uiError:*tempstatu];
+            [super uiError];
             break;
     }
 }
@@ -74,22 +76,24 @@
 //==========================
 //      超级用户界面
 //==========================
--(void)uiSuperUserHome:(Status**)tempstatu
+-(void)uiSuperUserHome
 {
-    NSLog(@"         🌳     管理员     🌳         ");
-    NSLog(@"======================================");
-    NSLog(@"*           🐴1.查看用户信息           *");
-    NSLog(@"*           🐑2.修改用户名字           *");
-    NSLog(@"*           🐧3.删除用户信息           *");
-    NSLog(@"*           🐶4.用户资金操作           *");
-    NSLog(@"*           🐘5.商品操作               *");
-    NSLog(@"*           🐤6.订单操作               *");
-    NSLog(@"*           🐔7.添加用户               *");
-    NSLog(@"*           🐹8.密保库清0              *");
-    NSLog(@"*           🐼9.历史资金清除           *");
-    NSLog(@"*           🐬10.查看用户密保          *");
-    NSLog(@"*           🐠11.返回登录界面          *");
-    NSLog(@"======================================");
+    Status *MyStatuP = [Status statusShallOneData];
+    
+    printf("         🌳     管理员     🌳         \n");
+    printf("======================================\n");
+    printf("*           🐴1.查看用户信息           *\n");
+    printf("*           🐑2.修改用户名字           *\n");
+    printf("*           🐧3.删除用户信息           *\n");
+    printf("*           🐶4.用户资金操作           *\n");
+    printf("*           🐘5.商品操作               *\n");
+    printf("*           🐤6.订单操作               *\n");
+    printf("*           🐔7.添加用户               *\n");
+    printf("*           🐹8.密保库清0              *\n");
+    printf("*           🐼9.历史资金清除           *\n");
+    printf("*           🐬10.查看用户密保          *\n");
+    printf("*           🐠11.返回登录界面          *\n");
+    printf("======================================\n");
     
     //等待保存读取出来的键值
     NSString *temp_data = [[NSString alloc]init];
@@ -99,7 +103,7 @@
     while (1)
     {
         printf("请输入操作序号(1-11):");
-        temp_bool = [self inputDataAndSave:&temp_data andJudge:onlyNumb];
+        temp_bool = [super inputDataAndSave:&temp_data andJudge:onlyNumb];
         //键值的合法性
         if ( temp_bool == NO )
         {
@@ -120,47 +124,47 @@
             switch ( tempjudge )
             {
                 case S_seekUserData:
-                    [(*tempstatu) StatuChange:(SuperUser | tempjudge)];     //超级用户界面+查看用户信息
+                    [MyStatuP StatuChange:(SuperUser | tempjudge)];     //超级用户界面+查看用户信息
                     return;
                         
                 case S_upUserData:
-                    [(*tempstatu) StatuChange:(SuperUser | tempjudge)];     //超级用户界面+修改用户信息
+                    [MyStatuP StatuChange:(SuperUser | tempjudge)];     //超级用户界面+修改用户信息
                     return;
                         
                 case S_deleUserData:
-                    [(*tempstatu) StatuChange:(SuperUser | tempjudge)];     //超级用户界面+删除用户信息
+                    [MyStatuP StatuChange:(SuperUser | tempjudge)];     //超级用户界面+删除用户信息
                     return;
                         
                 case S_operaUserMoney:
-                    [(*tempstatu) StatuChange:(SuperUser | tempjudge)];     //超级用户界面+用户资金操作
+                    [MyStatuP StatuChange:(SuperUser | tempjudge)];     //超级用户界面+用户资金操作
                     return;
                     
                 case S_operaWares:
-                    [(*tempstatu) StatuChange:(SuperUser | tempjudge)];     //超级用户界面+商品操作
+                    [MyStatuP StatuChange:(SuperUser | tempjudge)];     //超级用户界面+商品操作
                     return;
                     
                 case S_operaOrder:
-                    [(*tempstatu) StatuChange:(SuperUser | tempjudge)];     //超级用户界面+订单操作
+                    [MyStatuP StatuChange:(SuperUser | tempjudge)];     //超级用户界面+订单操作
                     return;
                     
                 case S_addUser:
-                    [(*tempstatu) StatuChange:(SuperUser | tempjudge)];     //超级用户界面+添加用户
+                    [MyStatuP StatuChange:(SuperUser | tempjudge)];     //超级用户界面+添加用户
                     return;
                     
                 case S_cleProPassWord:
-                    [(*tempstatu) StatuChange:(SuperUser | tempjudge)];     //超级用户界面+密保库清0
+                    [MyStatuP StatuChange:(SuperUser | tempjudge)];     //超级用户界面+密保库清0
                     return;
                     
                 case S_clemoneyhistory:
-                    [(*tempstatu) StatuChange:(SuperUser | tempjudge)];     //超级用户界面+资金历史记录清除
+                    [MyStatuP StatuChange:(SuperUser | tempjudge)];     //超级用户界面+资金历史记录清除
                     return;
                     
                 case S_seekProPassWord:
-                    [(*tempstatu) StatuChange:(SuperUser | tempjudge)];     //超级用户界面+查看用户密保
+                    [MyStatuP StatuChange:(SuperUser | tempjudge)];     //超级用户界面+查看用户密保
                     return;
                     
                 case S_returnMain:
-                    [(*tempstatu) StatuChange:(MainInterface | M_home)];     //返回主界面（登录界面）
+                    [MyStatuP StatuChange:(MainInterface | M_home)];     //返回主界面（登录界面）
                     return;
                         
                 default:
@@ -174,90 +178,112 @@
 //==========================
 //     Ui超级用户界面功能升级中
 //==========================
--(void)uiSuperUserUping:(Status**)tempstatu
+-(void)uiSuperUserUping
 {
+    Status *MyStatuP = [Status statusShallOneData];
+    
     NSLog(@"升级ing...");
-    [(*tempstatu) StatuChange:(SuperUser | S_home)];
+    [MyStatuP StatuChange:(SuperUser | S_home)];
 }
 
 //==========================
 //      查看用户信息
 //==========================
--(void)uiSuperUserSeekUserData:(Status**)tempstatu
+-(void)uiSuperUserSeekUserData
 {
-    [self uiSuperUserUping:(Status**)tempstatu];
+    Status *MyStatuP = [Status statusShallOneData];
+    
+    [self uiSuperUserUping];
 }
 
 //==========================
 //      修改用户信息
 //==========================
--(void)uiSuperUserUpUserData:(Status**)tempstatu
+-(void)uiSuperUserUpUserData
 {
-    [self uiSuperUserUping:(Status**)tempstatu];
+    Status *MyStatuP = [Status statusShallOneData];
+    
+    [self uiSuperUserUping];
 }
 
 //==========================
 //      删除用户信息
 //==========================
--(void)uiSuperUserDeleUserData:(Status**)tempstatu
+-(void)uiSuperUserDeleUserData
 {
-    [self uiSuperUserUping:(Status**)tempstatu];
+    Status *MyStatuP = [Status statusShallOneData];
+    
+    [self uiSuperUserUping];
 }
 
 //==========================
 //      用户资金操作
 //==========================
--(void)uiSuperUserOperaUserMoney:(Status**)tempstatu
+-(void)uiSuperUserOperaUserMoney
 {
-    [self uiSuperUserUping:(Status**)tempstatu];
+    Status *MyStatuP = [Status statusShallOneData];
+    
+    [self uiSuperUserUping];
 }
 
 //==========================
 //      商品操作
 //==========================
--(void)uiSuperUserOperaWares:(Status**)tempstatu
+-(void)uiSuperUserOperaWares
 {
-    [self uiSuperUserUping:(Status**)tempstatu];
+    Status *MyStatuP = [Status statusShallOneData];
+    
+    [self uiSuperUserUping];
 }
 
 //==========================
 //      订单操作
 //==========================
--(void)uiSuperUserOperaOrder:(Status**)tempstatu
+-(void)uiSuperUserOperaOrder
 {
-    [self uiSuperUserUping:(Status**)tempstatu];
+    Status *MyStatuP = [Status statusShallOneData];
+    
+    [self uiSuperUserUping];
 }
 
 //==========================
 //      添加用户
 //==========================
--(void)uiSuperUserAddUser:(Status**)tempstatu
+-(void)uiSuperUserAddUser
 {
-    [self uiSuperUserUping:(Status**)tempstatu];
+    Status *MyStatuP = [Status statusShallOneData];
+    
+    [self uiSuperUserUping];
 }
 
 //==========================
 //      密保库清0
 //==========================
--(void)uiSuperUserCleProPassWord:(Status**)tempstatu
+-(void)uiSuperUserCleProPassWord
 {
-    [self uiSuperUserUping:(Status**)tempstatu];
+    Status *MyStatuP = [Status statusShallOneData];
+    
+    [self uiSuperUserUping];
 }
 
 //==========================
 //      资金历史记录清除
 //==========================
--(void)uiSuperUserClemoneyhistory:(Status**)tempstatu
+-(void)uiSuperUserClemoneyhistory
 {
-    [self uiSuperUserUping:(Status**)tempstatu];
+    Status *MyStatuP = [Status statusShallOneData];
+    
+    [self uiSuperUserUping];
 }
 
 //==========================
 //      查看用户密保
 //==========================
--(void)uiSuperUserSeekProPassWord:(Status**)tempstatu
+-(void)uiSuperUserSeekProPassWord
 {
-    [self uiSuperUserUping:(Status**)tempstatu];
+    Status *MyStatuP = [Status statusShallOneData];
+    
+    [self uiSuperUserUping];
 }
 
 @end

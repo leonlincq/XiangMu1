@@ -13,50 +13,52 @@
 //==========================
 //      普通用户接口
 //==========================
--(void)uiCommonUserInterface:(Status**)tempstatu
+-(void)uiCommonUserInterface
 {
-    switch ((*tempstatu).StaNow)
+    Status *MyStatuP = [Status statusShallOneData];
+    
+    switch (MyStatuP.StaNow)
     {
         case (CommonUser | C_home):             //普通用户首页
-            [self uiCommonUserHome:(Status**)tempstatu];
+            [self uiCommonUserHome];
             break;
             
         case (CommonUser | C_userDeposit):      //用户存款
-            [self uiCommonUserUserDeposit:(Status**)tempstatu];
+            [self uiCommonUserUserDeposit];
             break;
             
         case (CommonUser | C_userDrawMoney):    //用户取款
-            [self uiCommonUserUserDrawMoney:(Status**)tempstatu];
+            [self uiCommonUserUserDrawMoney];
             break;
             
         case (CommonUser | C_lookMoneyGo):      //查看用户资金走向
-            [self uiCommonUserLookMoneyGo:(Status**)tempstatu];
+            [self uiCommonUserLookMoneyGo];
             break;
             
         case (CommonUser | C_usertGiro):        //用户转账
-            [self uiCommonUserUsertGiro:(Status**)tempstatu];
+            [self uiCommonUserUsertGiro];
             break;
             
         case (CommonUser | C_upPasswordData):   //修改密码
-            [self uiCommonUserUpPasswordData:(Status**)tempstatu];
+            [self uiCommonUserUpPasswordData];
             break;
             
         case (CommonUser | C_buyWares):         //购买商品
-            [self uiCommonUserBuyWares:(Status**)tempstatu];
+            [self uiCommonUserBuyWares];
             break;
             
         case (CommonUser | C_operaOrder ):      //订单操作
-            [self uiCommonUserOperaOrder:(Status**)tempstatu];
+            [self uiCommonUserOperaOrder];
             break;
             
         case (CommonUser | C_shopCar):          //购物车
-            [self uiCommonUserShopCar:(Status**)tempstatu];
+            [self uiCommonUserShopCar];
             break;
  
         //不应该出现的状态
         case (CommonUser | C_returnWelcome):   //返回欢迎界面
         default:
-            [self uiError:*tempstatu];
+            [super uiError];
             break;
     }
 }
@@ -64,20 +66,22 @@
 //==========================
 //      普通用户界面
 //==========================
--(void)uiCommonUserHome:(Status**)tempstatu
+-(void)uiCommonUserHome
 {
-    NSLog(@"         🌳      用户      🌳         ");
-    NSLog(@"======================================");
-    NSLog(@"*           🐴1.用户存款              *");
-    NSLog(@"*           🐑2.用户取款              *");
-    NSLog(@"*           🐧3.查看资金流向           *");
-    NSLog(@"*           🐶4.用户转账              *");
-    NSLog(@"*           🐘5.修改密码              *");
-    NSLog(@"*           🐤6.购买商品              *");
-    NSLog(@"*           🐔7.订单操作              *");
-    NSLog(@"*           🐹8.购物车                *");
-    NSLog(@"*           🐼9.返回登录界面           *");
-    NSLog(@"======================================");
+    Status *MyStatuP = [Status statusShallOneData];
+    
+    printf("         🌳      用户      🌳         \n");
+    printf("======================================\n");
+    printf("*           🐴1.用户存款              *\n");
+    printf("*           🐑2.用户取款              *\n");
+    printf("*           🐧3.查看资金流向           *\n");
+    printf("*           🐶4.用户转账              *\n");
+    printf("*           🐘5.修改密码              *\n");
+    printf("*           🐤6.购买商品              *\n");
+    printf("*           🐔7.订单操作              *\n");
+    printf("*           🐹8.购物车                *\n");
+    printf("*           🐼9.返回登录界面           *\n");
+    printf("======================================\n");
     
     //等待保存读取出来的键值
     NSString *temp_data = [[NSString alloc]init];
@@ -87,7 +91,7 @@
     while (1)
     {
         printf("请输入操作序号(1-9):");
-        temp_bool = [self inputDataAndSave:&temp_data andJudge:onlyNumb];
+        temp_bool = [super inputDataAndSave:&temp_data andJudge:onlyNumb];
         //键值的合法性
         if ( temp_bool == NO )
         {
@@ -108,39 +112,39 @@
             switch ( tempjudge )
             {
                 case C_userDeposit:
-                    [(*tempstatu) StatuChange:(CommonUser | tempjudge)];    //普通用户界面+用户存款
+                    [MyStatuP StatuChange:(CommonUser | tempjudge)];    //普通用户界面+用户存款
                     return;
                     
                 case C_userDrawMoney:
-                    [(*tempstatu) StatuChange:(CommonUser | tempjudge)];    //普通用户界面+用户取款
+                    [MyStatuP StatuChange:(CommonUser | tempjudge)];    //普通用户界面+用户取款
                     return;
                     
                 case C_lookMoneyGo:
-                    [(*tempstatu) StatuChange:(CommonUser | tempjudge)];    //普通用户界面+查看用户资金走向
+                    [MyStatuP StatuChange:(CommonUser | tempjudge)];    //普通用户界面+查看用户资金走向
                     return;
                     
                 case C_usertGiro:
-                    [(*tempstatu) StatuChange:(CommonUser | tempjudge)];    //普通用户界面+用户转账
+                    [MyStatuP StatuChange:(CommonUser | tempjudge)];    //普通用户界面+用户转账
                     return;
                     
                 case C_upPasswordData:
-                    [(*tempstatu) StatuChange:(CommonUser | tempjudge)];    //普通用户界面+修改密码
+                    [MyStatuP StatuChange:(CommonUser | tempjudge)];    //普通用户界面+修改密码
                     return;
                     
                 case C_buyWares:
-                    [(*tempstatu) StatuChange:(CommonUser | tempjudge)];    //普通用户界面+购买商品
+                    [MyStatuP StatuChange:(CommonUser | tempjudge)];    //普通用户界面+购买商品
                     return;
                     
                 case C_operaOrder:
-                    [(*tempstatu) StatuChange:(CommonUser | tempjudge)];    //普通用户界面+订单操作
+                    [MyStatuP StatuChange:(CommonUser | tempjudge)];    //普通用户界面+订单操作
                     return;
                     
                 case C_shopCar:
-                    [(*tempstatu) StatuChange:(CommonUser | tempjudge)];    //普通用户界面+购物车
+                    [MyStatuP StatuChange:(CommonUser | tempjudge)];    //普通用户界面+购物车
                     return;
                     
                 case C_returnWelcome:
-                    [(*tempstatu) StatuChange:(MainInterface | M_home)];    //返回主界面（登录界面）
+                    [MyStatuP StatuChange:(MainInterface | M_home)];    //返回主界面（登录界面）
                     return;
 
                 default:
@@ -154,74 +158,91 @@
 //==========================
 //     Ui普通用户界面功能升级中
 //==========================
--(void)uiCommonUserUping:(Status**)tempstatu
+-(void)uiCommonUserUping
 {
+    Status *MyStatuP = [Status statusShallOneData];
     NSLog(@"升级ing...");
-    [(*tempstatu) StatuChange:(CommonUser | C_home)];
+    [MyStatuP StatuChange:(CommonUser | C_home)];
 }
 
 //==========================
 //     用户存款
 //==========================
--(void)uiCommonUserUserDeposit:(Status**)tempstatu
+-(void)uiCommonUserUserDeposit
 {
-    [self uiCommonUserUping:(Status**)tempstatu];
+    Status *MyStatuP = [Status statusShallOneData];
+    
+    [self uiCommonUserUping];
 }
 
 //==========================
 //     用户取款
 //==========================
--(void)uiCommonUserUserDrawMoney:(Status**)tempstatu
+-(void)uiCommonUserUserDrawMoney
 {
-    [self uiCommonUserUping:(Status**)tempstatu];
+    Status *MyStatuP = [Status statusShallOneData];
+    
+    [self uiCommonUserUping];
 }
 
 //==========================
 //     查看用户资金走向
 //==========================
--(void)uiCommonUserLookMoneyGo:(Status**)tempstatu
+-(void)uiCommonUserLookMoneyGo
 {
-    [self uiCommonUserUping:(Status**)tempstatu];
+    Status *MyStatuP = [Status statusShallOneData];
+    
+    [self uiCommonUserUping];
 }
 
 //==========================
 //     用户转账
 //==========================
--(void)uiCommonUserUsertGiro:(Status**)tempstatu
+-(void)uiCommonUserUsertGiro
 {
-    [self uiCommonUserUping:(Status**)tempstatu];
+    Status *MyStatuP = [Status statusShallOneData];
+    
+    [self uiCommonUserUping];;
 }
 
 //==========================
 //     修改密码
 //==========================
--(void)uiCommonUserUpPasswordData:(Status**)tempstatu
+-(void)uiCommonUserUpPasswordData
 {
-    [self uiCommonUserUping:(Status**)tempstatu];
+    Status *MyStatuP = [Status statusShallOneData];
+    
+    [self uiCommonUserUping];
 }
 
 //==========================
 //     购买商品
 //==========================
--(void)uiCommonUserBuyWares:(Status**)tempstatu
+-(void)uiCommonUserBuyWares
 {
-    [self uiCommonUserUping:(Status**)tempstatu];
+    Status *MyStatuP = [Status statusShallOneData];
+    
+    [self uiCommonUserUping];
 }
 
 //==========================
 //     订单操作
 //==========================
--(void)uiCommonUserOperaOrder:(Status**)tempstatu
+-(void)uiCommonUserOperaOrder
 {
-    [self uiCommonUserUping:(Status**)tempstatu];
+    Status *MyStatuP = [Status statusShallOneData];
+    
+    [self uiCommonUserUping];
 }
 
 //==========================
 //     购物车
 //==========================
--(void)uiCommonUserShopCar:(Status**)tempstatu
+-(void)uiCommonUserShopCar
 {
-    [self uiCommonUserUping:(Status**)tempstatu];
+    Status *MyStatuP = [Status statusShallOneData];
+    
+    [self uiCommonUserUping];
 }
 
 @end
