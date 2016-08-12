@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2585F1EE1D5DAA78005E86CC /* Status+Regex.m in Sources */ = {isa = PBXBuildFile; fileRef = 2585F1ED1D5DAA78005E86CC /* Status+Regex.m */; };
 		25EFD3CD1D5ABA7F0054829B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 25EFD3CC1D5ABA7F0054829B /* main.m */; };
 		25EFD3DD1D5AC7690054829B /* Status.m in Sources */ = {isa = PBXBuildFile; fileRef = 25EFD3DC1D5AC7690054829B /* Status.m */; };
 		25EFD3E01D5ACB510054829B /* Ui.m in Sources */ = {isa = PBXBuildFile; fileRef = 25EFD3DF1D5ACB510054829B /* Ui.m */; };
@@ -46,6 +47,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2585F1EC1D5DAA78005E86CC /* Status+Regex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Status+Regex.h"; sourceTree = "<group>"; };
+		2585F1ED1D5DAA78005E86CC /* Status+Regex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Status+Regex.m"; sourceTree = "<group>"; };
 		25EFD3C91D5ABA7F0054829B /* 项目1 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "项目1"; sourceTree = BUILT_PRODUCTS_DIR; };
 		25EFD3CC1D5ABA7F0054829B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		25EFD3D41D5ABAC30054829B /* main.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = main.h; sourceTree = "<group>"; };
@@ -134,6 +137,8 @@
 				25EFD3D41D5ABAC30054829B /* main.h */,
 				25EFD3DB1D5AC7690054829B /* Status.h */,
 				25EFD3DC1D5AC7690054829B /* Status.m */,
+				2585F1EC1D5DAA78005E86CC /* Status+Regex.h */,
+				2585F1ED1D5DAA78005E86CC /* Status+Regex.m */,
 				25EFD3DE1D5ACB510054829B /* Ui.h */,
 				25EFD3DF1D5ACB510054829B /* Ui.m */,
 				25F7DE621D5C72DD00B12B4F /* Uimain.h */,
@@ -282,6 +287,7 @@
 				25F7DE421D5C13DF00B12B4F /* Manageorder.m in Sources */,
 				25F7DE581D5C1B3300B12B4F /* Operateshopcar.m in Sources */,
 				25F7DE5B1D5C1B4D00B12B4F /* Operatecollect.m in Sources */,
+				2585F1EE1D5DAA78005E86CC /* Status+Regex.m in Sources */,
 				25EFD3CD1D5ABA7F0054829B /* main.m in Sources */,
 				25EFD3F41D5B1A350054829B /* FMDatabaseQueue.m in Sources */,
 				25EFD3E01D5ACB510054829B /* Ui.m in Sources */,

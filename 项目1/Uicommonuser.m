@@ -91,11 +91,11 @@
     while (1)
     {
         printf("请输入操作序号(1-9):");
-        temp_bool = [super inputDataAndSave:&temp_data andJudge:onlyNumb];
+        temp_bool = [super inputDataAndSaveIn:&temp_data andJudge:onlyNumb];
         //键值的合法性
         if ( temp_bool == NO )
         {
-            NSLog(@"无效指令，请重输%@",ERROR0x01);
+            printf("%s",ERROR0x00_NO_NUM);
         }
         else
         {
@@ -148,7 +148,7 @@
                     return;
 
                 default:
-                    NSLog(@"无效指令，请重输%@",ERROR0x02);
+                    printf("%s",ERROR0x01_ILLEGAL_NUM);
                     break;
             }//判断数字
         }//结束键值不含字母或字符
@@ -161,7 +161,7 @@
 -(void)uiCommonUserUping
 {
     Status *MyStatuP = [Status statusShallOneData];
-    NSLog(@"升级ing...");
+    printf("升级ing...\n");
     [MyStatuP StatuChange:(CommonUser | C_home)];
 }
 

@@ -10,6 +10,12 @@
 
 @interface Manageuserdatas : NSObject
 
+
+#define QUESTION_FRIST "你的第一只宠物叫什么名字："
+#define QUESTION_SECON "你的小学叫什么："
+#define QUESTION_THREE "你最喜欢的运动："
+
+
 //用户信息表
 
 // 用户名 | 密码 | 邮件 | 电话 | 会员 | 密保问题1 | 密保答案1 | 密保问题2 | 密保答案2 | 密保问题3 | 密保答案3 |

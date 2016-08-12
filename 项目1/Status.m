@@ -60,4 +60,11 @@ static Status *Mystatus = nil;
     NSLog(@"错误码 = 0x%lx",(Mystatus.StaBefore<<8) | (Mystatus.StaNow));
 }
 
+
+
+
+
+
+
+
 @end

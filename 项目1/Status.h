@@ -7,17 +7,21 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Operateuserdatas.h"
 
 @interface Status : NSObject
 
 //========================================================
-#define TEST        0       //调试模式
+#define TEST        1       //调试模式
 
 #define CHOOSE_UI   0xF0    //选择功能模块
 
-#define ERROR0x01 @"（错误代码0x01：含有字符或字母）"
-#define ERROR0x02 @"（错误代码0x02：操作序号不在指定范围内）"
-
+#define ERROR0x00_NO_NUM             "请重新输入（错误代码0x00：含有非法字符）\n"
+#define ERROR0x01_ILLEGAL_NUM        "请重新输入（错误代码0x01：输入的数字不在指定范围）\n"
+#define ERROR0x02_ILLEGAL_CHAR_AND_NAME_LENGTH  "请重新输入（错误代码0x02：含有非法符号或用户名长度不符合）\n"
+#define ERROR0x03_ILLEGAL_PASSWORD_LENGTH       "请重新输入（错误代码0x03：密码长度不符合）\n"
+#define ERROR0x04_ILLEGAL_EMAIL_SPACE           "请重新输入（错误代码0x04：非法邮箱或空格个数）\n"
+#define ERROR0xFF_NO_ERROR                      "错误（错误代码0xFF：没有错误😂）\n"
 
 //主界面（登录界面）
 enum
