@@ -86,11 +86,11 @@
 }
 
 //===========================================
-//          判断是否单个空格
+//          判断是否3个空格
 //===========================================
--(BOOL)isValidateOneSpace:(NSString *)data
+-(BOOL)isValidateThreePoint:(NSString *)data
 {
-    NSString *dataRegex = @" ";
+    NSString *dataRegex = @"\\.{3}";
     NSPredicate *dataTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", dataRegex];
     return [dataTest evaluateWithObject:data];
 }
@@ -148,15 +148,15 @@
             }
             break;
             
-        case onlyEmailOrSpace:
-            if ([self isValidateEmail:temp_data] == NO && [self isValidateOneSpace:temp_data] == NO )
+        case onlyEmailOrPoint:
+            if ([self isValidateEmail:temp_data] == NO && [self isValidateThreePoint:temp_data] == NO )
             {
                 return NO;
             }
             break;
             
-         case onlyPhoneOrSpace:
-            if ([self isValidatePhone:temp_data] == NO && [self isValidateOneSpace:temp_data] == NO)
+         case onlyPhoneOrPoint:
+            if ([self isValidatePhone:temp_data] == NO && [self isValidateThreePoint:temp_data] == NO)
             {
                 return NO;
             }

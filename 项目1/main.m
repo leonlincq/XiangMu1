@@ -35,7 +35,7 @@ int main(int argc, const char * argv[])
             case CommonUser:
                 [MyUiCP uiCommonUserInterface];   //调用普通用户接口
                 break;
-            
+                
             default:
                 [MyUiP uiError];                  //错误情况，显示错误代码
                 break;

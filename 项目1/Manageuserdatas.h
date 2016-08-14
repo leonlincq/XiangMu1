@@ -11,9 +11,13 @@
 @interface Manageuserdatas : NSObject
 
 
-#define QUESTION_FRIST "你的第一只宠物叫什么名字："
-#define QUESTION_SECON "你的小学叫什么："
-#define QUESTION_THREE "你最喜欢的运动："
+#define QUESTION_FRIST "你的第一只宠物叫什么名字"
+#define QUESTION_SECON "你的小学叫什么"
+#define QUESTION_THREE "你最喜欢的运动"
+
+#define AT_QUESTION_FRIST @"你的第一只宠物叫什么名字:"
+#define AT_QUESTION_SECON @"你的小学叫什么:"
+#define AT_QUESTION_THREE @"你最喜欢的运动:"
 
 
 //用户信息表

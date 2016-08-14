@@ -112,17 +112,6 @@
 }
 
 //==========================
-//     Ui主界面功能升级中
-//==========================
--(void)uiMainUping
-{
-    Status *MyStatuP = [Status statusShallOneData];
-    
-    printf("升级ing...\n");
-    [MyStatuP StatuChange:(MainInterface | M_home)];
-}
-
-//==========================
 //      开机主界面注册新用户
 //==========================
 -(void)uiMainRegisterNewUser
@@ -131,15 +120,14 @@
     
     Manageuserdatas *newuser = [[Manageuserdatas alloc]init];
     NSString *tempdata = [[NSString alloc]init];
-
+    
+    printf("=========================================\n");
     //输入用户
     while (1)
     {
-        printf("=========================================\n");
         printf("请输入用户名(6-30位，只能是数字、字母、下划线)：\n");
         if ([super inputDataAndSaveIn:&tempdata andJudge:onlyNumbCharCross] == NO)
         {
-                printf("=========================================\n");
                 printf("%s",ERROR0x02_ILLEGAL_CHAR_AND_NAME_LENGTH);
         }
         else
@@ -148,11 +136,11 @@
             break;
         }
     }
-
+    
+    printf("=========================================\n");
     //输入密码
     while (1)
     {
-        printf("=========================================\n");
         printf("请输入密码(6-30位)：\n");
         if ([super inputDataAndSaveIn:&tempdata andJudge:allKeyValue] == YES && (tempdata.length>6 && tempdata.length<30 ))
         {
@@ -161,20 +149,19 @@
         }
         else
         {
-            printf("=========================================\n");
             printf("%s",ERROR0x03_ILLEGAL_PASSWORD_LENGTH);
         }
     }
     
+    printf("=========================================\n");
     //输入邮箱
     while (1)
     {
-        printf("=========================================\n");
         printf("请输入邮箱地址(或输入'...'跳过，以后再完善)：\n");
         
-        if ([super inputDataAndSaveIn:&tempdata andJudge:onlyEmailOrSpace] == YES )
+        if ([super inputDataAndSaveIn:&tempdata andJudge:onlyEmailOrPoint] == YES )
         {
-            if ( [tempdata characterAtIndex:0] == ' ')
+            if ( [tempdata characterAtIndex:0] == '.')
             {
                 newuser.email = nil;
             }
@@ -186,20 +173,19 @@
         }
         else
         {
-            printf("=========================================\n");
             printf("%s",ERROR0x04_ILLEGAL_EMAIL_SPACE);
         }
     }
-
+    
+    printf("=========================================\n");
     //输入电话
     while (1)
     {
-        printf("=========================================\n");
         printf("请输入电话号码(只能是13开头)或座机号码(座机可不加区号，加区号得用-隔开)(或输入'...'跳过，以后再完善)：\n");
         
-        if ([super inputDataAndSaveIn:&tempdata andJudge:onlyPhoneOrSpace] == YES )
+        if ([super inputDataAndSaveIn:&tempdata andJudge:onlyPhoneOrPoint] == YES )
         {
-            if ( [tempdata characterAtIndex:0] == ' ')
+            if ( [tempdata characterAtIndex:0] == '.')
             {
                 newuser.phonenum = nil;
             }
@@ -211,25 +197,23 @@
         }
         else
         {
-            printf("=========================================\n");
             printf("%s",ERROR0x04_ILLEGAL_EMAIL_SPACE);
         }
     }
     
+    printf("=========================================\n");
     //超级用户操作
     //NSString    *member;    //会员
     
     //输入密保1答案
     while (1)
     {
-        printf("=========================================\n");
         printf("*第一个密保问题：%s\n",QUESTION_FRIST);
-        printf("=========================================\n");
         printf("请输入第一个密保答案(或输入'...'跳过，以后再完善)：\n");
         
         if ([super inputDataAndSaveIn:&tempdata andJudge:allKeyValue] == YES )
         {
-            if ( [tempdata characterAtIndex:0] == ' ')
+            if ( [tempdata characterAtIndex:0] == '.')
             {
                 newuser.answer1 = nil;
             }
@@ -242,22 +226,20 @@
         }
         else
         {
-            printf("=========================================\n");
             NSLog(@"%s",ERROR0xFF_NO_ERROR);
         }
     }
     
+    printf("=========================================\n");
     //输入密保2答案
     while (1)
     {
-        printf("=========================================\n");
         printf("*第二个密保问题：%s\n",QUESTION_SECON);
-        printf("=========================================\n");
         printf("请输入第二个密保答案(或输入'...'跳过，以后再完善)：\n");
         
         if ([super inputDataAndSaveIn:&tempdata andJudge:allKeyValue] == YES )
         {
-            if ( [tempdata characterAtIndex:0] == ' ')
+            if ( [tempdata characterAtIndex:0] == '.')
             {
                 newuser.answer2 = nil;
             }
@@ -270,22 +252,20 @@
         }
         else
         {
-            printf("=========================================\n");
             NSLog(@"%s",ERROR0xFF_NO_ERROR);
         }
     }
     
+    printf("=========================================\n");
     //输入密保3答案
     while (1)
     {
-        printf("=========================================\n");
         printf("*第三个密保问题：%s\n",QUESTION_THREE);
-        printf("=========================================\n");
         printf("请输入第三个密保答案(或输入'...'跳过，以后再完善)：\n");
         
         if ([super inputDataAndSaveIn:&tempdata andJudge:allKeyValue] == YES )
         {
-            if ( [tempdata characterAtIndex:0] == ' ')
+            if ( [tempdata characterAtIndex:0] == '.')
             {
                 newuser.answer3 = nil;
             }
@@ -298,14 +278,12 @@
         }
         else
         {
-            printf("=========================================\n");
             printf("%s",ERROR0xFF_NO_ERROR);
         }
     }
-    
+    printf("注册成功，信息如下:\n");
     NSLog(@"%@",newuser);
-    
-    //[self uiMainUping];
+    [MyStatuP StatuChange:(MainInterface | M_home)];   
 }
 
 //==========================
@@ -315,7 +293,43 @@
 {
     Status *MyStatuP = [Status statusShallOneData];
     
-    [self uiMainUping];
+    Manageuserdatas *newuser = [[Manageuserdatas alloc]init];
+    NSString *tempdata = [[NSString alloc]init];
+    //输入用户名
+    while (1)
+    {
+        printf("请输入您的用户名(6-30位，数字、字母、下划线)：\n");
+        if ([super inputDataAndSaveIn:&tempdata andJudge:onlyNumbCharCross] == NO)
+        {
+            printf("%s",ERROR0x02_ILLEGAL_CHAR_AND_NAME_LENGTH);
+        }
+        else
+        {
+            NSLog(@"查表");
+            break;
+        }
+    }
+    
+    
+    while (1)
+    {
+        printf("请输入您的用户名(6-30位，数字、字母、下划线)：\n");
+        if ([super inputDataAndSaveIn:&tempdata andJudge:onlyNumbCharCross] == NO)
+        {
+            printf("%s",ERROR0x02_ILLEGAL_CHAR_AND_NAME_LENGTH);
+        }
+        else
+        {
+            NSLog(@"查表");
+            break;
+        }
+    }
+    
+    
+    
+    
+    
+    [MyStatuP StatuChange:(MainInterface | M_home)];
 }
 
 @end
