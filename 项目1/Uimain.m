@@ -119,170 +119,206 @@
     Status *MyStatuP = [Status statusShallOneData];
     
     Manageuserdatas *newuser = [[Manageuserdatas alloc]init];
+    Operateuserdatas *newop = [[Operateuserdatas alloc]init];
+    
     NSString *tempdata = [[NSString alloc]init];
     
-    printf("=========================================\n");
-    //输入用户
-    while (1)
-    {
-        printf("请输入用户名(6-30位，只能是数字、字母、下划线)：\n");
-        if ([super inputDataAndSaveIn:&tempdata andJudge:onlyNumbCharCross] == NO)
-        {
-                printf("%s",ERROR0x02_ILLEGAL_CHAR_AND_NAME_LENGTH);
-        }
-        else
-        {
-            newuser.name = tempdata;
-            break;
-        }
-    }
+    NSUInteger tempstatu = register_name;
     
-    printf("=========================================\n");
-    //输入密码
-    while (1)
-    {
-        printf("请输入密码(6-30位)：\n");
-        if ([super inputDataAndSaveIn:&tempdata andJudge:allKeyValue] == YES && (tempdata.length>6 && tempdata.length<30 ))
-        {
-            newuser.password = tempdata;
-            break;
-        }
-        else
-        {
-            printf("%s",ERROR0x03_ILLEGAL_PASSWORD_LENGTH);
-        }
-    }
-    
-    printf("=========================================\n");
-    //输入邮箱
-    while (1)
-    {
-        printf("请输入邮箱地址(或输入'...'跳过，以后再完善)：\n");
-        
-        if ([super inputDataAndSaveIn:&tempdata andJudge:onlyEmailOrPoint] == YES )
-        {
-            if ( [tempdata characterAtIndex:0] == '.')
-            {
-                newuser.email = nil;
-            }
-            else
-            {
-                newuser.email = tempdata;
-            }
-            break;
-        }
-        else
-        {
-            printf("%s",ERROR0x04_ILLEGAL_EMAIL_SPACE);
-        }
-    }
-    
-    printf("=========================================\n");
-    //输入电话
-    while (1)
-    {
-        printf("请输入电话号码(只能是13开头)或座机号码(座机可不加区号，加区号得用-隔开)(或输入'...'跳过，以后再完善)：\n");
-        
-        if ([super inputDataAndSaveIn:&tempdata andJudge:onlyPhoneOrPoint] == YES )
-        {
-            if ( [tempdata characterAtIndex:0] == '.')
-            {
-                newuser.phonenum = nil;
-            }
-            else
-            {
-                newuser.phonenum = tempdata;
-            }
-            break;
-        }
-        else
-        {
-            printf("%s",ERROR0x04_ILLEGAL_EMAIL_SPACE);
-        }
-    }
-    
-    printf("=========================================\n");
-    //超级用户操作
-    //NSString    *member;    //会员
-    
-    //输入密保1答案
-    while (1)
-    {
-        printf("*第一个密保问题：%s\n",QUESTION_FRIST);
-        printf("请输入第一个密保答案(或输入'...'跳过，以后再完善)：\n");
-        
-        if ([super inputDataAndSaveIn:&tempdata andJudge:allKeyValue] == YES )
-        {
-            if ( [tempdata characterAtIndex:0] == '.')
-            {
-                newuser.answer1 = nil;
-            }
-            else
-            {
-                newuser.answer1 = tempdata;
-            }
+    NSMutableArray *tempuser = [[NSMutableArray alloc]init];
 
-            break;
-        }
-        else
-        {
-            NSLog(@"%s",ERROR0xFF_NO_ERROR);
-        }
-    }
     
     printf("=========================================\n");
-    //输入密保2答案
+
     while (1)
     {
-        printf("*第二个密保问题：%s\n",QUESTION_SECON);
-        printf("请输入第二个密保答案(或输入'...'跳过，以后再完善)：\n");
-        
-        if ([super inputDataAndSaveIn:&tempdata andJudge:allKeyValue] == YES )
+        switch (tempstatu)
         {
-            if ( [tempdata characterAtIndex:0] == '.')
-            {
-                newuser.answer2 = nil;
-            }
-            else
-            {
-                newuser.answer2 = tempdata;
-            }
-            
+            case register_name:                //输入用户
+                printf("请输入用户名(6-30位，只能是数字、字母、下划线)：\n");
+                if ([super inputDataAndSaveIn:&tempdata andJudge:onlyNumbCharCross] == NO)
+                {
+                    printf("%s",ERROR0x02_ILLEGAL_CHAR_AND_NAME_LENGTH);
+                }
+                else
+                {
+                    if ([newop selectUser:tempdata andSaveArray:&tempuser] == FILEYES )
+                    {
+                        if(tempuser.count != 0)
+                        {
+                            printf("%s",ERROR0x08_REPE_NAME);
+                        }
+                        else
+                        {
+                            newuser.name = tempdata;
+                            tempstatu = register_password;
+                            printf("=========================================\n");
+                        }
+                    }
+                    else
+                    {
+                        printf("%s",ERROR0xFE_FILE_OPNE_ERROR);
+                    }
+                }
+                break;
+                
+            case register_password:                //输入密码
+                printf("请输入密码(6-30位)：\n");
+                if ([super inputDataAndSaveIn:&tempdata andJudge:allKeyValue] == YES && (tempdata.length>=6 && tempdata.length<=30 ))
+                {
+                    newuser.password = tempdata;
+                    tempstatu = register_email;
+                    printf("=========================================\n");
+                }
+                else
+                {
+                    printf("%s",ERROR0x03_ILLEGAL_PASSWORD_LENGTH);
+                }
+                break;
+                
+            case register_email:                //输入邮箱
+                printf("请输入邮箱地址(或输入'...'跳过，以后再完善)：\n");
+                if ([super inputDataAndSaveIn:&tempdata andJudge:onlyEmailOrPoint] == YES )
+                {
+                    if ( [tempdata characterAtIndex:0] == '.')
+                    {
+                        newuser.email = nil;
+                    }
+                    else
+                    {
+                        newuser.email = tempdata;
+                    }
+                    tempstatu = register_phonenum;
+                    printf("=========================================\n");
+                }
+                else
+                {
+                    printf("%s",ERROR0x04_ILLEGAL_EMAIL_POINT);
+                }
+                break;
+
+            case register_phonenum:                //输入电话
+                printf("请输入电话号码(只能是13开头)或座机号码(座机可不加区号，加区号得用-隔开)(或输入'...'跳过，以后再完善)：\n");
+                if ([super inputDataAndSaveIn:&tempdata andJudge:onlyPhoneOrPoint] == YES )
+                {
+                    if ( [tempdata characterAtIndex:0] == '.')
+                    {
+                        newuser.phonenum = nil;
+                    }
+                    else
+                    {
+                        newuser.phonenum = tempdata;
+                    }
+                    tempstatu = register_member;
+                    printf("=========================================\n");
+                }
+                else
+                {
+                    printf("%s",ERROR0x04_ILLEGAL_EMAIL_POINT);
+                }
+                break;
+                
+            case register_member:               //输入会员
+                newuser.member = @"1级会员";
+                tempstatu = register_question1;
+                break;
+                
+            case register_question1:
+                newuser.question1 = @QUESTION_FRIST;
+                tempstatu = register_answer1;
+                break;
+                
+            case register_answer1:             //输入密保1答案
+                printf("*第一个密保问题：%s\n",QUESTION_FRIST);
+                printf("请输入第一个密保答案(或输入'...'跳过，以后再完善)：\n");
+                if ([super inputDataAndSaveIn:&tempdata andJudge:allKeyValue] == YES )
+                {
+                    if ( [tempdata characterAtIndex:0] == '.')
+                    {
+                        newuser.answer1 = nil;
+                    }
+                    else
+                    {
+                        newuser.answer1 = tempdata;
+                    }
+                    tempstatu = register_question2;
+                    printf("=========================================\n");
+                }
+                else
+                {
+                    NSLog(@"%s",ERROR0xFF_NO_ERROR);
+                }
+                break;
+
+            case register_question2:
+                newuser.question2 = @QUESTION_SECON;
+                tempstatu = register_answer2;
+                break;
+                
+            case register_answer2:               //输入密保2答案
+                printf("*第二个密保问题：%s\n",QUESTION_SECON);
+                printf("请输入第二个密保答案(或输入'...'跳过，以后再完善)：\n");
+                if ([super inputDataAndSaveIn:&tempdata andJudge:allKeyValue] == YES )
+                {
+                    if ( [tempdata characterAtIndex:0] == '.')
+                    {
+                        newuser.answer2 = nil;
+                    }
+                    else
+                    {
+                        newuser.answer2 = tempdata;
+                    }
+                    tempstatu = register_question3;
+                    printf("=========================================\n");
+                }
+                else
+                {
+                    NSLog(@"%s",ERROR0xFF_NO_ERROR);
+                }
+                break;
+                
+            case register_question3:
+                newuser.question3 = @QUESTION_THREE;
+                tempstatu = register_answer3;
+                break;
+                
+            case register_answer3:               //输入密保3答案
+                printf("*第三个密保问题：%s\n",QUESTION_THREE);
+                printf("请输入第三个密保答案(或输入'...'跳过，以后再完善)：\n");
+                if ([super inputDataAndSaveIn:&tempdata andJudge:allKeyValue] == YES )
+                {
+                    if ( [tempdata characterAtIndex:0] == '.')
+                    {
+                        newuser.answer3 = nil;
+                    }
+                    else
+                    {
+                        newuser.answer3 = tempdata;
+                    }
+                    tempstatu = register_returnmain;
+                    printf("=========================================\n");
+                }
+                else
+                {
+                    printf("%s",ERROR0xFF_NO_ERROR);
+                }
+                break;
+
+
+            case register_returnmain:
+            default:
+                break;
+        }
+        if (tempstatu == register_returnmain)
+        {
             break;
         }
-        else
-        {
-            NSLog(@"%s",ERROR0xFF_NO_ERROR);
-        }
     }
-    
-    printf("=========================================\n");
-    //输入密保3答案
-    while (1)
-    {
-        printf("*第三个密保问题：%s\n",QUESTION_THREE);
-        printf("请输入第三个密保答案(或输入'...'跳过，以后再完善)：\n");
-        
-        if ([super inputDataAndSaveIn:&tempdata andJudge:allKeyValue] == YES )
-        {
-            if ( [tempdata characterAtIndex:0] == '.')
-            {
-                newuser.answer3 = nil;
-            }
-            else
-            {
-                newuser.answer3 = tempdata;
-            }
-            
-            break;
-        }
-        else
-        {
-            printf("%s",ERROR0xFF_NO_ERROR);
-        }
-    }
+
     printf("注册成功，信息如下:\n");
-    NSLog(@"%@",newuser);
+    [newuser printfAllData];
+    [newop addUser:newuser];
+    
     [MyStatuP StatuChange:(MainInterface | M_home)];   
 }
 
@@ -294,42 +330,315 @@
     Status *MyStatuP = [Status statusShallOneData];
     
     Manageuserdatas *newuser = [[Manageuserdatas alloc]init];
+    Operateuserdatas *newop = [[Operateuserdatas alloc]init];
+    NSMutableArray *tempuser = [[NSMutableArray alloc]init];
+    
     NSString *tempdata = [[NSString alloc]init];
+    NSUInteger pristatu = choose_inputname;
+    
     //输入用户名
     while (1)
     {
-        printf("请输入您的用户名(6-30位，数字、字母、下划线)：\n");
-        if ([super inputDataAndSaveIn:&tempdata andJudge:onlyNumbCharCross] == NO)
+        switch (pristatu)
         {
-            printf("%s",ERROR0x02_ILLEGAL_CHAR_AND_NAME_LENGTH);
+            case choose_inputname:
+                printf("请输入您的用户名(6-30位，数字、字母、下划线)（或输入'...'取消找回密码）：\n");
+                if ([super inputDataAndSaveIn:&tempdata andJudge:onlyNameOrPoint] == NO)
+                {
+                    printf("%s",ERROR0x02_ILLEGAL_CHAR_AND_NAME_LENGTH);
+                }
+                else
+                {
+                    if ( [tempdata characterAtIndex:0] == '.')
+                    {
+                        pristatu = choose_returnmain;
+                    }
+                    else
+                    {
+                        if([newop selectUser:tempdata andSaveArray:&tempuser] == FILEYES)
+                        {
+                            if (tempuser.count != 0)
+                            {
+                                newuser = [tempuser[0] copy];
+                                pristatu = choose_method;
+
+                            }
+                            else
+                            {
+                                printf("%s",ERROR0x05_NO_FOUND_NAME);
+                            }
+                            
+                        }
+                        else
+                        {
+                            printf("%s",ERROR0xFE_FILE_OPNE_ERROR);
+                        }
+                    }
+                }
+                break;
+                
+            case choose_method:
+                printf("1.手机找回密码 2.Email找回密码 3.密保找回密码（或输入'...'取消找回密码）\n");
+                printf("请选择找回密码方式序号（1-3）:");
+                if ([super inputDataAndSaveIn:&tempdata andJudge:onlyNumbOrPoint] == NO)
+                {
+                    printf("%s",ERROR0x00_NO_NUM);
+                }
+                else
+                {
+                    if ( [tempdata characterAtIndex:0] == '.')
+                    {
+                        pristatu = choose_returnmain;
+                    }
+                    else
+                    {
+                        int tempjudge = [tempdata intValue];
+                        switch (tempjudge)
+                        {
+                            case (choose_phone-choose_method):
+                                pristatu = choose_phone;
+                                break;
+                                
+                            case (choose_email-choose_method):
+                                pristatu = choose_email;
+                                break;
+                                
+                            case (choose_question-choose_method):
+                                pristatu = choose_question;
+                                break;
+                            default:
+                                printf("%s",ERROR0x01_ILLEGAL_NUM);                            
+                                break;
+                        }
+                    }
+                }
+                break;
+                
+                
+            case choose_phone:
+                if(newuser.phonenum != nil)   //是否有手机号码
+                {
+                    printf("已发送验证码到手机\n");
+                    printf("请输入验证码（或输入'...'取消找回密码）：");
+                    if ([super inputDataAndSaveIn:&tempdata andJudge:onlyadminOrPoint] == NO)
+                    {
+                        printf("%s",ERROR0x06_NO_ADMIN_POINT);
+                    }
+                    else
+                    {
+                        if ( [tempdata characterAtIndex:0] == '.')
+                        {
+                            pristatu = choose_returnmain;
+                        }
+                        else
+                        {
+                            pristatu = outputpassword;
+                        }
+                    }
+                }
+                else
+                {
+                    printf("您注册时没有留下手机号码，请选择其他方式\n");
+                    pristatu = choose_method;
+                }
+                break;
+                
+            case choose_email:
+                if(newuser.email != nil)   //是否有Email
+                {
+                    printf("已发送验证码到邮箱\n");
+                    printf("请输入验证码（或输入'...'取消找回密码）：");
+                    if ([super inputDataAndSaveIn:&tempdata andJudge:onlyadminOrPoint] == NO)
+                    {
+                        printf("%s",ERROR0x06_NO_ADMIN_POINT);
+                    }
+                    else
+                    {
+                        if ( [tempdata characterAtIndex:0] == '.')
+                        {
+                            pristatu = choose_returnmain;
+                        }
+                        else
+                        {
+                            pristatu = outputpassword;
+                        }
+                    }
+                }
+                else
+                {
+                    printf("您注册时没有留下Email，请选择其他方式\n");
+                    pristatu = choose_method;
+                }
+                break;
+                
+            case choose_question:
+                printf("1.问题1:%s?\n",QUESTION_FRIST);
+                printf("2.问题2:%s?\n",QUESTION_SECON);
+                printf("3.问题3:%s?\n",QUESTION_THREE);
+                printf("请选择密保序号(1-3)(或输入'...'取消找回密码):");
+                if ([super inputDataAndSaveIn:&tempdata andJudge:onlyNumbOrPoint] == NO)
+                {
+                    printf("%s",ERROR0x00_NO_NUM);
+                }
+                else
+                {
+                    if ( [tempdata characterAtIndex:0] == '.')
+                    {
+                        pristatu = choose_returnmain;
+                    }
+                    else
+                    {
+                        int tempjudge = [tempdata intValue];
+                        switch (tempjudge)
+                        {
+                            case (choose_question1-choose_question):
+                                pristatu = choose_question1;
+                                break;
+                                
+                            case (choose_question2-choose_question):
+                                pristatu = choose_question2;
+                                break;
+                                
+                            case (choose_question3-choose_question):
+                                pristatu = choose_question3;
+                                break;
+                            default:
+                                printf("%s",ERROR0x01_ILLEGAL_NUM);
+                                break;
+                        }
+                    }
+                
+                }
+                break;
+                
+            case choose_question1:
+                if (newuser.answer1 != nil)          //判断是否有留下密保
+                {
+                    printf("1.问题1:%s?\n",QUESTION_FRIST);
+                    printf("请输入密保答案(或输入'...'取消找回密码):");
+                    if ([super inputDataAndSaveIn:&tempdata andJudge:allKeyValue] == NO)
+                    {
+                        printf("%s",ERROR0xFF_NO_ERROR);
+                    }
+                    else
+                    {
+                        if ( [super isValidateThreePoint:tempdata] == YES )
+                        {
+                            pristatu = choose_returnmain;
+                        }
+                        else
+                        {
+                            if([tempdata isEqualToString:newuser.answer1] == YES )       //比对密保答案
+                            {
+                                pristatu = outputpassword;
+                            }
+                            else
+                            {
+                                printf("%s",ERROR0x07_ILLEGAL_PRO_PASSWORD);
+                                pristatu = choose_method;
+                            }
+                        }
+                        
+                    }
+                }
+                else
+                {
+                    printf("您注册时没有留下密保1，请选择其他方式\n");
+                    pristatu = choose_method;
+                }
+                break;
+
+            case choose_question2:
+                if (newuser.answer2 != nil)          //判断是否有留下密保
+                {
+                    printf("2.问题2:%s?\n",QUESTION_SECON);
+                    printf("请输入密保答案(或输入'...'取消找回密码):");
+                    if ([super inputDataAndSaveIn:&tempdata andJudge:allKeyValue] == NO)
+                    {
+                        printf("%s",ERROR0xFF_NO_ERROR);
+                    }
+                    else
+                    {
+                        if ( [self isValidateThreePoint:tempdata] == YES )
+                        {
+                            pristatu = choose_returnmain;
+                        }
+                        else
+                        {
+                            if([tempdata isEqualToString:newuser.answer2] == YES )       //比对密保答案
+                            {
+                                pristatu = outputpassword;
+                            }
+                            else
+                            {
+                                printf("%s",ERROR0x07_ILLEGAL_PRO_PASSWORD);
+                                pristatu = choose_method;
+                            }
+                        }
+                        
+                    }
+                }
+                else
+                {
+                    printf("您注册时没有留下密保2，请选择其他方式\n");
+                    pristatu = choose_method;
+                }
+                break;
+                
+            case choose_question3:
+                if (newuser.answer3 != nil)          //判断是否有留下密保
+                {
+                    printf("3.问题3:%s?\n",QUESTION_THREE);
+                    printf("请输入密保答案(或输入'...'取消找回密码):");
+                    if ([super inputDataAndSaveIn:&tempdata andJudge:allKeyValue] == NO)
+                    {
+                        printf("%s",ERROR0xFF_NO_ERROR);
+                    }
+                    else
+                    {
+                        if ( [self isValidateThreePoint:tempdata] == YES )
+                        {
+                            pristatu = choose_returnmain;
+                        }
+                        else
+                        {
+                            if([tempdata isEqualToString:newuser.answer3] == YES )       //比对密保答案
+                            {
+                                pristatu = outputpassword;
+                            }
+                            else
+                            {
+                                printf("%s",ERROR0x07_ILLEGAL_PRO_PASSWORD);
+                                pristatu = choose_method;
+                            }
+                        }
+                        
+                    }
+                }
+                else
+                {
+                    printf("您注册时没有留下密保3，请选择其他方式\n");
+                    pristatu = choose_method;
+                }
+                break;
+                
+            case outputpassword:
+                [newuser printfPassword];       //输出密码
+                printf("\n");
+                pristatu = choose_returnmain;
+                break;
+                
+            case choose_returnmain:
+            default:
+                break;
         }
-        else
+        if (pristatu == choose_returnmain)
         {
-            NSLog(@"查表");
+            [MyStatuP StatuChange:(MainInterface | M_home)];
             break;
         }
+
     }
-    
-    
-    while (1)
-    {
-        printf("请输入您的用户名(6-30位，数字、字母、下划线)：\n");
-        if ([super inputDataAndSaveIn:&tempdata andJudge:onlyNumbCharCross] == NO)
-        {
-            printf("%s",ERROR0x02_ILLEGAL_CHAR_AND_NAME_LENGTH);
-        }
-        else
-        {
-            NSLog(@"查表");
-            break;
-        }
-    }
-    
-    
-    
-    
-    
-    [MyStatuP StatuChange:(MainInterface | M_home)];
 }
 
 @end

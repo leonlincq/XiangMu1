@@ -35,7 +35,7 @@
         return tempsta;
     }
     
-    if ([fileop executeUpdate:@"CREATE TABLE IF NOT EXISTS UserDatas (name TEXT primary key,password TEXT,email TEXT,phonenum TEXT,member TEXT,question1 TEXT,answer1 TEXT,question2 TEXT,answer2 TEXT,question3 TEXT,answer3 TEXT,)"] == NO)
+    if ([fileop executeUpdate:@"CREATE TABLE IF NOT EXISTS UserDatas (name TEXT primary key,password TEXT,email TEXT,phonenum TEXT,member TEXT,question1 TEXT,answer1 TEXT,question2 TEXT,answer2 TEXT,question3 TEXT,answer3 TEXT)"] == NO)
     {
         [fileop close];
         tempsta = FILEBuildError;

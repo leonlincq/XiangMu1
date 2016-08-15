@@ -20,11 +20,15 @@ typedef unsigned int LCQKeyChoose;  //键盘按键范围
 enum
 {
     onlyNumb            = 0x00,         //只能是数字
+    onlyNumbOrPoint     = 0x07,         //只能是数字或小数点
     onlyNumbCharCross   = 0x01,         //只能是用户名（数字、字母、下划线）
-    onlyEmailValue      = 0x02,         //只能是邮箱名
-    onlyEmailOrPoint    = 0x03,         //只能是邮箱名或者空格键
-    onlyPhoneNumb       = 0x04,         //只能是手机号码
-    onlyPhoneOrPoint    = 0x05,         //只能是手机号码或者空格键
+    onlyNameOrPoint     = 0x02,         //只能是用户名（数字、字母、下划线）或小数点
+//    onlyEmailValue      = 0x03,         //只能是邮箱名
+    onlyEmailOrPoint    = 0x04,         //只能是邮箱名或者小数点
+//    onlyPhoneNumb       = 0x05,         //只能是手机号码
+    onlyPhoneOrPoint    = 0x06,         //只能是手机号码或者小数点
+    onlyadmin           = 0x08,
+    onlyadminOrPoint    = 0x09,
     allKeyValue         = 0xFF          //可以是任意按键值
 };
 

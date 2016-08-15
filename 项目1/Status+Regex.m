@@ -96,6 +96,16 @@
 }
 
 //===========================================
+//          判断是否admin
+//===========================================
+-(BOOL)isValidateadmin:(NSString *)data
+{
+    NSString *dataRegex = @"admin";
+    NSPredicate *dataTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", dataRegex];
+    return [dataTest evaluateWithObject:data];
+}
+
+//===========================================
 //          判断邮箱地址的合法性
 //
 //  @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"
@@ -141,8 +151,22 @@
             }
             break;
             
+        case onlyNumbOrPoint:
+            if ([self isValidateNumb:temp_data] == NO && [self isValidateThreePoint:temp_data] == NO )
+            {
+                return NO;
+            }
+            break;
+            
         case onlyNumbCharCross:
             if ([self isValidateName:temp_data] == NO)
+            {
+                return NO;
+            }
+            break;
+        
+        case onlyNameOrPoint:
+            if ([self isValidateName:temp_data] == NO && [self isValidateThreePoint:temp_data] == NO )
             {
                 return NO;
             }
@@ -162,8 +186,13 @@
             }
             break;
             
-            
-            
+        case onlyadminOrPoint:
+            if ([self isValidateadmin:temp_data] == NO && [self isValidateThreePoint:temp_data] == NO)
+            {
+                return NO;
+            }
+            break;
+        
         case allKeyValue:
         default:
             break;

@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Manageuserdatas : NSObject
+@interface Manageuserdatas : NSObject<NSCopying>
 
 
 #define QUESTION_FRIST "你的第一只宠物叫什么名字"
@@ -35,5 +35,21 @@
 @property (nonatomic,copy)      NSString    *answer2;   //密保答案2
 @property (nonatomic,copy)      NSString    *question3; //密保问题3
 @property (nonatomic,copy)      NSString    *answer3;   //密保答案3
+
+
+
+-(void)printfName;
+-(void)printfPassword;
+-(void)printfEmail;
+-(void)printfPhonenum;
+-(void)printfMember;
+-(void)printfQuestion1;
+-(void)printfAnswer1;
+-(void)printfQuestion2;
+-(void)printfAnswer2;
+-(void)printfQuestion3;
+-(void)printfAnswer3;
+-(void)printfAllData;
+
 
 @end

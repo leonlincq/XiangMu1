@@ -17,8 +17,8 @@ int main(int argc, const char * argv[])
     Uisuperuser  *MyUiSP = [[Uisuperuser alloc]init];
     Uicommonuser *MyUiCP = [[Uicommonuser alloc]init];
     
-//    Operateuserdatas *MySqlP = [[Operateuserdatas alloc]init];
-//    [MySqlP creatTable];       //创建用户信息表，先这样，以后可能要把所有的表格初始化封装起来
+    Operateuserdatas *MySqlP = [[Operateuserdatas alloc]init];
+    [MySqlP creatTable];       //创建用户信息表，先这样，以后可能要把所有的表格初始化封装起来
     
     while (1)
     {

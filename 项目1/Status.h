@@ -20,7 +20,12 @@
 #define ERROR0x01_ILLEGAL_NUM        "***请重新输入（错误代码0x01：输入的数字不在指定范围）***\n"
 #define ERROR0x02_ILLEGAL_CHAR_AND_NAME_LENGTH  "***请重新输入（错误代码0x02：含有非法符号或用户名长度不符合）***\n"
 #define ERROR0x03_ILLEGAL_PASSWORD_LENGTH       "***请重新输入（错误代码0x03：密码长度不符合）***\n"
-#define ERROR0x04_ILLEGAL_EMAIL_SPACE           "***请重新输入（错误代码0x04：非法邮箱或点不是3个）***\n"
+#define ERROR0x04_ILLEGAL_EMAIL_POINT           "***请重新输入（错误代码0x04：非法邮箱或点不是3个）***\n"
+#define ERROR0x05_NO_FOUND_NAME                 "***请重新输入（错误代码0x05：没有查到该人）***\n"
+#define ERROR0x06_NO_ADMIN_POINT                "***请重新输入（错误代码0x06：验证码错误或点不是3个）***\n"
+#define ERROR0x07_ILLEGAL_PRO_PASSWORD          "***请重新输入（错误代码0x07：密保错误,请选择其他方式）***\n"
+#define ERROR0x08_REPE_NAME                     "***请重新输入（错误代码0x08：用户名重复）***\n"
+#define ERROR0xFE_FILE_OPNE_ERROR               "***错误（错误代码0xFE：打不开文档）***\n"
 #define ERROR0xFF_NO_ERROR                      "***错误（错误代码0xFF：没有错误😂）***\n"
 
 //主界面（登录界面）
