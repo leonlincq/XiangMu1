@@ -10,6 +10,18 @@
 
 @implementation Uimain
 
+-(instancetype)initWithTimer
+{
+    self = [super init];
+    if (self)
+    {
+        _myTick = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(oneSecTick:) userInfo:nil repeats:YES];
+        [_myTick setFireDate:[NSDate distantFuture]];
+        _countByTimer = 5;
+    }
+    return self;
+}
+
 //==========================
 //      开机主界面接口
 //==========================
@@ -167,12 +179,26 @@
                 if ([super inputDataAndSaveIn:&tempdata andJudge:allKeyValue] == YES && (tempdata.length>=6 && tempdata.length<=30 ))
                 {
                     newuser.password = tempdata;
-                    tempstatu = register_email;
+                    tempstatu = register_realname;
                     printf("=========================================\n");
                 }
                 else
                 {
                     printf("%s",ERROR0x03_ILLEGAL_PASSWORD_LENGTH);
+                }
+                break;
+                
+            case register_realname:                //输入真名
+                printf("请输入真名(6-30位英文字母)：\n");
+                if ([super inputDataAndSaveIn:&tempdata andJudge:onlyChar] == NO)
+                {
+                    printf("%s",ERROR0x02_ILLEGAL_CHAR_AND_NAME_LENGTH);
+                }
+                else
+                {
+                    newuser.realname = tempdata;
+                    tempstatu = register_email;
+                    printf("=========================================\n");
                 }
                 break;
                 
@@ -214,7 +240,7 @@
                 }
                 else
                 {
-                    printf("%s",ERROR0x04_ILLEGAL_EMAIL_POINT);
+                    printf("%s",ERROR0x09_ILLEGAL_PHONE_POINT);
                 }
                 break;
                 
@@ -227,7 +253,7 @@
                 newuser.question1 = @QUESTION_FRIST;
                 tempstatu = register_answer1;
                 break;
-                
+
             case register_answer1:             //输入密保1答案
                 printf("*第一个密保问题：%s\n",QUESTION_FRIST);
                 printf("请输入第一个密保答案(或输入'...'跳过，以后再完善)：\n");
@@ -314,12 +340,31 @@
             break;
         }
     }
-
-    printf("注册成功，信息如下:\n");
-    [newuser printfAllData];
     [newop addUser:newuser];
     
-    [MyStatuP StatuChange:(MainInterface | M_home)];   
+    printf("注册成功，信息如下:\n");
+    [newuser printfAllData];
+    
+    [MyStatuP StatuChange:WaitTimer];
+    
+    _countByTimer = 6;
+    [_myTick setFireDate:[NSDate distantPast]];
+}
+
+//==========================
+//      定时器控制
+//==========================
+-(void)oneSecTick:(NSTimer*)temptimer
+{
+    _countByTimer--;
+    printf("%ld秒后返回主界面...\n",_countByTimer);
+    
+    if(_countByTimer == 0)
+    {
+        [_myTick setFireDate:[NSDate distantFuture]];
+        Status *MyStatuP = [Status statusShallOneData];
+        [MyStatuP StatuChange:(MainInterface | M_home)];
+    }
 }
 
 //==========================
@@ -623,21 +668,24 @@
                 break;
                 
             case outputpassword:
+                printf("====================================\n");
+                printf("你的");
                 [newuser printfPassword];       //输出密码
                 printf("\n");
-                pristatu = choose_returnmain;
-                break;
+                printf("====================================\n");
+                
+                _countByTimer = 6;
+                [_myTick setFireDate:[NSDate distantPast]];
+                [MyStatuP StatuChange:WaitTimer];
+                return;
                 
             case choose_returnmain:
+                [MyStatuP StatuChange:(MainInterface | M_home)];
+                return;
+                
             default:
                 break;
         }
-        if (pristatu == choose_returnmain)
-        {
-            [MyStatuP StatuChange:(MainInterface | M_home)];
-            break;
-        }
-
     }
 }
 

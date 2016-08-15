@@ -35,7 +35,7 @@
         return tempsta;
     }
     
-    if ([fileop executeUpdate:@"CREATE TABLE IF NOT EXISTS UserDatas (name TEXT primary key,password TEXT,email TEXT,phonenum TEXT,member TEXT,question1 TEXT,answer1 TEXT,question2 TEXT,answer2 TEXT,question3 TEXT,answer3 TEXT)"] == NO)
+    if ([fileop executeUpdate:@"CREATE TABLE IF NOT EXISTS UserDatas (name TEXT primary key,password TEXT,realname TEXT,email TEXT,phonenum TEXT,member TEXT,question1 TEXT,answer1 TEXT,question2 TEXT,answer2 TEXT,question3 TEXT,answer3 TEXT)"] == NO)
     {
         [fileop close];
         tempsta = FILEBuildError;
@@ -62,7 +62,7 @@
         return tempsta;
     }
     
-    if ([fileop executeUpdate:@"INSERT INTO UserDatas(name,password,email,phonenum,member,question1,answer1,question2,answer2,question3,answer3) VALUES (?,?,?,?,?,?,?,?,?,?,?)",userdate.name,userdate.password,userdate.email,userdate.phonenum,userdate.member,userdate.question1,userdate.answer1,userdate.question2,userdate.answer2,userdate.question3,userdate.answer3] == NO )
+    if ([fileop executeUpdate:@"INSERT INTO UserDatas(name,password,realname,email,phonenum,member,question1,answer1,question2,answer2,question3,answer3) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",userdate.name,userdate.password,userdate.realname,userdate.email,userdate.phonenum,userdate.member,userdate.question1,userdate.answer1,userdate.question2,userdate.answer2,userdate.question3,userdate.answer3] == NO )
     {
         [fileop close];
         tempsta = FILEAddError;
@@ -95,11 +95,11 @@
     
     if (name == nil)    //全选
     {
-        fileresult = [fileop executeQuery:@"SELECT name,password,email,phonenum,member,question1,answer1,question2,answer2,question3,answer3 From UserDatas"];
+        fileresult = [fileop executeQuery:@"SELECT name,password,realname,email,phonenum,member,question1,answer1,question2,answer2,question3,answer3 From UserDatas"];
     }
     else                //单选
     {
-        fileresult = [fileop executeQuery:@"SELECT name,password,email,phonenum,member,question1,answer1,question2,answer2,question3,answer3 From UserDatas where name = ?",name];
+        fileresult = [fileop executeQuery:@"SELECT name,password,realname,email,phonenum,member,question1,answer1,question2,answer2,question3,answer3 From UserDatas where name = ?",name];
     }
     
     while ([fileresult next])
@@ -108,6 +108,7 @@
         
         temp_date.name      = [fileresult stringForColumn:@"name"];
         temp_date.password  = [fileresult stringForColumn:@"password"];
+        temp_date.realname  = [fileresult stringForColumn:@"realname"];
         temp_date.email     = [fileresult stringForColumn:@"email"];
         temp_date.phonenum  = [fileresult stringForColumn:@"phonenum"];
         temp_date.member    = [fileresult stringForColumn:@"member"];

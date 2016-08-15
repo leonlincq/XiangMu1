@@ -76,6 +76,16 @@
 }
 
 //===========================================
+//          判断输入字母的合法性
+//===========================================
+-(BOOL)isValidateChar:(NSString *)string
+{
+    NSString *stringRegex = [NSString stringWithFormat:@"[a-zA-Z]{%d,%d}",NAMEMIN,NAMEMAX];
+    NSPredicate *stringTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", stringRegex];
+    return [stringTest evaluateWithObject:string];
+}
+
+//===========================================
 //          判断用户名的合法性
 //===========================================
 -(BOOL)isValidateName:(NSString *)name
@@ -164,14 +174,21 @@
                 return NO;
             }
             break;
-        
+            
+        case onlyChar:
+            if ([self isValidateChar:temp_data] == NO )
+            {
+                return NO;
+            }
+            break;
+
         case onlyNameOrPoint:
             if ([self isValidateName:temp_data] == NO && [self isValidateThreePoint:temp_data] == NO )
             {
                 return NO;
             }
             break;
-            
+
         case onlyEmailOrPoint:
             if ([self isValidateEmail:temp_data] == NO && [self isValidateThreePoint:temp_data] == NO )
             {

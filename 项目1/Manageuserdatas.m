@@ -17,6 +17,13 @@
     printf("用户名：%s",printfdata);
 }
 
+-(void)printfRealName
+{
+    const char *printfdata;
+    printfdata = [self.realname UTF8String];
+    printf("真名：%s",printfdata);
+}
+
 -(void)printfPassword
 {
     const char *printfdata;
@@ -93,6 +100,8 @@
     [self printfName];
     printf(" ,");
     [self printfPassword];
+    printf(" ,");
+    [self printfRealName];
     printf(" ,");
     [self printfEmail];
     printf(" ,");

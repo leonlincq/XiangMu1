@@ -189,9 +189,25 @@
 //==========================
 -(void)uiSuperUserSeekUserData
 {
-    Status *MyStatuP = [Status statusShallOneData];
+    Status *MyStatuP            = [Status statusShallOneData];
+    Manageuserdatas *newuser    = [[Manageuserdatas alloc]init];
+    Operateuserdatas *newop     = [[Operateuserdatas alloc]init];
+    NSMutableArray *tempuser    = [[NSMutableArray alloc]init];
+    NSString *tempdata;
     
-    [self uiSuperUserUping];
+    [newop selectUser:nil andSaveArray:&tempuser];
+    
+    for (int i =0; i<tempuser.count; i++)
+    {
+        newuser = [tempuser[i] copy];
+        [newuser printfAllData];
+    }
+    
+    printf("请输入任意键返回上一级");
+    if ([super inputDataAndSaveIn:&tempdata andJudge:allKeyValue] == YES)
+    {
+        [MyStatuP StatuChange:(SuperUser | S_home)];
+    }
 }
 
 //==========================
@@ -199,9 +215,48 @@
 //==========================
 -(void)uiSuperUserUpUserData
 {
-    Status *MyStatuP = [Status statusShallOneData];
+    Status *MyStatuP            = [Status statusShallOneData];
+    Manageuserdatas *newuser    = [[Manageuserdatas alloc]init];
+    Operateuserdatas *newop     = [[Operateuserdatas alloc]init];
+    NSMutableArray *tempuser    = [[NSMutableArray alloc]init];
+    NSString *tempdata;
     
-    [self uiSuperUserUping];
+    printf("请输入将要修改的用户名（或输入'...'返回上一级）：\n");
+    if ([super inputDataAndSaveIn:&tempdata andJudge:onlyNameOrPoint] == NO )
+    {
+        printf("%s",ERROR0x02_ILLEGAL_CHAR_AND_NAME_LENGTH);
+    }
+    else
+    {
+        if ( [tempdata characterAtIndex:0] == '.')
+        {
+            [MyStatuP StatuChange:(SuperUser | S_home)];
+        }
+        else
+        {
+            if([newop selectUser:tempdata andSaveArray:&tempuser] == FILEYES)
+            {
+                if (tempuser.count != 0)
+                {
+                    newuser = [tempuser[0] copy];
+                    printf("查到的用户信息如下：\n");
+                    [newuser printfAllData];
+                    printf("请输入新的用户名（或输入'...'返回上一级）：\n");
+                    
+                    
+                }
+                else
+                {
+                    printf("%s",ERROR0x05_NO_FOUND_NAME);
+                }
+                
+            }
+            else
+            {
+                printf("%s",ERROR0xFE_FILE_OPNE_ERROR);
+            }
+        }
+    }
 }
 
 //==========================

@@ -22,10 +22,11 @@
 
 //用户信息表
 
-// 用户名 | 密码 | 邮件 | 电话 | 会员 | 密保问题1 | 密保答案1 | 密保问题2 | 密保答案2 | 密保问题3 | 密保答案3 |
+// 用户名 | 密码 | 真名 | 邮件 | 电话 | 会员 | 密保问题1 | 密保答案1 | 密保问题2 | 密保答案2 | 密保问题3 | 密保答案3 |
 
 @property (nonatomic,copy)      NSString    *name;      //用户名       --关联
 @property (nonatomic,copy)      NSString    *password;  //密码
+@property (nonatomic,copy)      NSString    *realname;  //真名
 @property (nonatomic,copy)      NSString    *email;     //邮件
 @property (nonatomic,copy)      NSString    *phonenum;  //电话
 @property (nonatomic,copy)      NSString    *member;    //会员
@@ -40,6 +41,7 @@
 
 -(void)printfName;
 -(void)printfPassword;
+-(void)printfRealName;
 -(void)printfEmail;
 -(void)printfPhonenum;
 -(void)printfMember;

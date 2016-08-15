@@ -21,6 +21,7 @@
 #define ERROR0x02_ILLEGAL_CHAR_AND_NAME_LENGTH  "***请重新输入（错误代码0x02：含有非法符号或用户名长度不符合）***\n"
 #define ERROR0x03_ILLEGAL_PASSWORD_LENGTH       "***请重新输入（错误代码0x03：密码长度不符合）***\n"
 #define ERROR0x04_ILLEGAL_EMAIL_POINT           "***请重新输入（错误代码0x04：非法邮箱或点不是3个）***\n"
+#define ERROR0x09_ILLEGAL_PHONE_POINT           "***请重新输入（错误代码0x09：错误的电话号码长度或点不是3个）***\n"
 #define ERROR0x05_NO_FOUND_NAME                 "***请重新输入（错误代码0x05：没有查到该人）***\n"
 #define ERROR0x06_NO_ADMIN_POINT                "***请重新输入（错误代码0x06：验证码错误或点不是3个）***\n"
 #define ERROR0x07_ILLEGAL_PRO_PASSWORD          "***请重新输入（错误代码0x07：密保错误,请选择其他方式）***\n"
@@ -76,7 +77,7 @@ enum
 
 enum
 {
-    WaitTime        = 0xF0,
+    WaitTimer        = 0xF0,
 };
 
 //========================================================

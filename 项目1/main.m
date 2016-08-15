@@ -13,7 +13,7 @@ int main(int argc, const char * argv[])
     Status *MyStatuP = [Status statusShallOneData];
     
     Ui           *MyUiP  = [[Ui alloc]init];
-    Uimain       *MyUiMP = [[Uimain alloc]init];
+    Uimain       *MyUiMP = [[Uimain alloc]initWithTimer];
     Uisuperuser  *MyUiSP = [[Uisuperuser alloc]init];
     Uicommonuser *MyUiCP = [[Uicommonuser alloc]init];
     
@@ -35,7 +35,13 @@ int main(int argc, const char * argv[])
             case CommonUser:
                 [MyUiCP uiCommonUserInterface];   //调用普通用户接口
                 break;
-                
+            
+            case WaitTimer:
+                {
+                    NSDate *date = [NSDate dateWithTimeIntervalSinceNow:5];
+                    [[NSRunLoop currentRunLoop] runUntilDate:date];
+                }
+                break;
             default:
                 [MyUiP uiError];                  //错误情况，显示错误代码
                 break;

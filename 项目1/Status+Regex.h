@@ -22,6 +22,7 @@ enum
     onlyNumb            = 0x00,         //只能是数字
     onlyNumbOrPoint     = 0x07,         //只能是数字或小数点
     onlyNumbCharCross   = 0x01,         //只能是用户名（数字、字母、下划线）
+    onlyChar            = 0x0A,         //只能是英语或汉字
     onlyNameOrPoint     = 0x02,         //只能是用户名（数字、字母、下划线）或小数点
 //    onlyEmailValue      = 0x03,         //只能是邮箱名
     onlyEmailOrPoint    = 0x04,         //只能是邮箱名或者小数点
@@ -34,6 +35,7 @@ enum
 
 
 -(BOOL)isValidateNumb:(NSString *)numb;
+-(BOOL)isValidateChar:(NSString *)string;
 -(BOOL)isValidateName:(NSString *)name;
 -(BOOL)isValidateThreePoint:(NSString *)data;
 -(BOOL)isValidateEmail:(NSString *)email;
