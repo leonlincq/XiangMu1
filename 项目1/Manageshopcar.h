@@ -12,9 +12,8 @@
 
 //用户购物车表
 
-//更新标记位？ | 用户名 | 商品编号n | ...
+// 用户名 | 商品编号n | ...
 
-@property (nonatomic,assign)    NSUInteger  flag;       //更新标记位?
 @property (nonatomic,copy)      NSString    *name;      //用户名       --关联
 @property (nonatomic,assign)    NSUInteger  *warenum;   //商品编号
 

@@ -10,23 +10,25 @@
 
 @interface Uisuperuser : Ui
 
+#define ReturuSperUserTime  3
+
 @property (nonatomic,assign) NSInteger countByTimer;
 @property (nonatomic,retain) NSTimer *myTick;
 
+typedef NSUInteger uisuper_Seek;
 enum
 {
-    seekmakechoose          = 0x00,
-    seekchooseall           = 0x01,
-    seekchooseone           = 0x02,
-    seekchoosereturnmain    = 0x03
+    uisuper_Seek_makechoose = 0x00,
+    uisuper_Seek_chooseall  = 0x01,
+    uisuper_Seek_chooseone  = 0x02,
 };
 
 
+typedef NSUInteger uisuper_Updata;
 enum
 {
-    updataname          = 0x00,
-    updatarealname      = 0x01,
-    updatareturnmain    = 0x02,
+    uisuper_Updata_name     = 0x00,
+    uisuper_Updata_realname = 0x01,
 };
 
 

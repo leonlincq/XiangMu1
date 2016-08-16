@@ -97,51 +97,51 @@
 
 -(void)printfAllData
 {
-    printf("➡️");
+    printf("0️⃣");
     [self printfName];
     printf(" ,");
     
-    printf("➡️");
+    printf("1️⃣");
     [self printfPassword];
     printf(" ,");
     
-    printf("➡️");
+    printf("2️⃣");
     [self printfRealName];
     printf(" ,");
     
-    printf("➡️");
+    printf("3️⃣");
     [self printfEmail];
     printf(" ,");
     
-    printf("➡️");
+    printf("4️⃣");
     [self printfPhonenum];
     printf(" ,");
     
-    printf("➡️");
+    printf("5️⃣");
     [self printfMember];
     printf(" ,");
     
-    printf("➡️");
+    printf("6️⃣");
     [self printfQuestion1];
     printf(" ,");
     
-    printf("➡️");
+    printf("7️⃣");
     [self printfAnswer1];
     printf(" ,");
     
-    printf("➡️");
+    printf("8️⃣");
     [self printfQuestion2];
     printf(" ,");
     
-    printf("➡️");
+    printf("9️⃣");
     [self printfAnswer2];
     printf(" ,");
     
-    printf("➡️");
+    printf("1️⃣0️⃣");
     [self printfQuestion3];
     printf(" ,");
     
-    printf("➡️");
+    printf("1️⃣1️⃣");
     [self printfAnswer3];
     printf("\n");
 }

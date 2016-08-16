@@ -54,6 +54,8 @@ enum
 
 /** 输入用户名并查找，找到并返回 */
 -(LCQResultKeyRule)seekRule:(LCQKeyRule)rule AndJudgeSaveUser:(Manageuserdatas**)user;
+/** 返回上一级界面 */
+-(void)uiReturnUpUi:(LCQSTATUS)statu;
 /** 错误提示界面 */
 -(void)uiError;
 

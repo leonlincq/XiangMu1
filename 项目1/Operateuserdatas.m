@@ -173,7 +173,7 @@
     
     switch (who)
     {
-        case uprealnamedata:
+        case LCQChooseUpdata_realname:
             if ([fileop executeUpdate:@"UPDATE UserDatas SET realname = ? where name = ?",userdate.realname,userdate.name] == NO )
             {
                 [fileop close];
@@ -182,7 +182,7 @@
             }
             break;
             
-        case uppassworddata:
+        case LCQChooseUpdata_password:
             if ([fileop executeUpdate:@"UPDATE UserDatas SET password = ? where name = ?",userdate.password,userdate.name] == NO )
             {
                 [fileop close];

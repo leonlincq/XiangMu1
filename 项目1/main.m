@@ -38,7 +38,7 @@ int main(int argc, const char * argv[])
             
             case WaitTimer:
                 {
-                    NSDate *date = [NSDate dateWithTimeIntervalSinceNow:5];
+                    NSDate *date = [NSDate dateWithTimeIntervalSinceNow:ReturnMainTime];
                     [[NSRunLoop currentRunLoop] runUntilDate:date];
                 }
                 break;

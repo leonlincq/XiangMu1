@@ -68,7 +68,9 @@
 //==========================
 -(void)uiCommonUserHome
 {
-    Status *MyStatuP = [Status statusShallOneData];
+    Status *MyStatuP                = [Status statusShallOneData];      //更改主方法状态
+    Manageuserdatas *olduserdata    = [[Manageuserdatas alloc]init];    //找到数据并保存
+    LCQResultKeyRule temp_namestatu = LCQResultKeyRule_Nil;             //按键状态
     
     printf("         🌳      用户      🌳         \n");
     printf("======================================\n");
@@ -83,32 +85,13 @@
     printf("*           🐼9.返回登录界面           *\n");
     printf("======================================\n");
     
-    //等待保存读取出来的键值
-    NSString *temp_data = [[NSString alloc]init];
-    //合法性判断
-    BOOL temp_bool;
-    
     while (1)
     {
-        printf("请输入操作序号(1-9):");
-        temp_bool = [super inputDataAndSaveIn:&temp_data andJudge:onlyNumb];
-        //键值的合法性
-        if ( temp_bool == NO )
+        printf("▶️请输入操作序号(1-9):");
+        temp_namestatu = [super seekRule:LCQKeyRule_Numb AndJudgeSaveUser:&olduserdata];
+        if (temp_namestatu == LCQResultKeyRule_OK)
         {
-            printf("%s",ERROR0x00_NO_NUM);
-        }
-        else
-        {
-            
-#if TEST == 1      //调试模式
-            NSLog(@"读取到的按键=%@,长度=%lu",temp_data,temp_data.length);
-#endif
-            //数值的合法性      超过int的max会取intmax，不用担心越界
-            int tempjudge = [temp_data intValue];
-            
-#if TEST == 1      //调试模式
-            NSLog(@"转换后的数据 = %d",tempjudge);
-#endif
+            int tempjudge = [olduserdata.member intValue];
             switch ( tempjudge )
             {
                 case C_userDeposit:
@@ -151,8 +134,8 @@
                     printf("%s",ERROR0x01_ILLEGAL_NUM);
                     break;
             }//判断数字
-        }//结束键值不含字母或字符
-    }//结束while(1)等待合法键值
+        }
+    }//结束while
 }
 
 //==========================

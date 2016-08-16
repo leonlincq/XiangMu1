@@ -10,42 +10,60 @@
 
 @interface Uimain : Ui
 
+#define ReturnMainTime  3
+
 @property (nonatomic,assign) NSInteger countByTimer;
 @property (nonatomic,retain) NSTimer *myTick;
 
+
+typedef NSUInteger uimain_SuperSign;
 enum
 {
-    register_name       = 0x00,
-    register_password   = 0x01,
-    register_realname   = 0x02,
-    register_email      = 0x03,
-    register_phonenum   = 0x04,
-    register_member     = 0x05,
-    register_question1  = 0x06,
-    register_answer1    = 0x07,
-    register_question2  = 0x08,
-    register_answer2    = 0x09,
-    register_question3  = 0x0A,
-    register_answer3    = 0x0B,
-    register_returnmain = 0x0C,
-    register_ok         = 0x0D
+    uimain_SuperSign_name = 0x00,
+    
 };
 
-
+typedef NSUInteger uimain_CommonSign;
 enum
 {
-    choose_inputname    = 0xFF,
-
-    choose_method       = 0x00,
-    choose_phone        = 0x01,
-    choose_email        = 0x02,
-    choose_question     = 0x03,
-    choose_question1    = 0x04,
-    choose_question2    = 0x05,
-    choose_question3    = 0x06,
+    uimain_CommonSign_name = 0x00,
     
-    outputpassword      = 0x07,
-    choose_returnmain   = 0x08,
+};
+
+typedef NSUInteger uimain_Reg;
+enum
+{
+    uimain_Reg_name       = 0x00,
+    uimain_Reg_password   = 0x01,
+    uimain_Reg_realname   = 0x02,
+    uimain_Reg_email      = 0x03,
+    uimain_Reg_phonenum   = 0x04,
+    uimain_Reg_member     = 0x05,
+    uimain_Reg_question1  = 0x06,
+    uimain_Reg_answer1    = 0x07,
+    uimain_Reg_question2  = 0x08,
+    uimain_Reg_answer2    = 0x09,
+    uimain_Reg_question3  = 0x0A,
+    uimain_Reg_answer3    = 0x0B,
+    uimain_Reg_returnmain = 0x0C,
+    uimain_Reg_ok         = 0x0D
+};
+
+typedef NSUInteger uimain_Choose;
+enum
+{
+    uimain_Choose_inputname         = 0xFF,
+
+    uimain_Choose_method            = 0x00,
+    uimain_Choose_phone             = 0x01,
+    uimain_Choose_email             = 0x02,
+    uimain_Choose_question          = 0x03,
+    uimain_Choose_question1         = 0x04,
+    uimain_Choose_question2         = 0x05,
+    uimain_Choose_question3         = 0x06,
+    
+    uimain_Choose_printfpassword    = 0x07,
+    uimain_Choose_returnmain        = 0x08,
 };
 
 /** 初始化定时器 */
@@ -54,6 +72,10 @@ enum
 -(void)uiMainInterface;
 /** 主界面显示 */
 -(void)uiMainHome;
+/** 超级用户登录 */
+-(void)uiMainSuperUserSign;
+/** 普通用户登录 */
+-(void)uiMaincCommonUserSign;
 /** 主界面注册新用户 */
 -(void)uiMainRegisterNewUser;
 /** 主界面找回密码 */

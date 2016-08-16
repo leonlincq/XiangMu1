@@ -15,6 +15,7 @@
 //==========================
 -(LCQResultKeyRule)seekRule:(LCQKeyRule)rule AndJudgeSaveUser:(Manageuserdatas**)user
 {
+    Status *MyStatuP                = [Status statusShallOneData];
     Manageuserdatas *temp_user      = [[Manageuserdatas alloc]init];
     Operateuserdatas *temp_op       = [[Operateuserdatas alloc]init];
     NSString *temp_data             = [[NSString alloc]init];
@@ -24,46 +25,50 @@
     
     switch (rule)
     {
+        case LCQKeyRule_NoRule:
+            temp_keystatu = [super inputDataAndSaveIn:&temp_data andJudge:LCQKeyChoose_allKeyValue];
+            break;
+            
         case LCQKeyRule_Name:
-            temp_keystatu = [super inputDataAndSaveIn:&temp_data andJudge:onlyNumbCharCross];
+            temp_keystatu = [super inputDataAndSaveIn:&temp_data andJudge:LCQKeyChoose_onlyNumbCharCross];
             break;
             
         case LCQKeyRule_PassWord:
-            temp_keystatu = [super inputDataAndSaveIn:&temp_data andJudge:allKeyValue];            
+            temp_keystatu = [super inputDataAndSaveIn:&temp_data andJudge:LCQKeyChoose_allKeyValue];
             break;
             
         case LCQKeyRule_RealName:
-            temp_keystatu = [super inputDataAndSaveIn:&temp_data andJudge:onlyChar];
+            temp_keystatu = [super inputDataAndSaveIn:&temp_data andJudge:LCQKeyChoose_onlyChar];
             break;
             
         case LCQKeyRule_Email:
-            temp_keystatu = [super inputDataAndSaveIn:&temp_data andJudge:onlyEmail];
+            temp_keystatu = [super inputDataAndSaveIn:&temp_data andJudge:LCQKeyChoose_onlyEmail];
             break;
 
         case LCQKeyRule_Phonenum:
-            temp_keystatu = [super inputDataAndSaveIn:&temp_data andJudge:onlyPhoneNumb];
+            temp_keystatu = [super inputDataAndSaveIn:&temp_data andJudge:LCQKeyChoose_onlyPhoneNumb];
             break;
         
         case LCQKeyRule_Answer1:
-            temp_keystatu = [super inputDataAndSaveIn:&temp_data andJudge:allKeyValue];
+            temp_keystatu = [super inputDataAndSaveIn:&temp_data andJudge:LCQKeyChoose_allKeyValue];
             break;
 
         case LCQKeyRule_Answer2:
-            temp_keystatu = [super inputDataAndSaveIn:&temp_data andJudge:allKeyValue];
+            temp_keystatu = [super inputDataAndSaveIn:&temp_data andJudge:LCQKeyChoose_allKeyValue];
             break;
             
         case LCQKeyRule_Answer3:
-            temp_keystatu = [super inputDataAndSaveIn:&temp_data andJudge:allKeyValue];
+            temp_keystatu = [super inputDataAndSaveIn:&temp_data andJudge:LCQKeyChoose_allKeyValue];
             break;
         
         case LCQKeyRule_Numb:
-            temp_keystatu = [super inputDataAndSaveIn:&temp_data andJudge:onlyNumb];
+            temp_keystatu = [super inputDataAndSaveIn:&temp_data andJudge:LCQKeyChoose_onlyNumb];
             break;
             
         case LCQKeyRule_TestCode:
-            temp_keystatu = [super inputDataAndSaveIn:&temp_data andJudge:onlyadmin];
+            temp_keystatu = [super inputDataAndSaveIn:&temp_data andJudge:LCQKeyChoose_onlyadmin];
             break;
-
+            
             
             
         default:
@@ -74,6 +79,7 @@
     //3个点返回一定要先判断，优先级
     if(temp_keystatu == LCQKeyStatu_POINT)      //是3个点
     {
+        [MyStatuP StatuChange:MyStatuP.StaNow & CHOOSE_UI ];
         return LCQResultKeyRule_ThreePoint;
     }
     
@@ -94,6 +100,9 @@
     {
         switch (rule)
         {
+            case LCQKeyRule_NoRule:
+                return LCQResultKeyRule_OK;
+                
             case LCQKeyRule_Name:
                 if ( temp_data.length >=NAMEMIN && temp_data.length <=NAMEMAX )        //对用户名再进行限制
                 {
@@ -186,6 +195,45 @@
     return LCQResultKeyRule_Nil;
 }
 
+
+
+//==========================
+//      返回界面
+//==========================
+-(void)uiReturnUpUi:(LCQSTATUS)statu
+{
+    Status *MyStatuP                = [Status statusShallOneData];      //更改主方法状态
+    Manageuserdatas *olduserdata    = [[Manageuserdatas alloc]init];    //找到数据并保存
+    LCQResultKeyRule temp_namestatu = 0;
+    
+    
+    printf("=========================================\n");
+    switch (statu)
+    {
+        case (MainInterface | M_home):
+            printf("🔙请输入任意键返回主界面🔙\n");
+            break;
+            
+        case (SuperUser | S_home):
+            printf("🔙请输入任意键返回超级用户界面🔙\n");
+            break;
+            
+        case (CommonUser | C_home):
+            printf("🔙请输入任意键返回普通用户界面🔙\n");
+            break;
+            
+        default:
+            break;
+    }
+    printf("=========================================\n");
+    
+    
+    temp_namestatu = [self seekRule:LCQKeyRule_NoRule AndJudgeSaveUser:&olduserdata];
+//    if (temp_namestatu == LCQResultKeyRule_OK || temp_namestatu == LCQResultKeyRule_ThreePoint)
+//    {
+        [MyStatuP StatuChange:statu];
+//    }
+}
 
 //==========================
 //      错误界面

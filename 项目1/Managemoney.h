@@ -12,11 +12,11 @@
 
 //用户资金表
 
-//更新标记位？ | 用户名 | 总资金 | 资金流向 (存、取、转)n | ...
+// 用户名 | 总资金 | 资金流向 | 操作时间 |...
 
-@property (nonatomic,assign)    NSUInteger  flag;       //更新标记位?
-@property (nonatomic,copy)      NSString    *name;      //用户名       --关联
-@property (nonatomic,assign)    NSUInteger  allmoney;   //总资金
-@property (nonatomic,assign)    NSInteger   opmoney;    //资金流向 (存、取、转)
+@property (nonatomic,copy)  NSString    *name;      //用户名       --关联
+@property (nonatomic,copy)  NSString    *allmoney;  //总资金
+@property (nonatomic,copy)  NSString    *opmoney;   //资金流向 (存、取、转)
+@property (nonatomic,copy)  NSString    *optime;    //操作时间
 
 @end

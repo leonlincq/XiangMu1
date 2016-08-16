@@ -17,7 +17,7 @@
     {
         _myTick = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(oneSecTick:) userInfo:nil repeats:YES];
         [_myTick setFireDate:[NSDate distantFuture]];
-        _countByTimer = 5;
+        _countByTimer = ReturuSperUserTime;
     }
     return self;
 }
@@ -36,6 +36,18 @@
         Status *MyStatuP = [Status statusShallOneData];
         [MyStatuP StatuChange:(SuperUser | S_home)];
     }
+}
+
+//==========================
+//      进入等待定时器
+//==========================
+-(void)enterWaitTimer
+{
+    Status *MyStatuP = [Status statusShallOneData];      //更改主方法状态
+    
+    [MyStatuP StatuChange:WaitTimer];
+    _countByTimer = ReturuSperUserTime;
+    [_myTick setFireDate:[NSDate distantPast]];
 }
 
 //==========================
@@ -106,7 +118,9 @@
 //==========================
 -(void)uiSuperUserHome
 {
-    Status *MyStatuP = [Status statusShallOneData];
+    Status *MyStatuP                = [Status statusShallOneData];      //更改主方法状态
+    Manageuserdatas *olduserdata    = [[Manageuserdatas alloc]init];    //找到数据并保存
+    LCQResultKeyRule temp_namestatu = LCQResultKeyRule_Nil;             //按键状态
     
     printf("         🌳     管理员     🌳         \n");
     printf("======================================\n");
@@ -123,30 +137,13 @@
     printf("*           🐠11.返回登录界面          *\n");
     printf("======================================\n");
     
-    NSString *temp_data = [[NSString alloc]init];    //等待保存读取出来的键值
-    BOOL temp_bool;     //合法性判断
-    
     while (1)
     {
-        printf("请输入操作序号(1-11):");
-        temp_bool = [super inputDataAndSaveIn:&temp_data andJudge:onlyNumb];
-        //键值的合法性
-        if ( temp_bool == NO )
+        printf("▶️请输入操作序号(1-11):");
+        temp_namestatu = [super seekRule:LCQKeyRule_Numb AndJudgeSaveUser:&olduserdata];
+        if (temp_namestatu == LCQResultKeyRule_OK)
         {
-            printf("%s",ERROR0x00_NO_NUM);
-        }
-        else
-        {
-            
-#if TEST == 1      //调试模式
-            NSLog(@"读取到的按键=%@,长度=%lu",temp_data,temp_data.length);
-#endif
-            //数值的合法性      超过int的max会取intmax，不用担心越界
-            int tempjudge = [temp_data intValue];
-            
-#if TEST == 1      //调试模式
-            NSLog(@"转换后的数据 = %d",tempjudge);
-#endif
+            int tempjudge = [olduserdata.member intValue];
             switch ( tempjudge )
             {
                 case S_seekUserData:
@@ -197,8 +194,8 @@
                     printf("%s",ERROR0x01_ILLEGAL_NUM);
                     break;
             }//判断数字
-        }//结束键值不含字母或字符
-    }//结束while(1)等待合法键值
+        }
+    }//结束while
 }
 
 //==========================
@@ -220,95 +217,77 @@
     Status *MyStatuP                = [Status statusShallOneData];      //更改主方法状态
     Manageuserdatas *newuser        = [[Manageuserdatas alloc]init];    //要保存的实例
     Operateuserdatas *newop         = [[Operateuserdatas alloc]init];   //文件操作
-    NSUInteger tempstatu            = seekmakechoose;                    //该方法的状态
+    uisuper_Seek tempstatu          = uisuper_Seek_makechoose;          //该方法的状态
     Manageuserdatas *olduserdata    = [[Manageuserdatas alloc]init];    //找到数据并保存
     LCQResultKeyRule temp_namestatu = LCQResultKeyRule_Nil;             //按键状态
     NSMutableArray *tempuser        = [[NSMutableArray alloc]init];     //保存的数组
 
     printf("=========================================\n");
-    
-    switch (tempstatu)
-    {
-        case seekmakechoose:
-            printf("▶️1.查看所有用户 2.查看单个用户(🔙可输入'...'取消查看🔙)：");
-            temp_namestatu = [super seekRule:LCQKeyRule_Numb AndJudgeSaveUser:&olduserdata];
-            if (temp_namestatu == LCQResultKeyRule_OK)
-            {
-                int tempjudge = [olduserdata.member intValue];
-                switch (tempjudge)
-                {
-                    case seekchooseall:
-                        tempstatu = seekchooseall;
-                        printf("=========================================\n");
-                        break;
-                        
-                    case seekchooseone:
-                        tempstatu = seekchooseone;
-                        printf("=========================================\n");
-                        break;
-                    default:
-                        printf("%s",ERROR0x01_ILLEGAL_NUM);
-                        break;
-                }
-            }
-            else if(temp_namestatu == LCQResultKeyRule_ThreePoint)
-            {
-                tempstatu = seekchoosereturnmain;
-            }
-            break;
-            
-        case seekchooseall:
-            [newop selectUser:nil andSaveArray:&tempuser];
-            
-            for (int i =0; i<tempuser.count; i++)
-            {
-                newuser = [tempuser[i] copy];
-                [newuser printfAllData];
-            }
-            printf("=========================================\n");
-            printf("🔙请输入任意键返回上一级🔙\n");
-            printf("=========================================\n");
-            temp_namestatu = [super seekRule:LCQKeyRule_NoRule AndJudgeSaveUser:&olduserdata];
-            if (temp_namestatu == LCQResultKeyRule_OK || temp_namestatu == LCQResultKeyRule_ThreePoint)
-            {
-                tempstatu = seekchoosereturnmain;
-            }
-            break;
-            
-        case seekchooseone:
-            printf("▶️请输入要查看的用户名(🔙可输入'...'取消查看🔙)：\n");
-            temp_namestatu = [super seekRule:LCQKeyRule_Name AndJudgeSaveUser:&olduserdata];
-            if (temp_namestatu == LCQResultKeyRule_Found)
-            {
-                newuser = [olduserdata copy];
-                [newuser printfAllData];
-                printf("=========================================\n");
-                printf("🔙请输入任意键返回上一级🔙\n");
-                printf("=========================================\n");
-                temp_namestatu = [super seekRule:LCQKeyRule_NoRule AndJudgeSaveUser:&olduserdata];
-                if (temp_namestatu == LCQResultKeyRule_OK || temp_namestatu == LCQResultKeyRule_ThreePoint)
-                {
-                    tempstatu = seekchoosereturnmain;
-                }
-            }
-            else if(temp_namestatu == LCQResultKeyRule_NoFound)
-            {
-                printf("%s",ERROR0x05_NO_FOUND_USER);
-            }
-            else if(temp_namestatu == LCQResultKeyRule_ThreePoint)
-            {
-                tempstatu = seekchoosereturnmain;
-            }
-            break;
-        
-        case seekchoosereturnmain:
-            [MyStatuP StatuChange:(SuperUser | S_home)];
-            break;
-            
-        default:
-            break;
-    }
 
+    while(1)
+    {
+        switch (tempstatu)
+        {
+            case uisuper_Seek_makechoose:
+                printf("▶️1.查看所有用户 2.查看单个用户(🔙可输入'...'取消查看🔙)：");
+                temp_namestatu = [super seekRule:LCQKeyRule_Numb AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_OK)
+                {
+                    int tempjudge = [olduserdata.member intValue];
+                    switch (tempjudge)
+                    {
+                        case uisuper_Seek_chooseall:
+                            tempstatu = uisuper_Seek_chooseall;
+                            printf("=========================================\n");
+                            break;
+                            
+                        case uisuper_Seek_chooseone:
+                            tempstatu = uisuper_Seek_chooseone;
+                            printf("=========================================\n");
+                            break;
+                        default:
+                            printf("%s",ERROR0x01_ILLEGAL_NUM);
+                            break;
+                    }
+                }
+                break;
+                
+            case uisuper_Seek_chooseall:
+                [newop selectUser:nil andSaveArray:&tempuser];
+                for (int i =0; i<tempuser.count; i++)
+                {
+                    newuser = [tempuser[i] copy];
+                    [newuser printfAllData];
+                }
+                [self uiReturnUpUi:(SuperUser | S_home)];
+                return;
+                
+            case uisuper_Seek_chooseone:
+                printf("▶️请输入要查看的用户名(🔙可输入'...'取消查看🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_Name AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_Found)
+                {
+                    newuser = [olduserdata copy];
+                    [newuser printfAllData];
+                    [self uiReturnUpUi:(SuperUser | S_home)];
+                    return;
+                }
+                else if(temp_namestatu == LCQResultKeyRule_NoFound)
+                {
+                    printf("%s",ERROR0x05_NO_FOUND_USER);
+                }
+                break;
+                
+            default:
+                break;
+        }
+        //这里的状态是底层UI.m检测到'...'，想切回主界面，但困在while出不去
+        if (MyStatuP.StaNow == (SuperUser | S_home))
+        {
+            [self enterWaitTimer];
+            break;
+        }
+    }
 }
 
 //==========================
@@ -319,62 +298,58 @@
     Status *MyStatuP                = [Status statusShallOneData];      //更改主方法状态
     Manageuserdatas *newuser        = [[Manageuserdatas alloc]init];    //要保存的实例
     Operateuserdatas *newop         = [[Operateuserdatas alloc]init];   //文件操作
-    NSUInteger tempstatu            = updataname;                       //该方法的状态
+    uisuper_Updata tempstatu        = uisuper_Updata_name;              //该方法的状态
     Manageuserdatas *olduserdata    = [[Manageuserdatas alloc]init];    //找到数据并保存
     LCQResultKeyRule temp_namestatu = LCQResultKeyRule_Nil;             //按键状态
-    
-    //NSString *tempdata          = [[NSString alloc]init];
    
     printf("=========================================\n");
-    
-    switch (tempstatu)
+
+    while(1)
     {
-        case updataname:
-            printf("▶️请输入将要修改的用户名(🔙可输入'...'取消修改🔙)：\n");
-            temp_namestatu = [super seekRule:LCQKeyRule_Name AndJudgeSaveUser:&olduserdata];
-            if (temp_namestatu == LCQResultKeyRule_Found)
-            {
-                newuser = [olduserdata.name copy];
-                printf("✅查到的用户信息如下：\n");
-                [newuser printfAllData];
-                tempstatu = updatarealname;
-                printf("=========================================\n");
-            }
-            else if(temp_namestatu == LCQResultKeyRule_NoFound)
-            {
-                printf("%s",ERROR0x05_NO_FOUND_USER);
-            }
-            else if(temp_namestatu == LCQResultKeyRule_ThreePoint)
-            {
-                tempstatu = seekchoosereturnmain;
-            }
-            break;
+        switch (tempstatu)
+        {
+            case uisuper_Updata_name:
+                printf("▶️请输入将要修改的用户名(🔙可输入'...'取消修改🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_Name AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_Found)
+                {
+                    newuser = [olduserdata.name copy];
+                    printf("✅查到的用户信息如下：\n");
+                    [newuser printfAllData];
+                    tempstatu = uisuper_Updata_realname;
+                    printf("=========================================\n");
+                }
+                else if(temp_namestatu == LCQResultKeyRule_NoFound)
+                {
+                    printf("%s",ERROR0x05_NO_FOUND_USER);
+                }
+                break;
+                
+            case uisuper_Updata_realname:
+                printf("▶️请输入该用户新的名字(🔙可输入'...'取消修改🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_RealName AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_OK)
+                {
+                    newuser.realname = olduserdata.realname;
+                    [newop upUserData:newuser withWho:LCQChooseUpdata_realname];
+                    printf("=========================================\n");
+                    printf("✅修改成功，新的用户信息如下：\n");
+                    [newuser printfAllData];
+                    printf("=========================================\n");
+                    [self uiReturnUpUi:(SuperUser | S_home)];
+                    return;
+                }
+                break;
             
-        case updatarealname:
-            printf("▶️请输入该用户新的名字(🔙可输入'...'取消修改🔙)：\n");
-            temp_namestatu = [super seekRule:LCQKeyRule_RealName AndJudgeSaveUser:&olduserdata];
-            if (temp_namestatu == LCQResultKeyRule_OK)
-            {
-                newuser.realname = olduserdata.realname;
-                [newop upUserData:newuser withWho:uprealnamedata];
-                printf("=========================================\n");
-                printf("✅修改成功，新的用户信息如下：\n");
-                [newuser printfAllData];
-                printf("=========================================\n");
-                [MyStatuP StatuChange:WaitTimer];
-            }
-            else if(temp_namestatu == LCQResultKeyRule_ThreePoint)
-            {
-                tempstatu = seekchoosereturnmain;
-            }
+            default:
+                break;
+        }
+        //这里的状态是底层UI.m检测到'...'，想切回主界面，但困在while出不去
+        if (MyStatuP.StaNow == (SuperUser | S_home))
+        {
+            [self enterWaitTimer];
             break;
-            
-        case updatareturnmain:
-            [MyStatuP StatuChange:(SuperUser | S_home)];
-            break;
-        
-        default:
-            break;
+        }
     }
 }
 

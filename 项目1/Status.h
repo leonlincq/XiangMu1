@@ -29,6 +29,10 @@
 #define ERROR0xFF_NO_ERROR                      "❌错误（错误代码0xFF：没有错误😂）❌\n"
 
 
+typedef NSUInteger LCQSTATUS;
+@property (nonatomic,assign) LCQSTATUS StaBefore;
+@property (nonatomic,assign) LCQSTATUS StaNow;
+
 //主界面（登录界面）
 enum
 {
@@ -80,11 +84,8 @@ enum
     WaitTimer        = 0xF0,
 };
 
-//========================================================
 
-typedef NSUInteger LCQSTATUS;
-@property (nonatomic,assign) LCQSTATUS StaBefore;
-@property (nonatomic,assign) LCQSTATUS StaNow;
+
 
 /** 初始化状态为主界面 */
 +(instancetype)statusShallOneData;

@@ -2,8 +2,8 @@
 //  Status+Regex.m
 //  项目1
 //
-//  Created by etcxm on 16/8/12.
-//  Copyright © 2016年 etc. All rights reserved.
+//  Created by Leonlincq on 16/8/12.
+//  Copyright © 2016年 Leonlincq. All rights reserved.
 //
 
 #import "Status+Regex.h"
@@ -159,49 +159,49 @@
     
     switch (numbchar)
     {
-        case onlyNumb:
+        case LCQKeyChoose_onlyNumb:
             if ([self isValidateNumb:temp_data] == NO)
             {
                 return LCQKeyStatu_NO;
             }
             break;
             
-        case onlyChar:
+        case LCQKeyChoose_onlyChar:
             if ([self isValidateChar:temp_data] == NO )
             {
                 return LCQKeyStatu_NO;
             }
             break;
             
-        case onlyNumbCharCross:
+        case LCQKeyChoose_onlyNumbCharCross:
             if ([self isValidateName:temp_data] == NO)
             {
                 return LCQKeyStatu_NO;
             }
             break;
             
-        case onlyEmail:
+        case LCQKeyChoose_onlyEmail:
             if ([self isValidateEmail:temp_data] == NO)
             {
                 return LCQKeyStatu_NO;
             }
             break;
             
-        case onlyPhoneNumb:
+        case LCQKeyChoose_onlyPhoneNumb:
             if ([self isValidatePhone:temp_data] == NO)
             {
                 return LCQKeyStatu_NO;
             }
             break;
             
-        case onlyadmin:
+        case LCQKeyChoose_onlyadmin:
             if ([self isValidateadmin:temp_data] == NO)
             {
                 return LCQKeyStatu_NO;
             }
             break;
         
-        case allKeyValue:
+        case LCQKeyChoose_allKeyValue:
         default:
             break;
     }
