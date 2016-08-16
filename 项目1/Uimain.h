@@ -27,7 +27,8 @@ enum
     register_answer2    = 0x09,
     register_question3  = 0x0A,
     register_answer3    = 0x0B,
-    register_returnmain = 0x0C
+    register_returnmain = 0x0C,
+    register_ok         = 0x0D
 };
 
 
@@ -46,6 +47,7 @@ enum
     outputpassword      = 0x07,
     choose_returnmain   = 0x08,
 };
+
 /** 初始化定时器 */
 -(instancetype)initWithTimer;
 /** 主界面接口 */

@@ -66,7 +66,7 @@
 //=====================================正则表达式end==================================
 
 //===========================================
-//          判断输入序号的合法性
+//          判断输入数字的合法性
 //===========================================
 -(BOOL)isValidateNumb:(NSString *)numb
 {
@@ -80,7 +80,7 @@
 //===========================================
 -(BOOL)isValidateChar:(NSString *)string
 {
-    NSString *stringRegex = [NSString stringWithFormat:@"[a-zA-Z]{%d,%d}",NAMEMIN,NAMEMAX];
+    NSString *stringRegex = @"[a-zA-Z]+";
     NSPredicate *stringTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", stringRegex];
     return [stringTest evaluateWithObject:string];
 }
@@ -90,7 +90,7 @@
 //===========================================
 -(BOOL)isValidateName:(NSString *)name
 {
-    NSString *nameRegex = [NSString stringWithFormat:@"[a-zA-Z0-9_]{%d,%d}",NAMEMIN,NAMEMAX];
+    NSString *nameRegex = @"[a-zA-Z0-9_]+";
     NSPredicate *nameTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", nameRegex];
     return [nameTest evaluateWithObject:name];
 }
@@ -146,67 +146,58 @@
 //==========================
 //      输入数据并判断
 //==========================
--(BOOL)inputDataAndSaveIn:(NSString**)data andJudge:(LCQKeyChoose)numbchar
+-(LCQKeyStatu)inputDataAndSaveIn:(NSString**)data andJudge:(LCQKeyChoose)numbchar
 {
     char opString[200];
     scanf("%s",opString);
     NSString *temp_data = [NSString stringWithFormat:@"%s",opString];
+    
+    if([self isValidateThreePoint:temp_data] == YES)
+    {
+        return LCQKeyStatu_POINT;
+    }
     
     switch (numbchar)
     {
         case onlyNumb:
             if ([self isValidateNumb:temp_data] == NO)
             {
-                return NO;
-            }
-            break;
-            
-        case onlyNumbOrPoint:
-            if ([self isValidateNumb:temp_data] == NO && [self isValidateThreePoint:temp_data] == NO )
-            {
-                return NO;
-            }
-            break;
-            
-        case onlyNumbCharCross:
-            if ([self isValidateName:temp_data] == NO)
-            {
-                return NO;
+                return LCQKeyStatu_NO;
             }
             break;
             
         case onlyChar:
             if ([self isValidateChar:temp_data] == NO )
             {
-                return NO;
-            }
-            break;
-
-        case onlyNameOrPoint:
-            if ([self isValidateName:temp_data] == NO && [self isValidateThreePoint:temp_data] == NO )
-            {
-                return NO;
-            }
-            break;
-
-        case onlyEmailOrPoint:
-            if ([self isValidateEmail:temp_data] == NO && [self isValidateThreePoint:temp_data] == NO )
-            {
-                return NO;
+                return LCQKeyStatu_NO;
             }
             break;
             
-         case onlyPhoneOrPoint:
-            if ([self isValidatePhone:temp_data] == NO && [self isValidateThreePoint:temp_data] == NO)
+        case onlyNumbCharCross:
+            if ([self isValidateName:temp_data] == NO)
             {
-                return NO;
+                return LCQKeyStatu_NO;
             }
             break;
             
-        case onlyadminOrPoint:
-            if ([self isValidateadmin:temp_data] == NO && [self isValidateThreePoint:temp_data] == NO)
+        case onlyEmail:
+            if ([self isValidateEmail:temp_data] == NO)
             {
-                return NO;
+                return LCQKeyStatu_NO;
+            }
+            break;
+            
+        case onlyPhoneNumb:
+            if ([self isValidatePhone:temp_data] == NO)
+            {
+                return LCQKeyStatu_NO;
+            }
+            break;
+            
+        case onlyadmin:
+            if ([self isValidateadmin:temp_data] == NO)
+            {
+                return LCQKeyStatu_NO;
             }
             break;
         
@@ -216,7 +207,7 @@
     }
     *data = temp_data;
     
-    return YES;
+    return LCQKeyStatu_YES;
 }
 
 @end

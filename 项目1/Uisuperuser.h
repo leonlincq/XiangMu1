@@ -10,6 +10,26 @@
 
 @interface Uisuperuser : Ui
 
+@property (nonatomic,assign) NSInteger countByTimer;
+@property (nonatomic,retain) NSTimer *myTick;
+
+enum
+{
+    seekmakechoose          = 0x00,
+    seekchooseall           = 0x01,
+    seekchooseone           = 0x02,
+    seekchoosereturnmain    = 0x03
+};
+
+
+enum
+{
+    updataname          = 0x00,
+    updatarealname      = 0x01,
+    updatareturnmain    = 0x02,
+};
+
+
 /** 超级用户接口 */
 -(void)uiSuperUserInterface;
 /** 超级用户界面 */

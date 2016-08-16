@@ -22,6 +22,13 @@ typedef NSUInteger FILESTATUS;
 #define FILEDeleError   0x04
 #define FILEUpDataError 0x05
 
+typedef NSUInteger  LCQChooseUpdata;
+enum
+{
+    uprealnamedata  = 0x00,
+    uppassworddata  = 0x01
+};
+
 /** 创建表格 */
 -(FILESTATUS)creatTable;
 /** 添加信息   userdate:添加的用户信息 */
@@ -30,6 +37,7 @@ typedef NSUInteger FILESTATUS;
 -(FILESTATUS)selectUser:(NSString*)name andSaveArray:(NSMutableArray**)array;
 /** 删除用户   name:选择的用户 */
 -(FILESTATUS)deletUser:(NSString *)name;
-
+/** 更新用户   userdate:用户信息表   who:更新其中哪个信息 */
+-(FILESTATUS)upUserData:(Manageuserdatas *)userdate withWho:(LCQChooseUpdata)who;
 
 @end

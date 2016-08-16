@@ -160,7 +160,7 @@
 //  输入:name:选择的用户
 //  返回:错误代码
 //=====================================================
--(FILESTATUS)upUserData:(Manageuserdatas *)userdate
+-(FILESTATUS)upUserData:(Manageuserdatas *)userdate withWho:(LCQChooseUpdata)who
 {
     FILESTATUS tempsta = FILEYES;
     FMDatabase *fileop = [FMDatabase databaseWithPath:[self filepath]];
@@ -171,12 +171,31 @@
         return tempsta;
     }
     
-    if ([fileop executeUpdate:@"UPDATE UserDatas SET password = ? where name = ?",userdate.password,userdate.name] == NO )
+    switch (who)
     {
-        [fileop close];
-        tempsta = FILEUpDataError;
-        return tempsta;
+        case uprealnamedata:
+            if ([fileop executeUpdate:@"UPDATE UserDatas SET realname = ? where name = ?",userdate.realname,userdate.name] == NO )
+            {
+                [fileop close];
+                tempsta = FILEUpDataError;
+                return tempsta;
+            }
+            break;
+            
+        case uppassworddata:
+            if ([fileop executeUpdate:@"UPDATE UserDatas SET password = ? where name = ?",userdate.password,userdate.name] == NO )
+            {
+                [fileop close];
+                tempsta = FILEUpDataError;
+                return tempsta;
+            }
+            break;
+            
+            
+        default:
+            break;
     }
+
     
     [fileop close];
     return tempsta;
