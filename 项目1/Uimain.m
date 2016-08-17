@@ -41,7 +41,7 @@
             break;
             
         case ( CommonUser | C_home ):
-            printf("🕐%ld秒后返回普通用户界面...\n",_countByTimer--);
+            printf("🕐%ld秒后进入普通用户界面...\n",_countByTimer--);
             break;
             
         default:
@@ -50,7 +50,6 @@
 
     if(_countByTimer == 0)
     {
-        printf("======================================\n");
         [_myTick setFireDate:[NSDate distantFuture]];
     }
 }
@@ -64,6 +63,7 @@
     [_myTick setFireDate:[NSDate distantPast]];
     NSDate *date = [NSDate dateWithTimeIntervalSinceNow:ReturnMainTime];
     [[NSRunLoop currentRunLoop] runUntilDate:date];
+    printf("======================================\n");    
 }
 
 //==========================
@@ -113,11 +113,11 @@
     
     printf("         🌳在线销售系统欢迎您🌳         \n");
     printf("======================================\n");
-    printf("*           🐴1.超级管理登录           *\n");
-    printf("*           🐑2.普通用户登录           *\n");
-    printf("*           🐧3.注册新的用户           *\n");
-    printf("*           🐶4.找回用户密码           *\n");
-    printf("*           🐘5.返回欢迎界面           *\n");
+    printf("✅           🐴1.超级管理登录           \n");
+    printf("✅           🐑2.普通用户登录           \n");
+    printf("✅           🐧3.注册新的用户           \n");
+    printf("✅           🐶4.找回用户密码           \n");
+    printf("✅           🐘5.返回欢迎界面           \n");
     printf("======================================\n");
     
     while (1)
@@ -163,10 +163,10 @@
 -(void)uiMainSuperUserSign
 {
     Status *MyStatuP                = [Status statusShallOneData];      //更改主方法状态
-    uimain_SuperSign tempstatu      = uimain_SuperSign_name;            //该方法的状态
     Manageuserdatas *olduserdata    = [[Manageuserdatas alloc]init];    //找到数据并保存
     LCQResultKeyRule temp_namestatu = LCQResultKeyRule_Nil;             //按键状态
     
+    uimain_SuperSign tempstatu      = uimain_SuperSign_name;            //该方法的状态
     printf("=========================================\n");
     
     while (1)
@@ -174,7 +174,7 @@
         switch (tempstatu)
         {
             case uimain_SuperSign_name:
-                printf("▶️请输入超级用户名(6-30位，只能是数字、字母、下划线)(🔙可输入'...'取消登录🔙)：\n");
+                printf("▶️请输入超级用户名(🔙可输入'...'取消登录🔙)：\n");
                 temp_namestatu = [super seekRule:LCQKeyRule_Admin AndJudgeSaveUser:&olduserdata];
                 if (temp_namestatu == LCQResultKeyRule_OK)
                 {
@@ -215,10 +215,10 @@
 {
     Status *MyStatuP                = [Status statusShallOneData];      //更改主方法状态
     Manageuserdatas *newuser        = [[Manageuserdatas alloc]init];    //要保存的实例
-    uimain_CommonSign tempstatu     = uimain_CommonSign_name;           //该方法的状态
     Manageuserdatas *olduserdata    = [[Manageuserdatas alloc]init];    //找到数据并保存
     LCQResultKeyRule temp_namestatu = LCQResultKeyRule_Nil;             //按键状态
     
+    uimain_CommonSign tempstatu     = uimain_CommonSign_name;           //该方法的状态
     printf("=========================================\n");
     
     while (1)
@@ -226,7 +226,7 @@
         switch (tempstatu)
         {
             case uimain_CommonSign_name:
-                printf("▶️请输入用户名(6-30位，只能是数字、字母、下划线)(🔙可输入'...'取消注册🔙)：\n");                
+                printf("▶️请输入用户名(🔙可输入'...'取消登录🔙)：\n");                
                 temp_namestatu = [super seekRule:LCQKeyRule_Name AndJudgeSaveUser:&olduserdata];
                 if (temp_namestatu == LCQResultKeyRule_NoFound)
                 {
@@ -252,6 +252,10 @@
                         [self enterWaitTimer];
                         return;
                     }
+                    else
+                    {
+                        printf("%s",ERROR0x09_ILLEGAL_PASSWORD);
+                    }
                 }
                 break;
                 
@@ -276,10 +280,10 @@
     Status *MyStatuP                = [Status statusShallOneData];      //更改主方法状态
     Manageuserdatas *newuser        = [[Manageuserdatas alloc]init];    //要保存的实例
     Operateuserdatas *newop         = [[Operateuserdatas alloc]init];   //文件操作
-    uimain_Reg tempstatu            = uimain_Reg_name;                  //该方法的状态
     Manageuserdatas *olduserdata    = [[Manageuserdatas alloc]init];    //找到数据并保存
     LCQResultKeyRule temp_namestatu = LCQResultKeyRule_Nil;             //按键状态
     
+    uimain_Reg tempstatu            = uimain_Reg_name;                  //该方法的状态
     printf("=========================================\n");
 
     while (1)
@@ -427,17 +431,16 @@
 {
     Status *MyStatuP                = [Status statusShallOneData];      //更改主方法状态
     Manageuserdatas *newuser        = [[Manageuserdatas alloc]init];    //要保存的实例
-    uimain_Choose pristatu          = uimain_Choose_inputname;          //该方法的状态
     Manageuserdatas *olduserdata    = [[Manageuserdatas alloc]init];    //找到数据并保存
-    LCQResultKeyRule temp_namestatu = 0;
+    LCQResultKeyRule temp_namestatu = LCQResultKeyRule_Nil;
 
-    
+    uimain_Choose tempstatu          = uimain_Choose_inputname;          //该方法的状态
     printf("=========================================\n");
     
     //输入用户名
     while (1)
     {
-        switch (pristatu)
+        switch (tempstatu)
         {
             case uimain_Choose_inputname:
                 printf("▶️请输入您的用户名(6-30位，只能是数字、字母、下划线)(🔙可输入'...'取消找回密码🔙)：\n");
@@ -445,7 +448,7 @@
                 if (temp_namestatu == LCQResultKeyRule_Found)
                 {
                     newuser = [olduserdata copy];
-                    pristatu = uimain_Choose_method;
+                    tempstatu = uimain_Choose_method;
                     printf("=========================================\n");
                 }
                 else if(temp_namestatu == LCQResultKeyRule_NoFound)
@@ -468,17 +471,17 @@
                     switch (tempjudge)
                     {
                         case (uimain_Choose_phone-uimain_Choose_method):
-                            pristatu = uimain_Choose_phone;
+                            tempstatu = uimain_Choose_phone;
                             printf("=========================================\n");
                             break;
                             
                         case (uimain_Choose_email-uimain_Choose_method):
-                            pristatu = uimain_Choose_email;
+                            tempstatu = uimain_Choose_email;
                             printf("=========================================\n");
                             break;
                             
                         case (uimain_Choose_question-uimain_Choose_method):
-                            pristatu = uimain_Choose_question;
+                            tempstatu = uimain_Choose_question;
                             printf("=========================================\n");
                             break;
                         default:
@@ -495,13 +498,13 @@
                     temp_namestatu = [super seekRule:LCQKeyRule_TestCode AndJudgeSaveUser:&olduserdata];
                     if (temp_namestatu == LCQResultKeyRule_OK)
                     {
-                        pristatu = uimain_Choose_printfpassword;
+                        tempstatu = uimain_Choose_printfpassword;
                     }
                 }
                 else
                 {
                     printf("❎您注册时没有留下手机号码，请选择其他方式\n");
-                    pristatu = uimain_Choose_method;
+                    tempstatu = uimain_Choose_method;
                     printf("=========================================\n");
                 }
                 break;
@@ -513,13 +516,13 @@
                     temp_namestatu = [super seekRule:LCQKeyRule_TestCode AndJudgeSaveUser:&olduserdata];
                     if (temp_namestatu == LCQResultKeyRule_OK)
                     {
-                        pristatu = uimain_Choose_printfpassword;
+                        tempstatu = uimain_Choose_printfpassword;
                     }
                 }
                 else
                 {
                     printf("❎您注册时没有留下Email，请选择其他方式\n");
-                    pristatu = uimain_Choose_method;
+                    tempstatu = uimain_Choose_method;
                     printf("=========================================\n");
                 }
                 break;
@@ -536,17 +539,17 @@
                     switch (tempjudge)
                     {
                         case (uimain_Choose_question1-uimain_Choose_question):
-                            pristatu = uimain_Choose_question1;
+                            tempstatu = uimain_Choose_question1;
                             printf("=========================================\n");
                             break;
                             
                         case (uimain_Choose_question2-uimain_Choose_question):
-                            pristatu = uimain_Choose_question2;
+                            tempstatu = uimain_Choose_question2;
                             printf("=========================================\n");
                             break;
                             
                         case (uimain_Choose_question3-uimain_Choose_question):
-                            pristatu = uimain_Choose_question3;
+                            tempstatu = uimain_Choose_question3;
                             printf("=========================================\n");
                             break;
                         default:
@@ -566,12 +569,12 @@
                     {
                         if([olduserdata.answer1 isEqualToString:newuser.answer1] == YES )       //比对密保答案
                         {
-                            pristatu = uimain_Choose_printfpassword;
+                            tempstatu = uimain_Choose_printfpassword;
                         }
                         else
                         {
                             printf("%s",ERROR0x07_ILLEGAL_PRO_PASSWORD);
-                            pristatu = uimain_Choose_method;
+                            tempstatu = uimain_Choose_method;
                             printf("=========================================\n");
                         }
                     }
@@ -579,7 +582,7 @@
                 else
                 {
                     printf("❎您注册时没有留下密保1，请选择其他方式\n");
-                    pristatu = uimain_Choose_method;
+                    tempstatu = uimain_Choose_method;
                     printf("=========================================\n");
                 }
                 break;
@@ -594,12 +597,12 @@
                     {
                         if([olduserdata.answer2 isEqualToString:newuser.answer2] == YES )       //比对密保答案
                         {
-                            pristatu = uimain_Choose_printfpassword;
+                            tempstatu = uimain_Choose_printfpassword;
                         }
                         else
                         {
                             printf("%s",ERROR0x07_ILLEGAL_PRO_PASSWORD);
-                            pristatu = uimain_Choose_method;
+                            tempstatu = uimain_Choose_method;
                             printf("=========================================\n");
                         }
                     }
@@ -607,7 +610,7 @@
                 else
                 {
                     printf("❎您注册时没有留下密保2，请选择其他方式\n");
-                    pristatu = uimain_Choose_method;
+                    tempstatu = uimain_Choose_method;
                     printf("=========================================\n");
                 }
                 break;
@@ -622,12 +625,12 @@
                     {
                         if([olduserdata.answer3 isEqualToString:newuser.answer3] == YES )       //比对密保答案
                         {
-                            pristatu = uimain_Choose_printfpassword;
+                            tempstatu = uimain_Choose_printfpassword;
                         }
                         else
                         {
                             printf("%s",ERROR0x07_ILLEGAL_PRO_PASSWORD);
-                            pristatu = uimain_Choose_method;
+                            tempstatu = uimain_Choose_method;
                             printf("=========================================\n");
                         }
                     }
@@ -635,7 +638,7 @@
                 else
                 {
                     printf("❎您注册时没有留下密保3，请选择其他方式\n");
-                    pristatu = uimain_Choose_method;
+                    tempstatu = uimain_Choose_method;
                     printf("=========================================\n");
                 }
                 break;

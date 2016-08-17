@@ -16,7 +16,7 @@
 -(LCQResultKeyRule)seekRule:(LCQKeyRule)rule AndJudgeSaveUser:(Manageuserdatas**)user
 {
     Status *MyStatuP                = [Status statusShallOneData];
-    Manageuserdatas *temp_user      = *user;
+    Manageuserdatas *temp_user      = [[Manageuserdatas alloc]init];
     Operateuserdatas *temp_op       = [[Operateuserdatas alloc]init];
     NSString *temp_data             = [[NSString alloc]init];
     NSMutableArray *temp_alluser    = [[NSMutableArray alloc]init];
@@ -66,11 +66,23 @@
             break;
             
         case LCQKeyRule_TestCode:
-            temp_keystatu = [super inputDataAndSaveIn:&temp_data andJudge:LCQKeyChoose_onlyadmin];
+            temp_keystatu = [super inputDataAndSaveIn:&temp_data andJudge:LCQKeyChoose_onlyAdmin];
             break;
             
         case LCQKeyRule_Admin:
-            temp_keystatu = [super inputDataAndSaveIn:&temp_data andJudge:LCQKeyChoose_onlyadmin];
+            temp_keystatu = [super inputDataAndSaveIn:&temp_data andJudge:LCQKeyChoose_onlyAdmin];
+            break;
+            
+        case LCQKeyRule_YesOrNo:
+            temp_keystatu = [super inputDataAndSaveIn:&temp_data andJudge:LCQKeyChoose_onlyYesOrNo];
+            break;
+            
+        case LCQKeyRule_Yes:
+             temp_keystatu = [super inputDataAndSaveIn:&temp_data andJudge:LCQKeyChoose_onlyYes];
+            break;
+            
+        case LCQKeyRule_No:
+            temp_keystatu = [super inputDataAndSaveIn:&temp_data andJudge:LCQKeyChoose_onlyNo];
             break;
             
             
@@ -116,12 +128,14 @@
                     {
                         if(temp_alluser.count != 0)
                         {
-                            temp_user = [temp_alluser copy];
+                            temp_user = [temp_alluser[0] copy];
+                            *user = temp_user;
                             return LCQResultKeyRule_Found;
                         }
                         else
                         {
                             temp_user.name = temp_data;
+                            *user = temp_user;
                             return LCQResultKeyRule_NoFound;
                         }
                     }
@@ -142,6 +156,7 @@
                 if ( temp_data.length >=PASSWORDMIN && temp_data.length <=PASSWORDMAX )        //对密码再进行限制
                 {
                     temp_user.password = temp_data;
+                    *user = temp_user;
                     return LCQResultKeyRule_OK;
                 }
                 else
@@ -155,6 +170,7 @@
                 if ( temp_data.length >=NAMEMIN && temp_data.length <=NAMEMAX )        //对真名再进行限制
                 {
                     temp_user.realname = temp_data;
+                    *user = temp_user;
                     return LCQResultKeyRule_OK;
                 }
                 else
@@ -166,32 +182,49 @@
                 
             case LCQKeyRule_Email:
                 temp_user.email = temp_data;
+                *user = temp_user;
                 return LCQResultKeyRule_OK;
                 
             case LCQKeyRule_Phonenum:
                 temp_user.phonenum = temp_data;
+                *user = temp_user;
                 return LCQResultKeyRule_OK;
                 
             case LCQKeyRule_Answer1:
                 temp_user.answer1 = temp_data;
+                *user = temp_user;
                 return LCQResultKeyRule_OK;
                 
             case LCQKeyRule_Answer2:
                 temp_user.answer2 = temp_data;
+                *user = temp_user;
                 return LCQResultKeyRule_OK;
                 
             case LCQKeyRule_Answer3:
                 temp_user.answer3 = temp_data;
+                *user = temp_user;
                 return LCQResultKeyRule_OK;
                 
             case LCQKeyRule_Numb:       //暂时用“会员”来装按键数值，长度回去再判断
                 temp_user.member = temp_data;
+                *user = temp_user;
                 return LCQResultKeyRule_OK;
         
             case LCQKeyRule_TestCode:
                 return LCQResultKeyRule_OK;
                 
             case LCQKeyRule_Admin:
+                return LCQResultKeyRule_OK;
+ 
+            case LCQKeyRule_YesOrNo:       //暂时用“会员”来装按键数值，回去再判断
+                temp_user.member = temp_data;
+                *user = temp_user;
+                return LCQResultKeyRule_OK;
+    
+            case LCQKeyRule_Yes:
+                return LCQResultKeyRule_OK;
+                
+            case LCQKeyRule_No:
                 return LCQResultKeyRule_OK;
                 
             default:
@@ -240,6 +273,7 @@
 //    {
         [MyStatuP StatuChange:statu];
 //    }
+    printf("======================================\n");
 }
 
 //==========================

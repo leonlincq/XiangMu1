@@ -144,11 +144,23 @@
         return tempsta;
     }
     
-    if ([fileop executeUpdate:@"DELETE FROM UserDatas WHERE name = ?",name] == NO )
+    if (name == nil)
     {
-        [fileop close];
-        tempsta = FILEDeleError;
-        return tempsta;
+        if ([fileop executeUpdate:@"DELETE FROM UserDatas"] == NO )
+        {
+            [fileop close];
+            tempsta = FILEDeleError;
+            return tempsta;
+        }
+    }
+    else
+    {
+        if ([fileop executeUpdate:@"DELETE FROM UserDatas WHERE name = ?",name] == NO )
+        {
+            [fileop close];
+            tempsta = FILEDeleError;
+            return tempsta;
+        }
     }
     
     [fileop close];

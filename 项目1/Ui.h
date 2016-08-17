@@ -36,7 +36,11 @@ enum
     
     LCQKeyRule_Numb     = 0x0B,
     LCQKeyRule_TestCode = 0x0C,
-    LCQKeyRule_Admin    = 0x0D
+    LCQKeyRule_Admin    = 0x0D,
+    
+    LCQKeyRule_YesOrNo  = 0x0E,
+    LCQKeyRule_Yes      = 0x0F,
+    LCQKeyRule_No       = 0x10
 };
 
 

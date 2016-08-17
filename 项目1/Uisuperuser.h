@@ -10,11 +10,12 @@
 
 @interface Uisuperuser : Ui
 
-#define ReturuSperUserTime  1
+#define ReturuSperUserTime  RETURNTIME
 
 @property (nonatomic,assign) NSInteger countByTimer;
 @property (nonatomic,retain) NSTimer *myTick;
 
+//===========================================
 typedef NSUInteger uisuper_Seek;
 enum
 {
@@ -23,15 +24,53 @@ enum
     uisuper_Seek_chooseone  = 0x02,
 };
 
-
+//===========================================
 typedef NSUInteger uisuper_Updata;
 enum
 {
     uisuper_Updata_name     = 0x00,
     uisuper_Updata_realname = 0x01,
+    uisuper_Updata_password = 0x02,
+};
+//===========================================
+typedef NSUInteger uisuper_Delete;
+enum
+{
+    uisuper_Delete_name     = 0x00,
+    uisuper_Delete_all      = 0x01,
+    uisuper_Delete_one      = 0x02,
+    uisuper_Delete_password = 0x03,
+    uisuper_Delete_sureorno = 0x04,
+    uisuper_Delete_yes      = 0x05,
+    uisuper_Delete_no       = 0x06
 };
 
+typedef NSUInteger uisuper_Delete_choose;
+enum
+{
+    uisuper_Delete_choosenil = 0x00,
+    uisuper_Delete_chooseall = 0x01,
+    uisuper_Delete_chooseone = 0x02,
+};
+//===========================================
+typedef NSUInteger uisuper_CleanProPassword;
+enum
+{
+    uisuper_CleanProPassword_name     = 0x00,
+    uisuper_CleanProPassword_all      = 0x01,
+    uisuper_CleanProPassword_one      = 0x02,
+    uisuper_CleanProPassword_password = 0x03,
+    uisuper_CleanProPassword_sureorno = 0x04,
+    uisuper_CleanProPassword_yes      = 0x05,
+    uisuper_CleanProPassword_no       = 0x06
+    
+};
+//===========================================
 
+
+
+/** 初始化定时器 */
+-(instancetype)initWithTimer;
 /** 超级用户接口 */
 -(void)uiSuperUserInterface;
 /** 超级用户界面 */

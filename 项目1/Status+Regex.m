@@ -106,11 +106,51 @@
 }
 
 //===========================================
+//          判断是否3个逗号
+//===========================================
+-(BOOL)isValidateComma:(NSString *)data
+{
+    NSString *dataRegex = @"\\,{3}";
+    NSPredicate *dataTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", dataRegex];
+    return [dataTest evaluateWithObject:data];
+}
+
+//===========================================
 //          判断是否admin
 //===========================================
--(BOOL)isValidateadmin:(NSString *)data
+-(BOOL)isValidateAdmin:(NSString *)data
 {
     NSString *dataRegex = @"admin";
+    NSPredicate *dataTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", dataRegex];
+    return [dataTest evaluateWithObject:data];
+}
+
+//===========================================
+//          判断是否Yes或No
+//===========================================
+-(BOOL)isValidateYesOrNo:(NSString *)data
+{
+    NSString *dataRegex = @"[Yy][Ee][Ss]|[Nn][Oo]";
+    NSPredicate *dataTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", dataRegex];
+    return [dataTest evaluateWithObject:data];
+}
+
+//===========================================
+//          判断是否Yes
+//===========================================
+-(BOOL)isValidateYes:(NSString *)data
+{
+    NSString *dataRegex = @"[Yy][Ee][Ss]";
+    NSPredicate *dataTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", dataRegex];
+    return [dataTest evaluateWithObject:data];
+}
+
+//===========================================
+//          判断是否No
+//===========================================
+-(BOOL)isValidateNo:(NSString *)data
+{
+    NSString *dataRegex = @"[Nn][Oo]";
     NSPredicate *dataTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", dataRegex];
     return [dataTest evaluateWithObject:data];
 }
@@ -194,17 +234,41 @@
             }
             break;
             
-        case LCQKeyChoose_onlyadmin:
-            if ([self isValidateadmin:temp_data] == NO)
+        case LCQKeyChoose_onlyAdmin:
+            if ([self isValidateAdmin:temp_data] == NO)
             {
                 return LCQKeyStatu_NO;
             }
             break;
         
+        case LCQKeyChoose_onlyYesOrNo:
+            if ([self isValidateYesOrNo:temp_data] == NO)
+            {
+                return LCQKeyStatu_NO;
+            }
+            break;
+            
+            
+        case LCQKeyChoose_onlyYes:
+            if ([self isValidateYes:temp_data] == NO)
+            {
+                return LCQKeyStatu_NO;
+            }
+            break;
+            
+        case LCQKeyChoose_onlyNo:
+            if ([self isValidateNo:temp_data] == NO)
+            {
+                return LCQKeyStatu_NO;
+            }
+            break;
+            
+            
         case LCQKeyChoose_allKeyValue:
         default:
             break;
     }
+
     *data = temp_data;
     
     return LCQKeyStatu_YES;

@@ -16,6 +16,8 @@
 
 #define CHOOSE_UI   0xF0    //选择功能模块
 
+#define RETURNTIME  2
+
 
 #define ERROR0x00_NO_NUM                        "❌请重新输入（错误代码0x00：含有非法字符）❌\n"
 #define ERROR0x01_ILLEGAL_NUM                   "❌请重新输入（错误代码0x01：输入的数字不在指定范围）❌\n"
@@ -26,6 +28,7 @@
 #define ERROR0x06_ILLEGAL_TEST                  "❌请重新输入（错误代码0x06：验证码错误）❌\n"
 #define ERROR0x07_ILLEGAL_PRO_PASSWORD          "❌请重新输入（错误代码0x07：密保错误,请选择其他方式）❌\n"
 #define ERROR0x08_ILLEGAL_ADMIN                 "❌请重新输入（错误代码0x08：输入错误）❌\n"
+#define ERROR0x09_ILLEGAL_PASSWORD              "❌请重新输入（错误代码0x08：密码错误）❌\n"
 
 #define ERROR0xFE_FILE_OPNE_ERROR               "❌错误（错误代码0xFE：打不开文档）❌\n"
 #define ERROR0xFF_NO_ERROR                      "❌错误（错误代码0xFF：没有错误😂）❌\n"

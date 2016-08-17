@@ -10,6 +10,13 @@
 
 @interface Uicommonuser : Ui
 
+#define ReturuCommonUserTime  RETURNTIME
+
+@property (nonatomic,assign) NSInteger countByTimer;
+@property (nonatomic,retain) NSTimer *myTick;
+
+/** 初始化定时器 */
+-(instancetype)initWithTimer;
 /** 普通用户接口 */
 -(void)uiCommonUserInterface;
 /** 普通管理界面 */

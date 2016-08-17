@@ -10,7 +10,7 @@
 
 @interface Uimain : Ui
 
-#define ReturnMainTime  1
+#define ReturnMainTime  RETURNTIME
 
 @property (nonatomic,assign) NSInteger countByTimer;
 @property (nonatomic,retain) NSTimer *myTick;

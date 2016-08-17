@@ -14,8 +14,8 @@ int main(int argc, const char * argv[])
     
     Ui           *MyUiP  = [[Ui alloc]init];
     Uimain       *MyUiMP = [[Uimain alloc]initWithTimer];
-    Uisuperuser  *MyUiSP = [[Uisuperuser alloc]init];
-    Uicommonuser *MyUiCP = [[Uicommonuser alloc]init];
+    Uisuperuser  *MyUiSP = [[Uisuperuser alloc]initWithTimer];
+    Uicommonuser *MyUiCP = [[Uicommonuser alloc]initWithTimer];
     
     Operateuserdatas *MySqlP = [[Operateuserdatas alloc]init];
     [MySqlP creatTable];       //创建用户信息表，先这样，以后可能要把所有的表格初始化封装起来

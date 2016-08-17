@@ -10,6 +10,62 @@
 
 @implementation Uicommonuser
 
+
+-(instancetype)initWithTimer
+{
+    self = [super init];
+    if (self)
+    {
+        _myTick = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(oneSecTick:) userInfo:nil repeats:YES];
+        [_myTick setFireDate:[NSDate distantFuture]];
+        _countByTimer = ReturuCommonUserTime;
+    }
+    return self;
+}
+
+//==========================
+//      定时器控制
+//==========================
+-(void)oneSecTick:(NSTimer*)temptimer
+{
+    Status *MyStatuP = [Status statusShallOneData];
+    
+    switch (MyStatuP.StaNow)
+    {
+        case ( MainInterface | M_home ):
+            printf("🕐%ld秒后进入主界面...\n",_countByTimer--);
+            break;
+            
+        case ( SuperUser | S_home ):
+            printf("🕐%ld秒后进入超级用户界面...\n",_countByTimer--);
+            break;
+            
+        case ( CommonUser | C_home ):
+            printf("🕐%ld秒后返回普通用户界面...\n",_countByTimer--);
+            break;
+            
+        default:
+            break;
+    }
+    
+    if(_countByTimer == 0)
+    {
+        [_myTick setFireDate:[NSDate distantFuture]];
+    }
+}
+
+//==========================
+//      进入等待定时器
+//==========================
+-(void)enterWaitTimer
+{
+    _countByTimer = ReturuCommonUserTime;
+    [_myTick setFireDate:[NSDate distantPast]];
+    NSDate *date = [NSDate dateWithTimeIntervalSinceNow:ReturuCommonUserTime];
+    [[NSRunLoop currentRunLoop] runUntilDate:date];
+    printf("======================================\n");
+}
+
 //==========================
 //      普通用户接口
 //==========================
@@ -74,15 +130,15 @@
     
     printf("         🌳      用户      🌳         \n");
     printf("======================================\n");
-    printf("*           🐴1.用户存款              *\n");
-    printf("*           🐑2.用户取款              *\n");
-    printf("*           🐧3.查看资金流向           *\n");
-    printf("*           🐶4.用户转账              *\n");
-    printf("*           🐘5.修改密码              *\n");
-    printf("*           🐤6.购买商品              *\n");
-    printf("*           🐔7.订单操作              *\n");
-    printf("*           🐹8.购物车                *\n");
-    printf("*           🐼9.返回登录界面           *\n");
+    printf("           🐴1.用户存款              \n");
+    printf("           🐑2.用户取款              \n");
+    printf("           🐧3.查看资金流向           \n");
+    printf("           🐶4.用户转账              \n");
+    printf("           🐘5.修改密码              \n");
+    printf("           🐤6.购买商品              \n");
+    printf("           🐔7.订单操作              \n");
+    printf("           🐹8.购物车                \n");
+    printf("           🐼9.返回登录界面           \n");
     printf("======================================\n");
     
     while (1)
@@ -146,6 +202,7 @@
     Status *MyStatuP = [Status statusShallOneData];
     printf("升级ing...\n");
     [MyStatuP StatuChange:(CommonUser | C_home)];
+    [self enterWaitTimer];
 }
 
 //==========================
