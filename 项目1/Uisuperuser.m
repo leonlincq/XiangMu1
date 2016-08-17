@@ -27,14 +27,29 @@
 //==========================
 -(void)oneSecTick:(NSTimer*)temptimer
 {
-    _countByTimer--;
-    printf("%ld秒后返回超级用户界面...\n",_countByTimer);
+    Status *MyStatuP = [Status statusShallOneData];
     
+    switch (MyStatuP.StaNow)
+    {
+        case ( MainInterface | M_home ):
+            printf("🕐%ld秒后返回主界面...\n",_countByTimer--);
+            break;
+            
+        case ( SuperUser | S_home ):
+            printf("🕐%ld秒后进入超级用户界面...\n",_countByTimer--);
+            break;
+            
+        case ( CommonUser | C_home ):
+            printf("🕐%ld秒后返回普通用户界面...\n",_countByTimer--);
+            break;
+            
+        default:
+            break;
+    }
+
     if(_countByTimer == 0)
     {
         [_myTick setFireDate:[NSDate distantFuture]];
-        Status *MyStatuP = [Status statusShallOneData];
-        [MyStatuP StatuChange:(SuperUser | S_home)];
     }
 }
 
@@ -43,11 +58,10 @@
 //==========================
 -(void)enterWaitTimer
 {
-    Status *MyStatuP = [Status statusShallOneData];      //更改主方法状态
-    
-    [MyStatuP StatuChange:WaitTimer];
     _countByTimer = ReturuSperUserTime;
     [_myTick setFireDate:[NSDate distantPast]];
+    NSDate *date = [NSDate dateWithTimeIntervalSinceNow:ReturuSperUserTime];
+    [[NSRunLoop currentRunLoop] runUntilDate:date];
 }
 
 //==========================

@@ -28,14 +28,30 @@
 //==========================
 -(void)oneSecTick:(NSTimer*)temptimer
 {
-    _countByTimer--;
-    printf("🕐%ld秒后返回主界面...\n",_countByTimer);
+    Status *MyStatuP = [Status statusShallOneData];
     
+    switch (MyStatuP.StaNow)
+    {
+        case ( MainInterface | M_home ):
+            printf("🕐%ld秒后返回主界面...\n",_countByTimer--);
+            break;
+        
+        case ( SuperUser | S_home ):
+            printf("🕐%ld秒后进入超级用户界面...\n",_countByTimer--);
+            break;
+            
+        case ( CommonUser | C_home ):
+            printf("🕐%ld秒后返回普通用户界面...\n",_countByTimer--);
+            break;
+            
+        default:
+            break;
+    }
+
     if(_countByTimer == 0)
     {
+        printf("======================================\n");
         [_myTick setFireDate:[NSDate distantFuture]];
-        Status *MyStatuP = [Status statusShallOneData];
-        [MyStatuP StatuChange:(MainInterface | M_home)];
     }
 }
 
@@ -44,11 +60,10 @@
 //==========================
 -(void)enterWaitTimer
 {
-    Status *MyStatuP = [Status statusShallOneData];      //更改主方法状态
-    
-    [MyStatuP StatuChange:WaitTimer];
     _countByTimer = ReturnMainTime;
     [_myTick setFireDate:[NSDate distantPast]];
+    NSDate *date = [NSDate dateWithTimeIntervalSinceNow:ReturnMainTime];
+    [[NSRunLoop currentRunLoop] runUntilDate:date];
 }
 
 //==========================
@@ -115,11 +130,11 @@
             switch ( tempjudge )
             {
                 case M_superUserSign:
-                    [MyStatuP StatuChange:(SuperUser | tempjudge)];        //超级管理员界面+首页
+                    [MyStatuP StatuChange:(MainInterface | tempjudge)]; //超级管理员界面+首页
                     return;
                     
                 case M_commonUserSign:
-                    [MyStatuP StatuChange:(CommonUser | tempjudge)];       //普通用户界面+首页
+                    [MyStatuP StatuChange:(MainInterface | tempjudge)]; //普通用户界面+首页
                     return;
                     
                 case M_registerNewUser:
@@ -148,8 +163,6 @@
 -(void)uiMainSuperUserSign
 {
     Status *MyStatuP                = [Status statusShallOneData];      //更改主方法状态
-    Manageuserdatas *newuser        = [[Manageuserdatas alloc]init];    //要保存的实例
-    Operateuserdatas *newop         = [[Operateuserdatas alloc]init];   //文件操作
     uimain_SuperSign tempstatu      = uimain_SuperSign_name;            //该方法的状态
     Manageuserdatas *olduserdata    = [[Manageuserdatas alloc]init];    //找到数据并保存
     LCQResultKeyRule temp_namestatu = LCQResultKeyRule_Nil;             //按键状态
@@ -160,12 +173,36 @@
     {
         switch (tempstatu)
         {
-            case uimain_CommonSign_name:
+            case uimain_SuperSign_name:
+                printf("▶️请输入超级用户名(6-30位，只能是数字、字母、下划线)(🔙可输入'...'取消登录🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_Admin AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_OK)
+                {
+                    tempstatu = uimain_CommonSign_password;
+                    printf("=========================================\n");
+                }
+                break;
                 
+            case uimain_SuperSign_password:
+                printf("▶️请输入密码(🔙可输入'...'取消登录🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_Admin AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_OK)
+                {
+                    printf("=========================================\n");
+                    [MyStatuP StatuChange:(SuperUser | S_home)];        //超级管理员界面+首页
+                    [self enterWaitTimer];
+                    return;
+                }
                 break;
                 
             default:
                 break;
+        }
+        //这里的状态是底层UI.m检测到'...'，想切回主界面，但困在while出不去
+        if (MyStatuP.StaNow == (MainInterface | M_home))
+        {
+            [self enterWaitTimer];
+            break;
         }
     }
     
@@ -178,7 +215,6 @@
 {
     Status *MyStatuP                = [Status statusShallOneData];      //更改主方法状态
     Manageuserdatas *newuser        = [[Manageuserdatas alloc]init];    //要保存的实例
-    Operateuserdatas *newop         = [[Operateuserdatas alloc]init];   //文件操作
     uimain_CommonSign tempstatu     = uimain_CommonSign_name;           //该方法的状态
     Manageuserdatas *olduserdata    = [[Manageuserdatas alloc]init];    //找到数据并保存
     LCQResultKeyRule temp_namestatu = LCQResultKeyRule_Nil;             //按键状态
@@ -190,11 +226,43 @@
         switch (tempstatu)
         {
             case uimain_CommonSign_name:
+                printf("▶️请输入用户名(6-30位，只能是数字、字母、下划线)(🔙可输入'...'取消注册🔙)：\n");                
+                temp_namestatu = [super seekRule:LCQKeyRule_Name AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_NoFound)
+                {
+                    printf("%s",ERROR0x05_NO_FOUND_USER);
+                }
+                else if(temp_namestatu == LCQResultKeyRule_Found)
+                {
+                    newuser.password = olduserdata.password;
+                    tempstatu = uimain_SuperSign_password;
+                    printf("=========================================\n");
+                }
+                break;
                 
+            case uimain_SuperSign_password:
+                printf("▶️请输入密码(🔙可输入'...'取消登录🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_PassWord AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_OK)
+                {
+                    if ( newuser.password == olduserdata.password )
+                    {
+                        printf("=========================================\n");
+                        [MyStatuP StatuChange:(CommonUser | C_home)];        //超级管理员界面+首页
+                        [self enterWaitTimer];
+                        return;
+                    }
+                }
                 break;
                 
             default:
                 break;
+        }
+        //这里的状态是底层UI.m检测到'...'，想切回主界面，但困在while出不去
+        if (MyStatuP.StaNow == (MainInterface | M_home))
+        {
+            [self enterWaitTimer];
+            break;
         }
     }
 }
@@ -353,7 +421,7 @@
 }
 
 //==========================
-//      开机主界面找回密码®
+//      开机主界面找回密码
 //==========================
 -(void)uiMainFoundPassWord
 {

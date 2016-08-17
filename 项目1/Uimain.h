@@ -10,7 +10,7 @@
 
 @interface Uimain : Ui
 
-#define ReturnMainTime  3
+#define ReturnMainTime  1
 
 @property (nonatomic,assign) NSInteger countByTimer;
 @property (nonatomic,retain) NSTimer *myTick;
@@ -19,15 +19,15 @@
 typedef NSUInteger uimain_SuperSign;
 enum
 {
-    uimain_SuperSign_name = 0x00,
-    
+    uimain_SuperSign_name       = 0x00,
+    uimain_SuperSign_password   = 0x01,
 };
 
 typedef NSUInteger uimain_CommonSign;
 enum
 {
-    uimain_CommonSign_name = 0x00,
-    
+    uimain_CommonSign_name      = 0x00,
+    uimain_CommonSign_password  = 0x01,
 };
 
 typedef NSUInteger uimain_Reg;

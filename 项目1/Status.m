@@ -57,7 +57,7 @@ static Status *Mystatus = nil;
 //==========================
 -(void)lookStatu
 {
-    NSLog(@"错误码 = 0x%lx",(Mystatus.StaBefore<<8) | (Mystatus.StaNow));
+    NSLog(@"错误码 = 0x%lx%lx",Mystatus.StaBefore,Mystatus.StaNow);
 }
 
 

@@ -23,8 +23,10 @@
 #define ERROR0x03_ILLEGAL_LENGTH                "❌请重新输入（错误代码0x03：输入的长度不符合规范，只能在6-30位）❌\n"
 #define ERROR0x04_REPE_NAME                     "❌请重新输入（错误代码0x04：用户名重复）❌\n"
 #define ERROR0x05_NO_FOUND_USER                 "❌请重新输入（错误代码0x05：没有查到该人）❌\n"
-#define ERROR0x06_ILLEGAL_ADMIN                 "❌请重新输入（错误代码0x06：验证码错误）❌\n"
+#define ERROR0x06_ILLEGAL_TEST                  "❌请重新输入（错误代码0x06：验证码错误）❌\n"
 #define ERROR0x07_ILLEGAL_PRO_PASSWORD          "❌请重新输入（错误代码0x07：密保错误,请选择其他方式）❌\n"
+#define ERROR0x08_ILLEGAL_ADMIN                 "❌请重新输入（错误代码0x08：输入错误）❌\n"
+
 #define ERROR0xFE_FILE_OPNE_ERROR               "❌错误（错误代码0xFE：打不开文档）❌\n"
 #define ERROR0xFF_NO_ERROR                      "❌错误（错误代码0xFF：没有错误😂）❌\n"
 
@@ -79,10 +81,6 @@ enum
     C_returnWelcome   = 0x09      //返回欢迎界面
 };
 
-enum
-{
-    WaitTimer        = 0xF0,
-};
 
 
 
@@ -93,7 +91,6 @@ enum
 -(instancetype)initStatu;
 /** 状态更改 */
 -(void)StatuChange:(LCQSTATUS)newstatus;
-
 /** 状态码查看 */
 -(void)lookStatu;
 

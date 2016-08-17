@@ -10,7 +10,7 @@
 
 @interface Uisuperuser : Ui
 
-#define ReturuSperUserTime  3
+#define ReturuSperUserTime  1
 
 @property (nonatomic,assign) NSInteger countByTimer;
 @property (nonatomic,retain) NSTimer *myTick;

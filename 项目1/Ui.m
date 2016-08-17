@@ -16,7 +16,7 @@
 -(LCQResultKeyRule)seekRule:(LCQKeyRule)rule AndJudgeSaveUser:(Manageuserdatas**)user
 {
     Status *MyStatuP                = [Status statusShallOneData];
-    Manageuserdatas *temp_user      = [[Manageuserdatas alloc]init];
+    Manageuserdatas *temp_user      = *user;
     Operateuserdatas *temp_op       = [[Operateuserdatas alloc]init];
     NSString *temp_data             = [[NSString alloc]init];
     NSMutableArray *temp_alluser    = [[NSMutableArray alloc]init];
@@ -69,13 +69,15 @@
             temp_keystatu = [super inputDataAndSaveIn:&temp_data andJudge:LCQKeyChoose_onlyadmin];
             break;
             
+        case LCQKeyRule_Admin:
+            temp_keystatu = [super inputDataAndSaveIn:&temp_data andJudge:LCQKeyChoose_onlyadmin];
+            break;
             
             
         default:
             break;
     }
 
-    
     //3个点返回一定要先判断，优先级
     if(temp_keystatu == LCQKeyStatu_POINT)      //是3个点
     {
@@ -87,7 +89,11 @@
     {
         if (rule == LCQKeyRule_TestCode)
         {
-            printf("%s",ERROR0x06_ILLEGAL_ADMIN);
+            printf("%s",ERROR0x06_ILLEGAL_TEST);
+        }
+        else if (rule == LCQKeyRule_Admin)
+        {
+            printf("%s",ERROR0x08_ILLEGAL_ADMIN);            
         }
         else
         {
@@ -111,13 +117,11 @@
                         if(temp_alluser.count != 0)
                         {
                             temp_user = [temp_alluser copy];
-                            *user = temp_user;
                             return LCQResultKeyRule_Found;
                         }
                         else
-                            
                         {
-                            (*user).name = temp_data;
+                            temp_user.name = temp_data;
                             return LCQResultKeyRule_NoFound;
                         }
                     }
@@ -137,7 +141,7 @@
             case LCQKeyRule_PassWord:
                 if ( temp_data.length >=PASSWORDMIN && temp_data.length <=PASSWORDMAX )        //对密码再进行限制
                 {
-                    (*user).password = temp_data;
+                    temp_user.password = temp_data;
                     return LCQResultKeyRule_OK;
                 }
                 else
@@ -150,7 +154,7 @@
             case LCQKeyRule_RealName:
                 if ( temp_data.length >=NAMEMIN && temp_data.length <=NAMEMAX )        //对真名再进行限制
                 {
-                    (*user).realname = temp_data;
+                    temp_user.realname = temp_data;
                     return LCQResultKeyRule_OK;
                 }
                 else
@@ -161,30 +165,33 @@
                 break;
                 
             case LCQKeyRule_Email:
-                (*user).email = temp_data;
+                temp_user.email = temp_data;
                 return LCQResultKeyRule_OK;
                 
             case LCQKeyRule_Phonenum:
-                (*user).phonenum = temp_data;
+                temp_user.phonenum = temp_data;
                 return LCQResultKeyRule_OK;
                 
             case LCQKeyRule_Answer1:
-                (*user).answer1 = temp_data;
+                temp_user.answer1 = temp_data;
                 return LCQResultKeyRule_OK;
                 
             case LCQKeyRule_Answer2:
-                (*user).answer2 = temp_data;
+                temp_user.answer2 = temp_data;
                 return LCQResultKeyRule_OK;
                 
             case LCQKeyRule_Answer3:
-                (*user).answer3 = temp_data;
+                temp_user.answer3 = temp_data;
                 return LCQResultKeyRule_OK;
                 
             case LCQKeyRule_Numb:       //暂时用“会员”来装按键数值，长度回去再判断
-                (*user).member = temp_data;
+                temp_user.member = temp_data;
                 return LCQResultKeyRule_OK;
         
             case LCQKeyRule_TestCode:
+                return LCQResultKeyRule_OK;
+                
+            case LCQKeyRule_Admin:
                 return LCQResultKeyRule_OK;
                 
             default:
