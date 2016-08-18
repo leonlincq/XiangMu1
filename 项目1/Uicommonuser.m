@@ -138,7 +138,7 @@
     printf("           🐤6.购买商品              \n");
     printf("           🐔7.订单操作              \n");
     printf("           🐹8.购物车                \n");
-    printf("           🐼9.返回登录界面           \n");
+    printf("✅         🐼9.返回登录界面           \n");
     printf("======================================\n");
     
     while (1)
@@ -184,6 +184,7 @@
                     
                 case C_returnWelcome:
                     [MyStatuP StatuChange:(MainInterface | M_home)];    //返回主界面（登录界面）
+                    [self enterWaitTimer];
                     return;
 
                 default:

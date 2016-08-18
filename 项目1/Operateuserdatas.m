@@ -203,6 +203,50 @@
             }
             break;
             
+        case LCQChooseUpdata_answer:
+            if (userdate == nil)
+            {
+                if ([fileop executeUpdate:@"UPDATE UserDatas SET answer1 = null"] == NO )
+                {
+                    [fileop close];
+                    tempsta = FILEUpDataError;
+                    return tempsta;
+                }
+                if ([fileop executeUpdate:@"UPDATE UserDatas SET answer2 = null"] == NO )
+                {
+                    [fileop close];
+                    tempsta = FILEUpDataError;
+                    return tempsta;
+                }
+                if ([fileop executeUpdate:@"UPDATE UserDatas SET answer3 = null"] == NO )
+                {
+                    [fileop close];
+                    tempsta = FILEUpDataError;
+                    return tempsta;
+                }
+            }
+            else
+            {
+                if ([fileop executeUpdate:@"UPDATE UserDatas SET answer1 = null where name = ?",userdate.name] == NO )
+                {
+                    [fileop close];
+                    tempsta = FILEUpDataError;
+                    return tempsta;
+                }
+                if ([fileop executeUpdate:@"UPDATE UserDatas SET answer2 = null where name = ?",userdate.name] == NO )
+                {
+                    [fileop close];
+                    tempsta = FILEUpDataError;
+                    return tempsta;
+                }
+                if ([fileop executeUpdate:@"UPDATE UserDatas SET answer3 = null where name = ?",userdate.name] == NO )
+                {
+                    [fileop close];
+                    tempsta = FILEUpDataError;
+                    return tempsta;
+                }
+            }
+            break;
             
         default:
             break;

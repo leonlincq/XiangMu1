@@ -145,11 +145,11 @@
     printf("             🐶4.用户资金操作           \n");
     printf("             🐘5.商品操作               \n");
     printf("             🐤6.订单操作               \n");
-    printf("             🐔7.添加用户               \n");
-    printf("             🐹8.密保库清0              \n");
+    printf("✅           🐔7.添加用户               \n");
+    printf("✅           🐹8.密保库清0              \n");
     printf("             🐼9.历史资金清除           \n");
-    printf("             🐬10.查看用户密保          \n");
-    printf("             🐠11.返回登录界面          \n");
+    printf("✅           🐬10.查看用户密保          \n");
+    printf("✅           🐠11.返回登录界面          \n");
     printf("======================================\n");
     
     while (1)
@@ -203,6 +203,7 @@
                     
                 case S_returnMain:
                     [MyStatuP StatuChange:(MainInterface | M_home)];     //返回主界面（登录界面）
+                    [self enterWaitTimer];
                     return;
                         
                 default:
@@ -462,7 +463,9 @@
                 {
                     if ( [newop deletUser:newuser.name] == FILEYES )
                     {
-                        printf("✅删除成功\n");
+                        printf("✅删除");
+                        [newuser printfName];
+                        printf("成功\n");
                         [MyStatuP StatuChange:(SuperUser | S_home)];
                         [self enterWaitTimer];
                         return;
@@ -472,13 +475,12 @@
                 {
                     if ( [newop deletUser:nil] == FILEYES )
                     {
-                        printf("✅删除成功\n");
+                        printf("✅删除所有用户成功\n");
                         [MyStatuP StatuChange:(SuperUser | S_home)];
                         [self enterWaitTimer];
                         return;
                     }
                 }
-
                 break;
                 
             case uisuper_Delete_no:
@@ -545,9 +547,165 @@
 //==========================
 -(void)uiSuperUserAddUser
 {
-    Status *MyStatuP = [Status statusShallOneData];
+    Status *MyStatuP                = [Status statusShallOneData];      //更改主方法状态
+    Manageuserdatas *newuser        = [[Manageuserdatas alloc]init];    //要保存的实例
+    Operateuserdatas *newop         = [[Operateuserdatas alloc]init];   //文件操作
+    Manageuserdatas *olduserdata    = [[Manageuserdatas alloc]init];    //找到数据并保存
+    LCQResultKeyRule temp_namestatu = LCQResultKeyRule_Nil;             //按键状态
     
-    [self uiSuperUserUping];
+    uisuper_AddUser tempstatu            = uisuper_AddUser_name;                  //该方法的状态
+    printf("=========================================\n");
+    
+    while (1)
+    {
+        switch (tempstatu)
+        {
+            case uisuper_AddUser_name:                //输入用户
+                printf("▶️请输入用户名(6-30位，只能是数字、字母、下划线)(🔙可输入'...'取消添加🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_Name AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_Found)
+                {
+                    printf("%s",ERROR0x04_REPE_NAME);
+                }
+                else if(temp_namestatu == LCQResultKeyRule_NoFound)
+                {
+                    newuser.name = olduserdata.name;
+                    tempstatu = uisuper_AddUser_password;
+                    printf("=========================================\n");
+                }
+                break;
+                
+            case uisuper_AddUser_password:                //输入密码
+                printf("▶️请输入密码(6-30位)(🔙可输入'...'取消添加🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_PassWord AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_OK)
+                {
+                    newuser.password = olduserdata.password;
+                    tempstatu = uisuper_AddUser_realname;
+                    printf("=========================================\n");
+                }
+                break;
+                
+            case uisuper_AddUser_realname:                //输入真名
+                printf("▶️请输入真名(6-30位英文字母)(🔙可输入'...'取消添加🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_RealName AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_OK)
+                {
+                    newuser.realname = olduserdata.realname;
+                    tempstatu = uisuper_AddUser_email;
+                    printf("=========================================\n");
+                }
+                break;
+                
+            case uisuper_AddUser_email:                //输入邮箱
+                printf("▶️请输入邮箱地址(🔙可输入'...'取消添加🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_Email AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_OK)
+                {
+                    newuser.email = olduserdata.email;
+                    tempstatu = uisuper_AddUser_phonenum;
+                    printf("=========================================\n");
+                }
+                break;
+                
+            case uisuper_AddUser_phonenum:                //输入电话
+                printf("▶️请输入电话号码(只能是13开头)或座机号码(座机可不加区号，加区号得用-隔开)(🔙可输入'...'取消添加🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_Phonenum AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_OK)
+                {
+                    newuser.phonenum = olduserdata.phonenum;
+                    tempstatu = uisuper_AddUser_member;
+                    printf("=========================================\n");
+                }
+                break;
+                
+            case uisuper_AddUser_member:               //输入会员
+                printf("▶️请输入会员等级(⬇️1-10⬆️)(🔙可输入'...'取消添加🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_Member AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_OK)
+                {
+                    int tempjudge = [olduserdata.member intValue];
+                    if ( tempjudge >= 1 && tempjudge <= 10 )
+                    {
+                        newuser.member = [NSString stringWithFormat:@"%@级会员",olduserdata.member];
+                        tempstatu = uisuper_AddUser_question1;
+                        printf("=========================================\n");
+                    }
+                    else
+                    {
+                        printf("%s",ERROR0x01_ILLEGAL_NUM);
+                    }
+                }
+                break;
+                
+            case uisuper_AddUser_question1:
+                newuser.question1 = @QUESTION_FRIST;
+                tempstatu = uisuper_AddUser_answer1;
+                break;
+                
+            case uisuper_AddUser_answer1:             //输入密保1答案
+                printf("▶️第一个密保问题：%s\n",QUESTION_FRIST);
+                printf("▶️请输入第一个密保答案(🔙可输入'...'取消添加🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_Answer1 AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_OK)
+                {
+                    newuser.answer1 = olduserdata.answer1;
+                    tempstatu = uisuper_AddUser_question2;
+                    printf("=========================================\n");
+                }
+                break;
+                
+            case uisuper_AddUser_question2:
+                newuser.question2 = @QUESTION_SECON;
+                tempstatu = uisuper_AddUser_answer2;
+                break;
+                
+            case uisuper_AddUser_answer2:               //输入密保2答案
+                printf("▶️第二个密保问题：%s\n",QUESTION_SECON);
+                printf("▶️请输入第二个密保答案(🔙可输入'...'取消添加🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_Answer2 AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_OK)
+                {
+                    newuser.answer2 = olduserdata.answer2;
+                    tempstatu = uisuper_AddUser_question3;
+                    printf("=========================================\n");
+                }
+                break;
+                
+            case uisuper_AddUser_question3:
+                newuser.question3 = @QUESTION_THREE;
+                tempstatu = uisuper_AddUser_answer3;
+                break;
+                
+            case uisuper_AddUser_answer3:               //输入密保3答案
+                printf("▶️第三个密保问题：%s\n",QUESTION_THREE);
+                printf("▶️请输入第三个密保答案(🔙可输入'...'取消添加🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_Answer3 AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_OK)
+                {
+                    newuser.answer3 = olduserdata.answer3;
+                    tempstatu = uisuper_AddUser_ok;
+                    printf("=========================================\n");
+                }
+                break;
+                
+            case uisuper_AddUser_ok:
+                [newop addUser:newuser];
+                printf("✅添加成功，信息如下:\n");
+                [newuser printfAllData];
+                [super uiReturnUpUi:(SuperUser | S_home)];
+                return;
+                
+            default:
+                break;
+        }
+        //这里的状态是底层UI.m检测到'...'，想切回主界面，但困在while出不去
+        if (MyStatuP.StaNow == (SuperUser | S_home))
+        {
+            [self enterWaitTimer];
+            break;
+        }
+    }
 }
 
 //==========================
@@ -562,6 +720,7 @@
     LCQResultKeyRule temp_namestatu = LCQResultKeyRule_Nil;             //按键状态
     
     uisuper_CleanProPassword tempstatu  = uisuper_CleanProPassword_name;              //该方法的状态
+    uisuper_Clean_choose cleanchoose = uisuper_Clean_choosenil;
     printf("=========================================\n");
     
     while(1)
@@ -569,36 +728,114 @@
         switch (tempstatu)
         {
             case uisuper_CleanProPassword_name:
-                
+                printf("▶️1.清空所有用户密保 2.清空单个用户密保(🔙可输入'...'取消清空🔙)：");
+                temp_namestatu = [super seekRule:LCQKeyRule_Numb AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_OK)
+                {
+                    int tempjudge = [olduserdata.member intValue];
+                    switch ( tempjudge )
+                    {
+                        case uisuper_CleanProPassword_all:
+                            tempstatu = uisuper_CleanProPassword_all;
+                            printf("=========================================\n");
+                            break;
+                        case uisuper_CleanProPassword_one:
+                            tempstatu = uisuper_CleanProPassword_one;
+                            printf("=========================================\n");
+                            break;
+                        default:
+                            break;
+                    }
+                }
                 break;
                 
             case uisuper_CleanProPassword_all:
-                
+                cleanchoose = uisuper_Clean_chooseall;
+                tempstatu = uisuper_CleanProPassword_password;
                 break;
                 
             case uisuper_CleanProPassword_one:
-                
+                printf("▶️请输入将要清空密保的用户名(🔙可输入'...'取消清空🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_Name AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_Found)
+                {
+                    newuser = [olduserdata copy];
+                    printf("✅查到的用户信息如下：\n");
+                    [newuser printfAllData];
+                    cleanchoose = uisuper_Clean_chooseone;
+                    tempstatu = uisuper_Delete_password;
+                    printf("=========================================\n");
+                }
+                else if(temp_namestatu == LCQResultKeyRule_NoFound)
+                {
+                    printf("%s",ERROR0x05_NO_FOUND_USER);
+                }
                 break;
                 
             case uisuper_CleanProPassword_password:
-                
+                printf("▶️请输入超级用户密码以获取权限清空(🔙可输入'...'取消清空🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_Admin AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_OK)
+                {
+                    tempstatu = uisuper_CleanProPassword_sureorno;
+                }
                 break;
 
                 
             case uisuper_CleanProPassword_sureorno:
-                
+                printf("▶️是否要删除:(输入'YES'或'N0')(🔙可输入'...'取消清空🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_YesOrNo AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_OK)
+                {
+                    if ([olduserdata.member characterAtIndex:0] == 'Y' || [olduserdata.member characterAtIndex:0] == 'y')
+                    {
+                        tempstatu = uisuper_CleanProPassword_yes;
+                    }
+                    else
+                    {
+                        tempstatu = uisuper_CleanProPassword_no;
+                    }
+                    printf("=========================================\n");
+                }
                 break;
                 
             case uisuper_CleanProPassword_yes:
-                
+                if (cleanchoose == uisuper_Clean_chooseone)
+                {
+                    if ( [newop upUserData:newuser withWho:LCQChooseUpdata_answer] == FILEYES )
+                    {
+                        printf("✅清空");
+                        [newuser printfName];
+                        printf("密保成功\n");
+                        [MyStatuP StatuChange:(SuperUser | S_home)];
+                        [self enterWaitTimer];
+                        return;
+                    }
+                }
+                else if (cleanchoose == uisuper_Clean_chooseall)
+                {
+                    if ( [newop upUserData:nil withWho:LCQChooseUpdata_answer] == FILEYES )
+                    {
+                        printf("✅清空所有用户密保成功\n");
+                        [MyStatuP StatuChange:(SuperUser | S_home)];
+                        [self enterWaitTimer];
+                        return;
+                    }
+                }
                 break;
                 
             case uisuper_CleanProPassword_no:
-                
+                tempstatu = uisuper_CleanProPassword_name;
                 break;
                 
             default:
                 break;
+        }
+        //这里的状态是底层UI.m检测到'...'，想切回主界面，但困在while出不去
+        if (MyStatuP.StaNow == (SuperUser | S_home))
+        {
+            [self enterWaitTimer];
+            break;
         }
     }
 }
@@ -618,9 +855,80 @@
 //==========================
 -(void)uiSuperUserSeekProPassWord
 {
-    Status *MyStatuP = [Status statusShallOneData];
+    Status *MyStatuP                = [Status statusShallOneData];      //更改主方法状态
+    Manageuserdatas *newuser        = [[Manageuserdatas alloc]init];    //要保存的实例
+    Operateuserdatas *newop         = [[Operateuserdatas alloc]init];   //文件操作
+    Manageuserdatas *olduserdata    = [[Manageuserdatas alloc]init];    //找到数据并保存
+    NSMutableArray *tempuser        = [[NSMutableArray alloc]init];     //保存的数组
+    LCQResultKeyRule temp_namestatu = LCQResultKeyRule_Nil;             //按键状态
     
-    [self uiSuperUserUping];
+    uisuper_SeekProPassword tempstatu  = uisuper_SeekProPassword_makechoose;              //该方法的状态
+    printf("=========================================\n");
+    
+    while(1)
+    {
+        switch (tempstatu)
+        {
+            case uisuper_SeekProPassword_makechoose:
+                printf("▶️1.查看所有用户 2.查看单个用户(🔙可输入'...'取消查看🔙)：");
+                temp_namestatu = [super seekRule:LCQKeyRule_Numb AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_OK)
+                {
+                    int tempjudge = [olduserdata.member intValue];
+                    switch (tempjudge)
+                    {
+                        case uisuper_SeekProPassword_chooseall:
+                            tempstatu = uisuper_SeekProPassword_chooseall;
+                            printf("=========================================\n");
+                            break;
+                            
+                        case uisuper_SeekProPassword_chooseone:
+                            tempstatu = uisuper_SeekProPassword_chooseone;
+                            printf("=========================================\n");
+                            break;
+                        default:
+                            printf("%s",ERROR0x01_ILLEGAL_NUM);
+                            break;
+                    }
+                }
+                break;
+                
+            case uisuper_SeekProPassword_chooseall:
+                [newop selectUser:nil andSaveArray:&tempuser];
+                for (int i =0; i<tempuser.count; i++)
+                {
+                    newuser = [tempuser[i] copy];
+                    [newuser printfAllAnswer];
+                }
+                [self uiReturnUpUi:(SuperUser | S_home)];
+                break;
+                
+            case uisuper_SeekProPassword_chooseone:
+                printf("▶️请输入要查看的用户名(🔙可输入'...'取消查看🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_Name AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_Found)
+                {
+                    newuser = [olduserdata copy];
+                    [newuser printfAllAnswer];
+                    [self uiReturnUpUi:(SuperUser | S_home)];
+                    return;
+                }
+                else if(temp_namestatu == LCQResultKeyRule_NoFound)
+                {
+                    printf("%s",ERROR0x05_NO_FOUND_USER);
+                }
+                break;
+                
+            default:
+                break;
+        }
+        //这里的状态是底层UI.m检测到'...'，想切回主界面，但困在while出不去
+        if (MyStatuP.StaNow == (SuperUser | S_home))
+        {
+            [self enterWaitTimer];
+            break;
+        }
+    }
 }
 
 @end

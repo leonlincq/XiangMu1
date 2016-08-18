@@ -11,7 +11,7 @@
 @implementation Ui
 
 //==========================
-//      判断输入的用户名
+//      判断输入的字符键值是否符合规定
 //==========================
 -(LCQResultKeyRule)seekRule:(LCQKeyRule)rule AndJudgeSaveUser:(Manageuserdatas**)user
 {
@@ -47,6 +47,10 @@
 
         case LCQKeyRule_Phonenum:
             temp_keystatu = [super inputDataAndSaveIn:&temp_data andJudge:LCQKeyChoose_onlyPhoneNumb];
+            break;
+            
+        case LCQKeyRule_Member:
+            temp_keystatu = [super inputDataAndSaveIn:&temp_data andJudge:LCQKeyChoose_onlyNumb];
             break;
         
         case LCQKeyRule_Answer1:
@@ -189,6 +193,12 @@
                 temp_user.phonenum = temp_data;
                 *user = temp_user;
                 return LCQResultKeyRule_OK;
+                
+            case LCQKeyRule_Member:
+                temp_user.member = temp_data;
+                *user = temp_user;
+                return LCQResultKeyRule_OK;
+                
                 
             case LCQKeyRule_Answer1:
                 temp_user.answer1 = temp_data;

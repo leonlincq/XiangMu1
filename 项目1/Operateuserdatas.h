@@ -25,8 +25,9 @@ typedef NSUInteger FILESTATUS;
 typedef NSUInteger  LCQChooseUpdata;
 enum
 {
-    LCQChooseUpdata_realname = 0x00,
-    LCQChooseUpdata_password = 0x01
+    LCQChooseUpdata_realname    = 0x00,
+    LCQChooseUpdata_password    = 0x01,
+    LCQChooseUpdata_answer      = 0x02
 };
 
 /** 创建表格 */

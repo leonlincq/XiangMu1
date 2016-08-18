@@ -230,6 +230,25 @@
     printf("\n");
 }
 
+-(void)printfAllAnswer
+{
+    printf("0️⃣");
+    [self printfName];
+    printf(" ,");
+    
+    printf("1️⃣");
+    [self printfAnswer1];
+    printf(" ,");
+
+    printf("2️⃣");
+    [self printfAnswer2];
+    printf(" ,");
+
+    printf("3️⃣");
+    [self printfAnswer3];
+    printf("\n");
+}
+
 - (id)copyWithZone:(nullable NSZone *)zone
 {
     Manageuserdatas *newuser = [[Manageuserdatas alloc]init];

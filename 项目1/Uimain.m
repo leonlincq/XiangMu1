@@ -147,6 +147,7 @@
                     
                 case M_returnWelcome:
                     [MyStatuP StatuChange:(MainInterface | M_home)];    //返回主界面
+                    [self enterWaitTimer];
                     return;
                     
                 default:

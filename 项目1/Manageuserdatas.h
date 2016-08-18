@@ -51,6 +51,7 @@
 -(void)printfAnswer2;
 -(void)printfQuestion3;
 -(void)printfAnswer3;
+-(void)printfAllAnswer;
 -(void)printfAllData;
 
 

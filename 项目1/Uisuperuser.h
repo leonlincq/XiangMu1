@@ -65,10 +65,42 @@ enum
     uisuper_CleanProPassword_no       = 0x06
     
 };
+
+typedef NSUInteger uisuper_Clean_choose;
+enum
+{
+    uisuper_Clean_choosenil = 0x00,
+    uisuper_Clean_chooseall = 0x01,
+    uisuper_Clean_chooseone = 0x02,
+};
 //===========================================
-
-
-
+typedef NSUInteger uisuper_SeekProPassword;
+enum
+{
+    uisuper_SeekProPassword_makechoose = 0x00,
+    uisuper_SeekProPassword_chooseall  = 0x01,
+    uisuper_SeekProPassword_chooseone  = 0x02,
+};
+//===========================================
+typedef NSUInteger uisuper_AddUser;
+enum
+{
+    uisuper_AddUser_name        = 0x00,
+    uisuper_AddUser_password    = 0x01,
+    uisuper_AddUser_realname    = 0x02,
+    uisuper_AddUser_email       = 0x03,
+    uisuper_AddUser_phonenum    = 0x04,
+    uisuper_AddUser_member      = 0x05,
+    uisuper_AddUser_question1   = 0x06,
+    uisuper_AddUser_answer1     = 0x07,
+    uisuper_AddUser_question2   = 0x08,
+    uisuper_AddUser_answer2     = 0x09,
+    uisuper_AddUser_question3   = 0x0A,
+    uisuper_AddUser_answer3     = 0x0B,
+    uisuper_AddUser_returnmain  = 0x0C,
+    uisuper_AddUser_ok          = 0x0D
+};
+//===========================================
 /** 初始化定时器 */
 -(instancetype)initWithTimer;
 /** 超级用户接口 */
