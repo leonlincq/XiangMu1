@@ -216,6 +216,7 @@
 {
     Status *MyStatuP                = [Status statusShallOneData];      //更改主方法状态
     Manageuserdatas *newuser        = [[Manageuserdatas alloc]init];    //要保存的实例
+    Operateuserdatas *newop         = [[Operateuserdatas alloc]init];   //文件操作
     Manageuserdatas *olduserdata    = [[Manageuserdatas alloc]init];    //找到数据并保存
     LCQResultKeyRule temp_namestatu = LCQResultKeyRule_Nil;             //按键状态
     
@@ -235,7 +236,7 @@
                 }
                 else if(temp_namestatu == LCQResultKeyRule_Found)
                 {
-                    newuser.password = olduserdata.password;
+                    newuser = [olduserdata copy];
                     tempstatu = uimain_SuperSign_password;
                     printf("=========================================\n");
                 }
@@ -249,7 +250,8 @@
                     if ( newuser.password == olduserdata.password )
                     {
                         printf("=========================================\n");
-                        [MyStatuP StatuChange:(CommonUser | C_home)];        //超级管理员界面+首页
+                        [newop saveCommonUserData:newuser];
+                        [MyStatuP StatuChange:(CommonUser | C_home)];        //普通用户界面+首页
                         [self enterWaitTimer];
                         return;
                     }
@@ -463,8 +465,6 @@
                 printf("         ▶️2.Email找回密码\n");
                 printf("         ▶️3.密保找回密码\n");
                 printf("▶️请选择找回密码方式序号(1-3)(🔙可输入'...'取消找回密码🔙):");
-                printf("=========================================\n");
-
                 temp_namestatu = [super seekRule:LCQKeyRule_Numb AndJudgeSaveUser:&olduserdata];
                 if (temp_namestatu == LCQResultKeyRule_OK)
                 {
@@ -495,7 +495,8 @@
             case uimain_Choose_phone:
                 if(newuser.phonenum != nil)   //是否有手机号码
                 {
-                    printf("▶️已发送验证码到手机,请输入验证码(🔙可输入'...'取消找回密码🔙)：");
+                    printf("▶️已发送验证码到手机");
+                    printf("▶️请输入验证码(🔙可输入'...'取消找回密码🔙)：");
                     temp_namestatu = [super seekRule:LCQKeyRule_TestCode AndJudgeSaveUser:&olduserdata];
                     if (temp_namestatu == LCQResultKeyRule_OK)
                     {
@@ -513,7 +514,8 @@
             case uimain_Choose_email:
                 if(newuser.email != nil)   //是否有Email
                 {
-                    printf("▶️已发送验证码到邮箱,请输入验证码(🔙可输入'...'取消找回密码🔙)：");
+                    printf("▶️已发送验证码到邮箱");
+                    printf("▶️请输入验证码(🔙可输入'...'取消找回密码🔙)：");
                     temp_namestatu = [super seekRule:LCQKeyRule_TestCode AndJudgeSaveUser:&olduserdata];
                     if (temp_namestatu == LCQResultKeyRule_OK)
                     {
@@ -529,9 +531,9 @@
                 break;
                 
             case uimain_Choose_question:
-                printf("         ▶️1.问题1:%s?\n",QUESTION_FRIST);
-                printf("         ▶️2.问题2:%s?\n",QUESTION_SECON);
-                printf("         ▶️3.问题3:%s?\n",QUESTION_THREE);
+                printf("         1️⃣.问题1:%s?\n",QUESTION_FRIST);
+                printf("         2️⃣.问题2:%s?\n",QUESTION_SECON);
+                printf("         3️⃣.问题3:%s?\n",QUESTION_THREE);
                 printf("▶️请选择密保序号(1-3)(🔙可输入'...'取消找回密码🔙):");
                 temp_namestatu = [super seekRule:LCQKeyRule_Numb AndJudgeSaveUser:&olduserdata];
                 if (temp_namestatu == LCQResultKeyRule_OK)
@@ -541,17 +543,14 @@
                     {
                         case (uimain_Choose_question1-uimain_Choose_question):
                             tempstatu = uimain_Choose_question1;
-                            printf("=========================================\n");
                             break;
                             
                         case (uimain_Choose_question2-uimain_Choose_question):
                             tempstatu = uimain_Choose_question2;
-                            printf("=========================================\n");
                             break;
                             
                         case (uimain_Choose_question3-uimain_Choose_question):
                             tempstatu = uimain_Choose_question3;
-                            printf("=========================================\n");
                             break;
                         default:
                             printf("%s",ERROR0x01_ILLEGAL_NUM);

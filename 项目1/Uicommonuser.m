@@ -95,8 +95,8 @@
             [self uiCommonUserUsertGiro];
             break;
             
-        case (CommonUser | C_upPasswordData):   //修改密码
-            [self uiCommonUserUpPasswordData];
+        case (CommonUser | C_upData):           //修改密码
+            [self uiCommonUserUpData];
             break;
             
         case (CommonUser | C_buyWares):         //购买商品
@@ -134,7 +134,7 @@
     printf("           🐑2.用户取款              \n");
     printf("           🐧3.查看资金流向           \n");
     printf("           🐶4.用户转账              \n");
-    printf("           🐘5.修改密码              \n");
+    printf("✅         🐘5.修改信息              \n");
     printf("           🐤6.购买商品              \n");
     printf("           🐔7.订单操作              \n");
     printf("           🐹8.购物车                \n");
@@ -166,7 +166,7 @@
                     [MyStatuP StatuChange:(CommonUser | tempjudge)];    //普通用户界面+用户转账
                     return;
                     
-                case C_upPasswordData:
+                case C_upData:
                     [MyStatuP StatuChange:(CommonUser | tempjudge)];    //普通用户界面+修改密码
                     return;
                     
@@ -247,13 +247,222 @@
 }
 
 //==========================
-//     修改密码
+//     修改用户信息
 //==========================
--(void)uiCommonUserUpPasswordData
+-(void)uiCommonUserUpData
 {
-    Status *MyStatuP = [Status statusShallOneData];
+//    [self uiCommonUserUping];
     
-    [self uiCommonUserUping];
+    Status *MyStatuP                = [Status statusShallOneData];      //更改主方法状态
+    Manageuserdatas *newuser        = [[Manageuserdatas alloc]init];    //要保存的实例
+    Operateuserdatas *newop         = [[Operateuserdatas alloc]init];   //文件操作
+    Manageuserdatas *olduserdata    = [[Manageuserdatas alloc]init];    //找到数据并保存
+    LCQResultKeyRule temp_namestatu = LCQResultKeyRule_Nil;             //按键状态
+    
+    uicommon_Updata tempstatu       = uicommon_Updata_choose;           //该方法的状态
+    
+    newuser = [newop readCommonUserData];
+    
+    printf("=========================================\n");
+    
+    while(1)
+    {
+        switch (tempstatu)
+        {
+            case uicommon_Updata_choose:
+                printf("         1️⃣.修改密码\n");
+                printf("         2️⃣.修改真名\n");
+                printf("         3️⃣.修改Email\n");
+                printf("         4️⃣.修改电话号码\n");
+                printf("         5️⃣.修改密保答案1\n");
+                printf("         6️⃣.修改密保答案2\n");
+                printf("         7️⃣.修改密保答案3\n");
+                printf("▶️请输入要修改的信息操作序号(1~7):(🔙可输入'...'取消修改🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_Numb AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_OK)
+                {
+                    int tempjudge = [olduserdata.member intValue];
+                    switch ( tempjudge )
+                    {
+                        case uicommon_Updata_password:
+                            tempstatu = tempjudge;
+                            break;
+                    
+                        case uicommon_Updata_realname:
+                            tempstatu = tempjudge;
+                            break;
+                            
+                        case uicommon_Updata_email:
+                            tempstatu = tempjudge;
+                            break;
+                            
+                        case uicommon_Updata_phonenum:
+                            tempstatu = tempjudge;
+                            break;
+                            
+                        case uicommon_Updata_answer1:
+                            tempstatu = tempjudge;
+                            break;
+                            
+                        case uicommon_Updata_answer2:
+                            tempstatu = tempjudge;
+                            break;
+                            
+                        case uicommon_Updata_answer3:
+                            tempstatu = tempjudge;
+                            break;
+                            
+                        default:
+                            printf("%s",ERROR0x01_ILLEGAL_NUM);
+                            break;
+                    }
+                }
+                break;
+                
+            case uicommon_Updata_password:
+                printf("▶️请输入新的密码(🔙可输入'...'取消修改🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_PassWord AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_OK)
+                {
+                    newuser.password = olduserdata.password;
+                    if ([newop upUserData:newuser withWho:LCQChooseUpdata_password] == FILEYES)
+                    {
+                        printf("=========================================\n");
+                        printf("✅修改成功，新的");
+                        [newuser printfPassword];
+                        printf("\n");
+                        printf("=========================================\n");
+                        tempstatu = uicommon_Updata_choose;
+                    }
+                }
+                break;
+                
+            case uicommon_Updata_realname:
+                printf("▶️请输入新的真名(🔙可输入'...'取消修改🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_RealName AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_OK)
+                {
+                    newuser.realname = olduserdata.realname;
+                    if ([newop upUserData:newuser withWho:LCQChooseUpdata_realname] == FILEYES)
+                    {
+                        printf("=========================================\n");
+                        printf("✅修改成功，新的");
+                        [newuser printfRealName];
+                        printf("\n");
+                        printf("=========================================\n");
+                        tempstatu = uicommon_Updata_choose;
+                    }
+                }
+                break;
+                
+            case uicommon_Updata_email:
+                printf("▶️请输入新的Email(🔙可输入'...'取消修改🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_Email AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_OK)
+                {
+                    newuser.email = olduserdata.email;
+                    if ([newop upUserData:newuser withWho:LCQChooseUpdata_email] == FILEYES)
+                    {
+                        printf("=========================================\n");
+                        printf("✅修改成功，新的");
+                        [newuser printfEmail];
+                        printf("\n");
+                        printf("=========================================\n");
+                        tempstatu = uicommon_Updata_choose;
+                    }
+                }
+                break;
+                
+            case uicommon_Updata_phonenum:
+                printf("▶️请输入新的电话号码(🔙可输入'...'取消修改🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_Phonenum AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_OK)
+                {
+                    newuser.phonenum = olduserdata.phonenum;
+                    if ([newop upUserData:newuser withWho:LCQChooseUpdata_phonenum] == FILEYES)
+                    {
+                        printf("=========================================\n");
+                        printf("✅修改成功，新的");
+                        [newuser printfPhonenum];
+                        printf("\n");
+                        printf("=========================================\n");
+                        tempstatu = uicommon_Updata_choose;
+                    }
+                }
+                break;
+                
+            case uicommon_Updata_answer1:
+                printf("▶️第一个密保问题：%s\n",QUESTION_FRIST);
+                printf("▶️请输入新的第一个密保答案(🔙可输入'...'取消修改🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_Answer1 AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_OK)
+                {
+                    newuser.answer1 = olduserdata.answer1;
+                    if ([newop upUserData:newuser withWho:LCQChooseUpdata_answer1] == FILEYES)
+                    {
+                        printf("=========================================\n");
+                        printf("✅修改成功，新的");
+                        [newuser printfAnswer1];
+                        printf("\n");
+                        printf("=========================================\n");
+                        tempstatu = uicommon_Updata_choose;
+                    }
+                }
+                break;
+                
+            case uicommon_Updata_answer2:
+                printf("▶️第二个密保问题：%s\n",QUESTION_SECON);
+                printf("▶️请输入新的第二个密保答案(🔙可输入'...'取消修改🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_Answer2 AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_OK)
+                {
+                    newuser.answer2 = olduserdata.answer2;
+                    if ([newop upUserData:newuser withWho:LCQChooseUpdata_answer2] == FILEYES)
+                    {
+                        printf("=========================================\n");
+                        printf("✅修改成功，新的");
+                        [newuser printfAnswer2];
+                        printf("\n");
+                        printf("=========================================\n");
+                        tempstatu = uicommon_Updata_choose;
+                    }
+                }
+                break;
+                
+            case uicommon_Updata_answer3:
+                printf("▶️第三个密保问题：%s\n",QUESTION_THREE);
+                printf("▶️请输入新的第三个密保答案(🔙可输入'...'取消修改🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_Answer3 AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_OK)
+                {
+                    newuser.answer3 = olduserdata.answer3;
+                    if ([newop upUserData:newuser withWho:LCQChooseUpdata_answer3] == FILEYES)
+                    {
+                        printf("=========================================\n");
+                        printf("✅修改成功，新的");
+                        [newuser printfAnswer3];
+                        printf("\n");
+                        printf("=========================================\n");
+                        tempstatu = uicommon_Updata_choose;
+                    }
+                }
+                break;
+                
+            default:
+                break;
+        }
+        //这里的状态是底层UI.m检测到'...'，想切回主界面，但困在while出不去
+        if (MyStatuP.StaNow == (CommonUser | C_home))
+        {
+            [newop saveCommonUserData:newuser];         //更新plist
+            printf("=========================================\n");
+            printf("✅当前信息如下：");
+            [newuser printfAllData];
+            printf("\n");
+            [super uiReturnUpUi:(CommonUser | C_home)];
+            break;
+        }
+    }
 }
 
 //==========================

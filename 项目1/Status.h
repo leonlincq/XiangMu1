@@ -77,7 +77,7 @@ enum
     C_userDrawMoney   = 0x02,     //用户取款
     C_lookMoneyGo     = 0x03,     //查看用户资金走向
     C_usertGiro       = 0x04,     //用户转账
-    C_upPasswordData  = 0x05,     //修改密码
+    C_upData          = 0x05,     //修改密码
     C_buyWares        = 0x06,     //购买商品
     C_operaOrder      = 0x07,     //订单操作
     C_shopCar         = 0x08,     //购物车

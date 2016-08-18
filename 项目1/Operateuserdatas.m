@@ -185,15 +185,6 @@
     
     switch (who)
     {
-        case LCQChooseUpdata_realname:
-            if ([fileop executeUpdate:@"UPDATE UserDatas SET realname = ? where name = ?",userdate.realname,userdate.name] == NO )
-            {
-                [fileop close];
-                tempsta = FILEUpDataError;
-                return tempsta;
-            }
-            break;
-            
         case LCQChooseUpdata_password:
             if ([fileop executeUpdate:@"UPDATE UserDatas SET password = ? where name = ?",userdate.password,userdate.name] == NO )
             {
@@ -203,7 +194,99 @@
             }
             break;
             
-        case LCQChooseUpdata_answer:
+        case LCQChooseUpdata_realname:
+            if ([fileop executeUpdate:@"UPDATE UserDatas SET realname = ? where name = ?",userdate.realname,userdate.name] == NO )
+            {
+                [fileop close];
+                tempsta = FILEUpDataError;
+                return tempsta;
+            }
+            break;
+
+            
+        case LCQChooseUpdata_email:
+            if ([fileop executeUpdate:@"UPDATE UserDatas SET email = ? where name = ?",userdate.email,userdate.name] == NO )
+            {
+                [fileop close];
+                tempsta = FILEUpDataError;
+                return tempsta;
+            }
+            break;
+            
+        case LCQChooseUpdata_phonenum:
+            if ([fileop executeUpdate:@"UPDATE UserDatas SET phonenum = ? where name = ?",userdate.phonenum,userdate.name] == NO )
+            {
+                [fileop close];
+                tempsta = FILEUpDataError;
+                return tempsta;
+            }
+            break;
+            
+ 
+        case LCQChooseUpdata_member:
+            if ([fileop executeUpdate:@"UPDATE UserDatas SET member = ? where name = ?",userdate.member,userdate.name] == NO )
+            {
+                [fileop close];
+                tempsta = FILEUpDataError;
+                return tempsta;
+            }
+            break;
+            
+        case LCQChooseUpdata_question1:
+            if ([fileop executeUpdate:@"UPDATE UserDatas SET question1 = ? where name = ?",userdate.question1,userdate.name] == NO )
+            {
+                [fileop close];
+                tempsta = FILEUpDataError;
+                return tempsta;
+            }
+            break;
+            
+        case LCQChooseUpdata_answer1:
+            if ([fileop executeUpdate:@"UPDATE UserDatas SET answer1 = ? where name = ?",userdate.answer1,userdate.name] == NO )
+            {
+                [fileop close];
+                tempsta = FILEUpDataError;
+                return tempsta;
+            }
+            break;
+            
+        case LCQChooseUpdata_question2:
+            if ([fileop executeUpdate:@"UPDATE UserDatas SET question2 = ? where name = ?",userdate.question2,userdate.name] == NO )
+            {
+                [fileop close];
+                tempsta = FILEUpDataError;
+                return tempsta;
+            }
+            break;
+            
+        case LCQChooseUpdata_answer2:
+            if ([fileop executeUpdate:@"UPDATE UserDatas SET answer2 = ? where name = ?",userdate.answer2,userdate.name] == NO )
+            {
+                [fileop close];
+                tempsta = FILEUpDataError;
+                return tempsta;
+            }
+            break;
+            
+        case LCQChooseUpdata_question3:
+            if ([fileop executeUpdate:@"UPDATE UserDatas SET question3 = ? where name = ?",userdate.question3,userdate.name] == NO )
+            {
+                [fileop close];
+                tempsta = FILEUpDataError;
+                return tempsta;
+            }
+            break;
+            
+        case LCQChooseUpdata_answer3:
+            if ([fileop executeUpdate:@"UPDATE UserDatas SET answer3 = ? where name = ?",userdate.answer3,userdate.name] == NO )
+            {
+                [fileop close];
+                tempsta = FILEUpDataError;
+                return tempsta;
+            }
+            break;
+            
+        case LCQChooseUpdata_deleanswer:
             if (userdate == nil)
             {
                 if ([fileop executeUpdate:@"UPDATE UserDatas SET answer1 = null"] == NO )
@@ -257,6 +340,60 @@
     return tempsta;
 }
 
+-(NSString *)plistpath
+{
+    return [NSHomeDirectory() stringByAppendingPathComponent:@"common.plist"];
+}
 
+
+-(FILESTATUS)saveCommonUserData:(Manageuserdatas*)userdata
+{
+    NSMutableDictionary *userdic = [[NSMutableDictionary alloc]init];
+    
+    [userdic setValue:userdata.name forKey:@"name"];
+    [userdic setValue:userdata.password forKey:@"password"];
+    [userdic setValue:userdata.realname forKey:@"realname"];
+    [userdic setValue:userdata.email forKey:@"email"];
+    [userdic setValue:userdata.phonenum forKey:@"phonenum"];
+    [userdic setValue:userdata.member forKey:@"member"];
+    [userdic setValue:userdata.question1 forKey:@"question1"];
+    [userdic setValue:userdata.answer1 forKey:@"answer1"];
+    [userdic setValue:userdata.question2 forKey:@"question2"];
+    [userdic setValue:userdata.answer2 forKey:@"answer2"];
+    [userdic setValue:userdata.question3 forKey:@"question3"];
+    [userdic setValue:userdata.answer3 forKey:@"answer3"];
+
+    if ([userdic writeToFile:[self plistpath] atomically:YES])
+    {
+        return FILEUpPlistOk;
+    }
+    else
+    {
+        return FILEUpPlistError;
+    }
+}
+
+-(Manageuserdatas *)readCommonUserData
+{
+    NSMutableDictionary  *saveuserdata = [[NSMutableDictionary alloc]init];
+    saveuserdata = [NSMutableDictionary dictionaryWithContentsOfFile:[self plistpath]];
+    
+    Manageuserdatas *tempuser = [[Manageuserdatas alloc]init];
+    
+    tempuser.name       = [saveuserdata objectForKey:@"name"];
+    tempuser.password   = [saveuserdata objectForKey:@"password"];
+    tempuser.realname   = [saveuserdata objectForKey:@"realname"];
+    tempuser.email      = [saveuserdata objectForKey:@"email"];
+    tempuser.phonenum   = [saveuserdata objectForKey:@"phonenum"];
+    tempuser.member     = [saveuserdata objectForKey:@"member"];
+    tempuser.question1  = [saveuserdata objectForKey:@"question1"];
+    tempuser.answer1    = [saveuserdata objectForKey:@"answer1"];
+    tempuser.question2  = [saveuserdata objectForKey:@"question2"];
+    tempuser.answer2    = [saveuserdata objectForKey:@"answer2"];
+    tempuser.question3  = [saveuserdata objectForKey:@"question3"];
+    tempuser.answer3    = [saveuserdata objectForKey:@"answer3"];
+ 
+    return tempuser;
+}
 
 @end

@@ -140,7 +140,7 @@
 -(void)printfAnswer2
 {
     const char *printfdata;
-    printfdata = [self.answer1 UTF8String];
+    printfdata = [self.answer2 UTF8String];
     if (printfdata == nil)
     {
         printf("密保2答案：(没填)");
@@ -267,6 +267,43 @@
     newuser.answer3     = [_answer3 mutableCopy];
 
     return newuser;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+    [aCoder encodeObject:_name      forKey:@"name"];
+    [aCoder encodeObject:_password  forKey:@"password"];
+    [aCoder encodeObject:_realname  forKey:@"realname"];
+    [aCoder encodeObject:_email     forKey:@"email"];
+    [aCoder encodeObject:_phonenum  forKey:@"phonenum"];
+    [aCoder encodeObject:_member    forKey:@"member"];
+    [aCoder encodeObject:_question1 forKey:@"question1"];
+    [aCoder encodeObject:_answer1   forKey:@"answer1"];
+    [aCoder encodeObject:_question2 forKey:@"question2"];
+    [aCoder encodeObject:_answer2   forKey:@"answer2"];
+    [aCoder encodeObject:_question3 forKey:@"question3"];
+    [aCoder encodeObject:_answer3   forKey:@"answer3"];
+}
+
+- (nullable instancetype)initWithCoder:(NSCoder *)aDecoder;
+{
+    self = [super init];
+    if (self)
+    {
+        self.name       = [aDecoder decodeObjectForKey:@"name"];
+        self.password   = [aDecoder decodeObjectForKey:@"password"];
+        self.realname   = [aDecoder decodeObjectForKey:@"realname"];
+        self.email      = [aDecoder decodeObjectForKey:@"email"];
+        self.phonenum   = [aDecoder decodeObjectForKey:@"phonenum"];
+        self.member     = [aDecoder decodeObjectForKey:@"member"];
+        self.question1  = [aDecoder decodeObjectForKey:@"question1"];
+        self.answer1    = [aDecoder decodeObjectForKey:@"answer1"];
+        self.question2  = [aDecoder decodeObjectForKey:@"question2"];
+        self.answer2    = [aDecoder decodeObjectForKey:@"answer2"];
+        self.question3  = [aDecoder decodeObjectForKey:@"question3"];
+        self.answer3    = [aDecoder decodeObjectForKey:@"answer3"];
+    }
+    return self;
 }
 
 - (NSString *)description

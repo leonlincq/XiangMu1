@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Manageuserdatas : NSObject<NSCopying>
+@interface Manageuserdatas : NSObject<NSCopying ,NSCoding>
 
 
 #define QUESTION_FRIST "你的第一只宠物叫什么名字"

@@ -234,7 +234,9 @@
         switch (tempstatu)
         {
             case uisuper_Seek_makechoose:
-                printf("▶️1.查看所有用户 2.查看单个用户(🔙可输入'...'取消查看🔙)：");
+                printf("         1️⃣.查看所有用户");
+                printf("         2️⃣.查看单个用户");
+                printf("▶️请输入操作序号(1~2)(🔙可输入'...'取消查看🔙):");
                 temp_namestatu = [super seekRule:LCQKeyRule_Numb AndJudgeSaveUser:&olduserdata];
                 if (temp_namestatu == LCQResultKeyRule_OK)
                 {
@@ -242,12 +244,12 @@
                     switch (tempjudge)
                     {
                         case uisuper_Seek_chooseall:
-                            tempstatu = uisuper_Seek_chooseall;
+                            tempstatu = tempjudge;
                             printf("=========================================\n");
                             break;
                             
                         case uisuper_Seek_chooseone:
-                            tempstatu = uisuper_Seek_chooseone;
+                            tempstatu = tempjudge;
                             printf("=========================================\n");
                             break;
                         default:
@@ -263,6 +265,7 @@
                 {
                     newuser = [tempuser[i] copy];
                     [newuser printfAllData];
+                    printf("---------");
                 }
                 [self uiReturnUpUi:(SuperUser | S_home)];
                 return;
@@ -307,8 +310,9 @@
     LCQResultKeyRule temp_namestatu = LCQResultKeyRule_Nil;             //按键状态
    
     uisuper_Updata tempstatu        = uisuper_Updata_name;              //该方法的状态
+    
     printf("=========================================\n");
-
+    
     while(1)
     {
         switch (tempstatu)
@@ -387,7 +391,9 @@
         switch (tempstatu)
         {
             case uisuper_Delete_name:
-                printf("▶️1.删除所有用户 2.删除单个用户(🔙可输入'...'取消删除🔙)：");
+                printf("         1️⃣.删除所有用户");
+                printf("         2️⃣.删除单个用户");
+                printf("▶️请输入操作序号(1~2)(🔙可输入'...'取消查看🔙):");
                 temp_namestatu = [super seekRule:LCQKeyRule_Numb AndJudgeSaveUser:&olduserdata];
                 if (temp_namestatu == LCQResultKeyRule_OK)
                 {
@@ -395,14 +401,15 @@
                     switch ( tempjudge )
                     {
                         case uisuper_Delete_all:
-                            tempstatu = uisuper_Delete_all;
+                            tempstatu = tempjudge;
                             printf("=========================================\n");
                             break;
                         case uisuper_Delete_one:
-                            tempstatu = uisuper_Delete_one;
+                            tempstatu = tempjudge;
                             printf("=========================================\n");                    
                             break;
                         default:
+                            printf("%s",ERROR0x01_ILLEGAL_NUM);
                             break;
                     }
                 }
@@ -728,7 +735,9 @@
         switch (tempstatu)
         {
             case uisuper_CleanProPassword_name:
-                printf("▶️1.清空所有用户密保 2.清空单个用户密保(🔙可输入'...'取消清空🔙)：");
+                printf("         1️⃣.清空所有用户密保");
+                printf("         2️⃣.清空单个用户密保");
+                printf("▶️请输入操作序号(1~2)(🔙可输入'...'取消查看🔙):");
                 temp_namestatu = [super seekRule:LCQKeyRule_Numb AndJudgeSaveUser:&olduserdata];
                 if (temp_namestatu == LCQResultKeyRule_OK)
                 {
@@ -736,14 +745,15 @@
                     switch ( tempjudge )
                     {
                         case uisuper_CleanProPassword_all:
-                            tempstatu = uisuper_CleanProPassword_all;
+                            tempstatu = tempjudge;
                             printf("=========================================\n");
                             break;
                         case uisuper_CleanProPassword_one:
-                            tempstatu = uisuper_CleanProPassword_one;
+                            tempstatu = tempjudge;
                             printf("=========================================\n");
                             break;
                         default:
+                            printf("%s",ERROR0x01_ILLEGAL_NUM);
                             break;
                     }
                 }
@@ -802,7 +812,7 @@
             case uisuper_CleanProPassword_yes:
                 if (cleanchoose == uisuper_Clean_chooseone)
                 {
-                    if ( [newop upUserData:newuser withWho:LCQChooseUpdata_answer] == FILEYES )
+                    if ( [newop upUserData:newuser withWho:LCQChooseUpdata_deleanswer] == FILEYES )
                     {
                         printf("✅清空");
                         [newuser printfName];
@@ -814,7 +824,7 @@
                 }
                 else if (cleanchoose == uisuper_Clean_chooseall)
                 {
-                    if ( [newop upUserData:nil withWho:LCQChooseUpdata_answer] == FILEYES )
+                    if ( [newop upUserData:nil withWho:LCQChooseUpdata_deleanswer] == FILEYES )
                     {
                         printf("✅清空所有用户密保成功\n");
                         [MyStatuP StatuChange:(SuperUser | S_home)];
@@ -870,7 +880,9 @@
         switch (tempstatu)
         {
             case uisuper_SeekProPassword_makechoose:
-                printf("▶️1.查看所有用户 2.查看单个用户(🔙可输入'...'取消查看🔙)：");
+                printf("         1️⃣.查看所有用户");
+                printf("         2️⃣.查看单个用户");
+                printf("▶️请输入操作序号(1~2)(🔙可输入'...'取消查看🔙):");
                 temp_namestatu = [super seekRule:LCQKeyRule_Numb AndJudgeSaveUser:&olduserdata];
                 if (temp_namestatu == LCQResultKeyRule_OK)
                 {
@@ -878,12 +890,12 @@
                     switch (tempjudge)
                     {
                         case uisuper_SeekProPassword_chooseall:
-                            tempstatu = uisuper_SeekProPassword_chooseall;
+                            tempstatu = tempjudge;
                             printf("=========================================\n");
                             break;
                             
                         case uisuper_SeekProPassword_chooseone:
-                            tempstatu = uisuper_SeekProPassword_chooseone;
+                            tempstatu = tempjudge;
                             printf("=========================================\n");
                             break;
                         default:
