@@ -39,6 +39,7 @@ enum
     LCQChooseUpdata_answer2     = 0x08,
     LCQChooseUpdata_question3   = 0x09,
     LCQChooseUpdata_answer3     = 0x0A,
+    LCQChooseUpdata_money       = 0x0B,
     
     LCQChooseUpdata_deleanswer  = 0xFF,
 };

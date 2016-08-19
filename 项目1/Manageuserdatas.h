@@ -36,6 +36,7 @@
 @property (nonatomic,copy)      NSString    *answer2;   //密保答案2
 @property (nonatomic,copy)      NSString    *question3; //密保问题3
 @property (nonatomic,copy)      NSString    *answer3;   //密保答案3
+@property (nonatomic,assign)    NSInteger   money;      //金额
 
 
 
@@ -51,6 +52,7 @@
 -(void)printfAnswer2;
 -(void)printfQuestion3;
 -(void)printfAnswer3;
+-(void)printfMoney;
 -(void)printfAllAnswer;
 -(void)printfAllData;
 

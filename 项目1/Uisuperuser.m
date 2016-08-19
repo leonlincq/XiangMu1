@@ -234,8 +234,8 @@
         switch (tempstatu)
         {
             case uisuper_Seek_makechoose:
-                printf("         1️⃣.查看所有用户");
-                printf("         2️⃣.查看单个用户");
+                printf("         1️⃣.查看所有用户\n");
+                printf("         2️⃣.查看单个用户\n");
                 printf("▶️请输入操作序号(1~2)(🔙可输入'...'取消查看🔙):");
                 temp_namestatu = [super seekRule:LCQKeyRule_Numb AndJudgeSaveUser:&olduserdata];
                 if (temp_namestatu == LCQResultKeyRule_OK)
@@ -265,7 +265,7 @@
                 {
                     newuser = [tempuser[i] copy];
                     [newuser printfAllData];
-                    printf("---------");
+                    printf("---------\n");
                 }
                 [self uiReturnUpUi:(SuperUser | S_home)];
                 return;
@@ -391,8 +391,8 @@
         switch (tempstatu)
         {
             case uisuper_Delete_name:
-                printf("         1️⃣.删除所有用户");
-                printf("         2️⃣.删除单个用户");
+                printf("         1️⃣.删除所有用户\n");
+                printf("         2️⃣.删除单个用户\n");
                 printf("▶️请输入操作序号(1~2)(🔙可输入'...'取消查看🔙):");
                 temp_namestatu = [super seekRule:LCQKeyRule_Numb AndJudgeSaveUser:&olduserdata];
                 if (temp_namestatu == LCQResultKeyRule_OK)
@@ -616,7 +616,7 @@
                 break;
                 
             case uisuper_AddUser_phonenum:                //输入电话
-                printf("▶️请输入电话号码(只能是13开头)或座机号码(座机可不加区号，加区号得用-隔开)(🔙可输入'...'取消添加🔙)：\n");
+                printf("▶️请输入电话号码(只能是13开头)或座机号码(区号用-隔开，如：0123-01234567)(🔙可输入'...'取消添加🔙)：\n");
                 temp_namestatu = [super seekRule:LCQKeyRule_Phonenum AndJudgeSaveUser:&olduserdata];
                 if (temp_namestatu == LCQResultKeyRule_OK)
                 {
@@ -735,8 +735,8 @@
         switch (tempstatu)
         {
             case uisuper_CleanProPassword_name:
-                printf("         1️⃣.清空所有用户密保");
-                printf("         2️⃣.清空单个用户密保");
+                printf("         1️⃣.清空所有用户密保\n");
+                printf("         2️⃣.清空单个用户密保\n");
                 printf("▶️请输入操作序号(1~2)(🔙可输入'...'取消查看🔙):");
                 temp_namestatu = [super seekRule:LCQKeyRule_Numb AndJudgeSaveUser:&olduserdata];
                 if (temp_namestatu == LCQResultKeyRule_OK)
@@ -880,8 +880,8 @@
         switch (tempstatu)
         {
             case uisuper_SeekProPassword_makechoose:
-                printf("         1️⃣.查看所有用户");
-                printf("         2️⃣.查看单个用户");
+                printf("         1️⃣.查看所有用户\n");
+                printf("         2️⃣.查看单个用户\n");
                 printf("▶️请输入操作序号(1~2)(🔙可输入'...'取消查看🔙):");
                 temp_namestatu = [super seekRule:LCQKeyRule_Numb AndJudgeSaveUser:&olduserdata];
                 if (temp_namestatu == LCQResultKeyRule_OK)
@@ -911,6 +911,7 @@
                 {
                     newuser = [tempuser[i] copy];
                     [newuser printfAllAnswer];
+                    printf("---------\n");
                 }
                 [self uiReturnUpUi:(SuperUser | S_home)];
                 break;

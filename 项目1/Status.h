@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Operateuserdatas.h"
+#import "Operatemoney.h"
 
 @interface Status : NSObject
 

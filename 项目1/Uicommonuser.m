@@ -211,9 +211,85 @@
 //==========================
 -(void)uiCommonUserUserDeposit
 {
-    Status *MyStatuP = [Status statusShallOneData];
+    Status *MyStatuP                = [Status statusShallOneData];      //更改主方法状态
+    Manageuserdatas *newuser        = [[Manageuserdatas alloc]init];    //要保存的实例
+    Operateuserdatas *newop         = [[Operateuserdatas alloc]init];   //文件操作
+    Manageuserdatas *olduserdata    = [[Manageuserdatas alloc]init];    //找到数据并保存
+    LCQResultKeyRule temp_namestatu = LCQResultKeyRule_Nil;             //按键状态
     
-    [self uiCommonUserUping];
+    Operatemoney *newopmoneyp       = [[Operatemoney alloc]init];       //资金文件操作
+    Managemoney *opmoney            = [[Managemoney alloc]init];        //资金操作
+    
+    uicommon_Deposit tempstatu      = uicommon_Deposit_money;           //该方法的状态
+
+    newuser = [newop readCommonUserData];
+    
+    opmoney.opname          = newuser.name;     //自己的名字，Ok
+    opmoney.allmoney        = newuser.money;    //自己目前的金额，Ok
+    opmoney.opmoney         = 0;                //操作0
+    opmoney.opmoneytopeople = newuser.name;     //给自己，OK
+    
+    NSMutableArray *temp_alluser = [[NSMutableArray alloc]init];
+    
+    
+    printf("=========================================\n");
+    
+    while(1)
+    {
+        switch (tempstatu)
+        {
+            case uicommon_Deposit_money:
+                printf("▶️请输入要充值的金额(🔙可输入'...'取消存款🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_Money AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_OK)
+                {
+                    newuser.money = olduserdata.money;
+                    tempstatu = uicommon_Deposit_password;
+                }
+                break;
+            
+            case uicommon_Deposit_password:
+                printf("▶️请输入您的密码以确定存款(🔙可输入'...'取消存款🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_PassWord AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_OK)
+                {
+                    if ([newuser.password isEqualToString:olduserdata.password])
+                    {
+                        tempstatu = uicommon_Deposit_ok;
+                    }
+                    else
+                    {
+                        printf("%s",ERROR0x09_ILLEGAL_PASSWORD);
+                    }
+                }
+                break;
+            case uicommon_Deposit_ok:
+                opmoney.allmoney += newuser.money;
+                opmoney.opmoney = newuser.money;
+                [newopmoneyp addOpMoney:opmoney];           //更新资金操作表
+                
+                newuser.money = opmoney.allmoney;
+                [newop upUserData:newuser withWho:LCQChooseUpdata_money];   //更新用户信息
+        
+                [newop saveCommonUserData:newuser];         //更新plist
+                printf("✅充值操作成功，等待银行转账...\n");
+                
+                [newopmoneyp selectOpMoneyName:@"xiaoming" andSaveArray:&temp_alluser];
+                NSLog(@"%@",temp_alluser[temp_alluser.count - 1]);
+                
+                [super uiReturnUpUi:(CommonUser | C_home)];
+                return;
+                
+            default:
+                break;
+        }
+        //这里的状态是底层UI.m检测到'...'，想切回主界面，但困在while出不去
+        if (MyStatuP.StaNow == (SuperUser | S_home))
+        {
+            [self enterWaitTimer];
+            break;
+        }
+    }
 }
 
 //==========================
@@ -251,8 +327,6 @@
 //==========================
 -(void)uiCommonUserUpData
 {
-//    [self uiCommonUserUping];
-    
     Status *MyStatuP                = [Status statusShallOneData];      //更改主方法状态
     Manageuserdatas *newuser        = [[Manageuserdatas alloc]init];    //要保存的实例
     Operateuserdatas *newop         = [[Operateuserdatas alloc]init];   //文件操作
@@ -456,7 +530,7 @@
         {
             [newop saveCommonUserData:newuser];         //更新plist
             printf("=========================================\n");
-            printf("✅当前信息如下：");
+            printf("✅当前您的信息如下：");
             [newuser printfAllData];
             printf("\n");
             [super uiReturnUpUi:(CommonUser | C_home)];

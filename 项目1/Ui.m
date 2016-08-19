@@ -90,6 +90,10 @@
             break;
             
             
+        case LCQKeyRule_Money:
+            temp_keystatu = [super inputDataAndSaveIn:&temp_data andJudge:LCQKeyChoose_onlyNumb];
+            break;
+            
         default:
             break;
     }
@@ -212,6 +216,11 @@
                 
             case LCQKeyRule_Answer3:
                 temp_user.answer3 = temp_data;
+                *user = temp_user;
+                return LCQResultKeyRule_OK;
+                
+            case LCQKeyRule_Money:
+                temp_user.money = [temp_data integerValue];
                 *user = temp_user;
                 return LCQResultKeyRule_OK;
                 

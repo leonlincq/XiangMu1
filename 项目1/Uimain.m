@@ -342,7 +342,7 @@
                 break;
 
             case uimain_Reg_phonenum:                //输入电话
-                printf("▶️请输入电话号码(只能是13开头)或座机号码(座机可不加区号，加区号得用-隔开)(🔙可输入'...'取消注册🔙)：\n");
+                printf("▶️请输入电话号码(只能是13开头)或座机号码(区号用-隔开，如：0123-01234567)(🔙可输入'...'取消注册🔙)：\n");
                 temp_namestatu = [super seekRule:LCQKeyRule_Phonenum AndJudgeSaveUser:&olduserdata];
                 if (temp_namestatu == LCQResultKeyRule_OK)
                 {
@@ -403,9 +403,14 @@
                 if (temp_namestatu == LCQResultKeyRule_OK)
                 {
                     newuser.answer3 = olduserdata.answer3;
-                    tempstatu = uimain_Reg_ok;
+                    tempstatu = uimain_Reg_money;
                     printf("=========================================\n");
                 }
+                break;
+
+            case uimain_Reg_money:
+                newuser.money = 0;
+                tempstatu = uimain_Reg_ok;
                 break;
                 
             case uimain_Reg_ok:
@@ -461,9 +466,9 @@
                 break;
                 
             case uimain_Choose_method:
-                printf("         ▶️1.手机找回密码\n");
-                printf("         ▶️2.Email找回密码\n");
-                printf("         ▶️3.密保找回密码\n");
+                printf("         1️⃣.手机找回密码\n");
+                printf("         2️⃣.Email找回密码\n");
+                printf("         3️⃣.密保找回密码\n");
                 printf("▶️请选择找回密码方式序号(1-3)(🔙可输入'...'取消找回密码🔙):");
                 temp_namestatu = [super seekRule:LCQKeyRule_Numb AndJudgeSaveUser:&olduserdata];
                 if (temp_namestatu == LCQResultKeyRule_OK)
@@ -495,7 +500,7 @@
             case uimain_Choose_phone:
                 if(newuser.phonenum != nil)   //是否有手机号码
                 {
-                    printf("▶️已发送验证码到手机");
+                    printf("▶️已发送验证码到手机\n");
                     printf("▶️请输入验证码(🔙可输入'...'取消找回密码🔙)：");
                     temp_namestatu = [super seekRule:LCQKeyRule_TestCode AndJudgeSaveUser:&olduserdata];
                     if (temp_namestatu == LCQResultKeyRule_OK)
@@ -514,7 +519,7 @@
             case uimain_Choose_email:
                 if(newuser.email != nil)   //是否有Email
                 {
-                    printf("▶️已发送验证码到邮箱");
+                    printf("▶️已发送验证码到邮箱\n");
                     printf("▶️请输入验证码(🔙可输入'...'取消找回密码🔙)：");
                     temp_namestatu = [super seekRule:LCQKeyRule_TestCode AndJudgeSaveUser:&olduserdata];
                     if (temp_namestatu == LCQResultKeyRule_OK)

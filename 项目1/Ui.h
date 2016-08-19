@@ -33,6 +33,7 @@ enum
     LCQKeyRule_Answer1  = 0x08,
     LCQKeyRule_Answer2  = 0x09,
     LCQKeyRule_Answer3  = 0x0A,
+    LCQKeyRule_Money    = 0x11,
     
     LCQKeyRule_Numb     = 0x0B,
     LCQKeyRule_TestCode = 0x0C,

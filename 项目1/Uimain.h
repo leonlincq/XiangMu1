@@ -46,7 +46,9 @@ enum
     uimain_Reg_question3  = 0x0A,
     uimain_Reg_answer3    = 0x0B,
     uimain_Reg_returnmain = 0x0C,
-    uimain_Reg_ok         = 0x0D
+    uimain_Reg_ok         = 0x0D,
+    
+    uimain_Reg_money    = 0x0E,
 };
 
 typedef NSUInteger uimain_Choose;

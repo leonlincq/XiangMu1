@@ -178,7 +178,7 @@
 //===========================================
 -(BOOL)isValidatePhone:(NSString *)phone
 {
-    NSString *phoneRegex = @"\\d{4}-?\\d{8}|13[0-9]{9}";
+    NSString *phoneRegex = @"\\d{4}-\\d{8}|13[0-9]{9}";
     NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", phoneRegex];
     return [phoneTest evaluateWithObject:phone];
 }

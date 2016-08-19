@@ -179,6 +179,11 @@
     }
 }
 
+-(void)printfMoney
+{
+    printf("金额：%ld",self.money);
+}
+
 -(void)printfAllData
 {
     printf("0️⃣");
@@ -228,6 +233,10 @@
     printf("1️⃣1️⃣");
     [self printfAnswer3];
     printf("\n");
+    
+    printf("1️⃣2️⃣");
+    [self printfMoney];
+    printf("\n");
 }
 
 -(void)printfAllAnswer
@@ -237,13 +246,25 @@
     printf(" ,");
     
     printf("1️⃣");
+    [self printfQuestion1];
+    printf(" ,");
+    
+    printf("1️⃣");
     [self printfAnswer1];
     printf(" ,");
 
     printf("2️⃣");
+    [self printfQuestion2];
+    printf(" ,");
+    
+    printf("2️⃣");
     [self printfAnswer2];
     printf(" ,");
 
+    printf("3️⃣");
+    [self printfQuestion2];
+    printf(" ,");
+    
     printf("3️⃣");
     [self printfAnswer3];
     printf("\n");
@@ -265,6 +286,7 @@
     newuser.answer2     = [_answer2 mutableCopy];
     newuser.question3   = [_question3 mutableCopy];
     newuser.answer3     = [_answer3 mutableCopy];
+    newuser.money       = _money;
 
     return newuser;
 }
@@ -283,6 +305,7 @@
     [aCoder encodeObject:_answer2   forKey:@"answer2"];
     [aCoder encodeObject:_question3 forKey:@"question3"];
     [aCoder encodeObject:_answer3   forKey:@"answer3"];
+    [aCoder encodeInteger:_money    forKey:@"money"];
 }
 
 - (nullable instancetype)initWithCoder:(NSCoder *)aDecoder;
@@ -302,13 +325,14 @@
         self.answer2    = [aDecoder decodeObjectForKey:@"answer2"];
         self.question3  = [aDecoder decodeObjectForKey:@"question3"];
         self.answer3    = [aDecoder decodeObjectForKey:@"answer3"];
+        self.money      = [aDecoder decodeIntegerForKey:@"money"];
     }
     return self;
 }
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"用户名:%@ ,密码:%@ ,真名:%@ ,EMAIL:%@ ,电话号码:%@ ,会员:%@ ,密保问题1:%@ ,密保答案1:%@ ,密保问题2:%@ ,密保答案2:%@ ,密保问题3:%@ ,密保答案3:%@。",_name,_password,_realname,_email,_phonenum,_member,@QUESTION_FRIST,_answer1,@QUESTION_SECON,_answer2,@QUESTION_THREE,_answer3];
+    return [NSString stringWithFormat:@"用户名:%@ ,密码:%@ ,真名:%@ ,EMAIL:%@ ,电话号码:%@ ,会员:%@ ,密保问题1:%@ ,密保答案1:%@ ,密保问题2:%@ ,密保答案2:%@ ,密保问题3:%@ ,密保答案3:%@ ,金额:%ld 。",_name,_password,_realname,_email,_phonenum,_member,@QUESTION_FRIST,_answer1,@QUESTION_SECON,_answer2,@QUESTION_THREE,_answer3,_money];
 }
 
 

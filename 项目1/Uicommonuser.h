@@ -16,6 +16,15 @@
 @property (nonatomic,retain) NSTimer *myTick;
 
 
+typedef NSUInteger uicommon_Deposit;
+enum
+{
+    uicommon_Deposit_money      = 0x00,
+    uicommon_Deposit_password   = 0x01,
+    uicommon_Deposit_ok         = 0x02,
+
+};
+
 typedef NSUInteger uicommon_Updata;
 enum
 {

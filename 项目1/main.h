@@ -16,5 +16,6 @@
 #import "Uisuperuser.h"
 #import "Uicommonuser.h"
 #import "Operateuserdatas.h"
+#import "Operatemoney.h"
 
 #endif /* main_h */

@@ -7,7 +7,18 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Operateuserdatas.h"
+#import "Managemoney.h"
 
 @interface Operatemoney : NSObject
+
+
+
+/** 创建表格 */
+-(FILESTATUS)creatTableForOpMoney;
+/** 添加金钱操作信息 */
+-(FILESTATUS)addOpMoney:(Managemoney *)moneyop;
+/** 查看金钱操作信息 */
+-(FILESTATUS)selectOpMoneyName:(NSString*)name andSaveArray:(NSMutableArray**)array;
 
 @end

@@ -179,8 +179,8 @@
 			children = (
 				25F7DE321D5C10D600B12B4F /* Manageuserdatas.h */,
 				25F7DE331D5C10D600B12B4F /* Manageuserdatas.m */,
-				25F7DE431D5C162800B12B4F /* Managewares.h */,
-				25F7DE441D5C162800B12B4F /* Managewares.m */,
+				25F7DE351D5C112100B12B4F /* Managemoney.h */,
+				25F7DE361D5C112100B12B4F /* Managemoney.m */,
 				25F7DE491D5C192700B12B4F /* Sec */,
 			);
 			name = Sqldatas;
@@ -189,8 +189,8 @@
 		25F7DE491D5C192700B12B4F /* Sec */ = {
 			isa = PBXGroup;
 			children = (
-				25F7DE351D5C112100B12B4F /* Managemoney.h */,
-				25F7DE361D5C112100B12B4F /* Managemoney.m */,
+				25F7DE431D5C162800B12B4F /* Managewares.h */,
+				25F7DE441D5C162800B12B4F /* Managewares.m */,
 				25F7DE391D5C122700B12B4F /* Manageshopcar.h */,
 				25F7DE3A1D5C122700B12B4F /* Manageshopcar.m */,
 				25F7DE3D1D5C138500B12B4F /* Managecollect.h */,
@@ -206,8 +206,8 @@
 			children = (
 				25F7DE4C1D5C1A9D00B12B4F /* Operateuserdatas.h */,
 				25F7DE4D1D5C1A9D00B12B4F /* Operateuserdatas.m */,
-				25F7DE4F1D5C1AE300B12B4F /* Operatewares.h */,
-				25F7DE501D5C1AE300B12B4F /* Operatewares.m */,
+				25F7DE531D5C1B1300B12B4F /* Operatemoney.h */,
+				25F7DE541D5C1B1300B12B4F /* Operatemoney.m */,
 				25F7DE521D5C1AEE00B12B4F /* Sec */,
 			);
 			name = Sqloperate;
@@ -216,8 +216,8 @@
 		25F7DE521D5C1AEE00B12B4F /* Sec */ = {
 			isa = PBXGroup;
 			children = (
-				25F7DE531D5C1B1300B12B4F /* Operatemoney.h */,
-				25F7DE541D5C1B1300B12B4F /* Operatemoney.m */,
+				25F7DE4F1D5C1AE300B12B4F /* Operatewares.h */,
+				25F7DE501D5C1AE300B12B4F /* Operatewares.m */,
 				25F7DE561D5C1B3300B12B4F /* Operateshopcar.h */,
 				25F7DE571D5C1B3300B12B4F /* Operateshopcar.m */,
 				25F7DE591D5C1B4D00B12B4F /* Operatecollect.h */,
