@@ -36,6 +36,31 @@
     }
 }
 
+-(void)printfOpaction
+{
+    if (self.opaction == nil)
+    {
+        printf("操作：无");
+    }
+    else if ([self.opaction isEqualToString:Deposit])
+    {
+        printf("操作：存款");
+    }
+    else if ([self.opaction isEqualToString:DrawMoney])
+    {
+        printf("操作：取款");
+    }
+    else if ([self.opaction isEqualToString:Transfers])
+    {
+        printf("操作：转账");
+    }
+    else if ([self.opaction isEqualToString:Buy])
+    {
+        printf("操作：买");
+    }
+}
+
+
 -(void)printfOpmoney
 {
     if (self.opmoney == 0)
@@ -90,21 +115,63 @@
     printf(" ,");
     
     printf("2️⃣");
-    [self printfOpmoney];
+    [self printfOpaction];
     printf(" ,");
     
     printf("3️⃣");
-    [self printfOpmoneytopeople];
+    [self printfOpmoney];
     printf(" ,");
     
     printf("4️⃣");
-    [self printfOptime];
+    [self printfOpmoneytopeople];
     printf(" ,");
+
+    printf("5️⃣");
+    [self printfOptime];
+    printf("\n");
 }
+
+- (id)copyWithZone:(nullable NSZone *)zone
+{
+    Managemoney *newop = [[Managemoney alloc]init];
+    
+    newop.opname            = [_opname mutableCopy];
+    newop.allmoney          = _allmoney;
+    newop.opaction          = [_opaction mutableCopy];
+    newop.opmoney           = _opmoney;
+    newop.opmoneytopeople   = [_opmoneytopeople mutableCopy];
+    newop.optime            = [_optime mutableCopy];
+
+    return newop;
+}
+
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"操作用户:%@ ,总资金:%ld ,操作金额:%ld ,接收者:%@ ,操作时间:%@ 。",_opname,_allmoney,_opmoney,_opmoneytopeople,_optime];
+    return [NSString stringWithFormat:@"操作用户:%@ ,总资金:%ld ,操作:%@ ,操作金额:%ld ,接收者:%@ ,操作时间:%@ 。",_opname,_allmoney,[self returnOpaction],_opmoney,_opmoneytopeople,_optime];
 }
+
+-(NSString *)returnOpaction
+{
+    if ([self.opaction isEqualToString:Deposit])
+    {
+        return @"存款";
+    }
+    else if ([self.opaction isEqualToString:DrawMoney])
+    {
+        return @"取款";
+    }
+    else if ([self.opaction isEqualToString:Transfers])
+    {
+        return @"转账";
+    }
+    else if ([self.opaction isEqualToString:Buy])
+    {
+        return @"买";
+    }
+    
+    return @"无";
+}
+
 
 @end

@@ -129,20 +129,11 @@
             int tempjudge = [olduserdata.member intValue];
             switch ( tempjudge )
             {
-                case M_superUserSign:
-                    [MyStatuP StatuChange:(MainInterface | tempjudge)]; //超级管理员界面+首页
-                    return;
-                    
-                case M_commonUserSign:
-                    [MyStatuP StatuChange:(MainInterface | tempjudge)]; //普通用户界面+首页
-                    return;
-                    
-                case M_registerNewUser:
-                    [MyStatuP StatuChange:(MainInterface | tempjudge)]; //欢迎界面+注册新用户
-                    return;
-                    
-                case M_foundPassWord:
-                    [MyStatuP StatuChange:(MainInterface | tempjudge)]; //欢迎界面+找回密码
+                case M_superUserSign:       //超级管理员界面+首页
+                case M_commonUserSign:      //普通用户界面+首页
+                case M_registerNewUser:     //欢迎界面+注册新用户
+                case M_foundPassWord:       //欢迎界面+找回密码
+                    [MyStatuP StatuChange:(MainInterface | tempjudge)];
                     return;
                     
                 case M_returnWelcome:

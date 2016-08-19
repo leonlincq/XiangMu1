@@ -16,6 +16,7 @@
 @property (nonatomic,retain) NSTimer *myTick;
 
 
+//==========================================
 typedef NSUInteger uicommon_Deposit;
 enum
 {
@@ -24,7 +25,30 @@ enum
     uicommon_Deposit_ok         = 0x02,
 
 };
+//==========================================
+typedef NSUInteger uicommon_DrawMoney;
+enum
+{
+    uicommon_DrawMoney_money      = 0x00,
+    uicommon_DrawMoney_password   = 0x01,
+    uicommon_DrawMoney_ok         = 0x02,
+    
+};
+//==========================================
+typedef NSUInteger uicommon_LookMoneyGo;
+enum
+{
+    uicommon_LookMoneyGo_choose     = 0x00,
+    uicommon_LookMoneyGo_all        = 0x01,
+    uicommon_LookMoneyGo_deposit    = 0x02,
+    uicommon_LookMoneyGo_drawmoney  = 0x03,
+    uicommon_LookMoneyGo_transfers  = 0x04,
+    uicommon_LookMoneyGo_buy        = 0x05,
+    uicommon_LookMoneyGo_ok         = 0x06,
+    
+};
 
+//==========================================
 typedef NSUInteger uicommon_Updata;
 enum
 {
@@ -45,7 +69,7 @@ enum
     uicommon_Updata_question2   = 0x0B,
     uicommon_Updata_question3   = 0x0C,
 };
-
+//==========================================
 
 
 

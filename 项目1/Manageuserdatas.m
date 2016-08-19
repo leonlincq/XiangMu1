@@ -181,7 +181,14 @@
 
 -(void)printfMoney
 {
-    printf("金额：%ld",self.money);
+    if (self.money == 0)
+    {
+        printf("金额：0");
+    }
+    else
+    {
+        printf("金额：%ld",self.money);
+    }
 }
 
 -(void)printfAllData

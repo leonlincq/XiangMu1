@@ -161,44 +161,17 @@
             int tempjudge = [olduserdata.member intValue];
             switch ( tempjudge )
             {
-                case S_seekUserData:
-                    [MyStatuP StatuChange:(SuperUser | tempjudge)];     //超级用户界面+查看用户信息
-                    return;
-                        
-                case S_upUserData:
-                    [MyStatuP StatuChange:(SuperUser | tempjudge)];     //超级用户界面+修改用户信息
-                    return;
-                        
-                case S_deleUserData:
-                    [MyStatuP StatuChange:(SuperUser | tempjudge)];     //超级用户界面+删除用户信息
-                    return;
-                        
-                case S_operaUserMoney:
-                    [MyStatuP StatuChange:(SuperUser | tempjudge)];     //超级用户界面+用户资金操作
-                    return;
-                    
-                case S_operaWares:
-                    [MyStatuP StatuChange:(SuperUser | tempjudge)];     //超级用户界面+商品操作
-                    return;
-                    
-                case S_operaOrder:
-                    [MyStatuP StatuChange:(SuperUser | tempjudge)];     //超级用户界面+订单操作
-                    return;
-                    
-                case S_addUser:
-                    [MyStatuP StatuChange:(SuperUser | tempjudge)];     //超级用户界面+添加用户
-                    return;
-                    
-                case S_cleProPassWord:
-                    [MyStatuP StatuChange:(SuperUser | tempjudge)];     //超级用户界面+密保库清0
-                    return;
-                    
-                case S_clemoneyhistory:
-                    [MyStatuP StatuChange:(SuperUser | tempjudge)];     //超级用户界面+资金历史记录清除
-                    return;
-                    
-                case S_seekProPassWord:
-                    [MyStatuP StatuChange:(SuperUser | tempjudge)];     //超级用户界面+查看用户密保
+                case S_seekUserData:        //超级用户界面+查看用户信息
+                case S_upUserData:          //超级用户界面+修改用户信息
+                case S_deleUserData:        //超级用户界面+删除用户信息
+                case S_operaUserMoney:      //超级用户界面+用户资金操作
+                case S_operaWares:          //超级用户界面+商品操作
+                case S_operaOrder:          //超级用户界面+订单操作
+                case S_addUser:             //超级用户界面+添加用户
+                case S_cleProPassWord:      //超级用户界面+密保库清0
+                case S_clemoneyhistory:     //超级用户界面+资金历史记录清除
+                case S_seekProPassWord:     //超级用户界面+查看用户密保
+                    [MyStatuP StatuChange:(SuperUser | tempjudge)];
                     return;
                     
                 case S_returnMain:
@@ -244,14 +217,11 @@
                     switch (tempjudge)
                     {
                         case uisuper_Seek_chooseall:
-                            tempstatu = tempjudge;
-                            printf("=========================================\n");
-                            break;
-                            
                         case uisuper_Seek_chooseone:
                             tempstatu = tempjudge;
                             printf("=========================================\n");
                             break;
+                            
                         default:
                             printf("%s",ERROR0x01_ILLEGAL_NUM);
                             break;
@@ -261,8 +231,9 @@
                 
             case uisuper_Seek_chooseall:
                 [newop selectUser:nil andSaveArray:&tempuser];
-                for (int i =0; i<tempuser.count; i++)
+                for (NSInteger i =0; i<tempuser.count; i++)
                 {
+                    printf("(%ld)->",i+1);
                     newuser = [tempuser[i] copy];
                     [newuser printfAllData];
                     printf("---------\n");
@@ -401,13 +372,11 @@
                     switch ( tempjudge )
                     {
                         case uisuper_Delete_all:
-                            tempstatu = tempjudge;
-                            printf("=========================================\n");
-                            break;
                         case uisuper_Delete_one:
                             tempstatu = tempjudge;
                             printf("=========================================\n");                    
                             break;
+                            
                         default:
                             printf("%s",ERROR0x01_ILLEGAL_NUM);
                             break;
@@ -745,13 +714,11 @@
                     switch ( tempjudge )
                     {
                         case uisuper_CleanProPassword_all:
-                            tempstatu = tempjudge;
-                            printf("=========================================\n");
-                            break;
                         case uisuper_CleanProPassword_one:
                             tempstatu = tempjudge;
                             printf("=========================================\n");
                             break;
+                            
                         default:
                             printf("%s",ERROR0x01_ILLEGAL_NUM);
                             break;
@@ -890,14 +857,11 @@
                     switch (tempjudge)
                     {
                         case uisuper_SeekProPassword_chooseall:
-                            tempstatu = tempjudge;
-                            printf("=========================================\n");
-                            break;
-                            
                         case uisuper_SeekProPassword_chooseone:
                             tempstatu = tempjudge;
                             printf("=========================================\n");
                             break;
+                            
                         default:
                             printf("%s",ERROR0x01_ILLEGAL_NUM);
                             break;
@@ -907,8 +871,9 @@
                 
             case uisuper_SeekProPassword_chooseall:
                 [newop selectUser:nil andSaveArray:&tempuser];
-                for (int i =0; i<tempuser.count; i++)
+                for (NSInteger i =0; i<tempuser.count; i++)
                 {
+                    printf("(%ld)->",i+1);
                     newuser = [tempuser[i] copy];
                     [newuser printfAllAnswer];
                     printf("---------\n");

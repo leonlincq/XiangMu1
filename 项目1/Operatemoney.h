@@ -20,5 +20,7 @@
 -(FILESTATUS)addOpMoney:(Managemoney *)moneyop;
 /** 查看金钱操作信息 */
 -(FILESTATUS)selectOpMoneyName:(NSString*)name andSaveArray:(NSMutableArray**)array;
+/** 查看金钱操作信息（双条件） */
+-(FILESTATUS)selectOpMoneyName:(NSString*)name andop:(NSString*)op SaveArray:(NSMutableArray**)array;
 
 @end
