@@ -31,8 +31,10 @@
 #define ERROR0x08_ILLEGAL_ADMIN                 "❌请重新输入（错误代码0x08：输入错误）❌\n"
 #define ERROR0x09_ILLEGAL_PASSWORD              "❌请重新输入（错误代码0x09：密码错误）❌\n"
 
-#define ERROR0x0A_ILLEGAL_DRAWMONEY             "❌请重新输入（错误代码0x0A：取款金额超过现有金额）❌\n"
+#define ERROR0x0A_ILLEGAL_MONEYRANGE            "❌请重新输入（错误代码0x0A：输入金额超过现有金额）❌\n"
+#define ERROR0x0B_ILLEGAL_PAYLENGTH             "❌请重新输入（错误代码0x0B：输入的长度不符合规范，只能是6位）❌\n"
 
+#define ERROR0x0C_ILLEGAL_OPNAME                "❌请重新输入（错误代码0x0C：不能转给自己）❌\n"
 
 #define ERROR0xFE_FILE_OPNE_ERROR               "❌错误（错误代码0xFE：打不开文档）❌\n"
 #define ERROR0xFF_NO_ERROR                      "❌错误（错误代码0xFF：没有错误😂）❌\n"

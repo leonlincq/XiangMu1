@@ -22,8 +22,9 @@ enum
     LCQKeyChoose_onlyYesOrNo        = 0x06,         //只能是Yes或No
     LCQKeyChoose_onlyYes            = 0x07,         //只能是Yes
     LCQKeyChoose_onlyNo             = 0x08,         //只能是No
-    LCQKeyChoose_allKeyValue        = 0xFF          //可以是任意按键值
+    LCQKeyChoose_allKeyValue        = 0xFF,         //可以是任意按键值
     
+    LCQKeyChoose_onlyNumbChar       = 0x09          //只能是数字和字母
 };
 
 

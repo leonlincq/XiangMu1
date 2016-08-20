@@ -18,6 +18,8 @@
 #define PASSWORDMIN 6
 #define PASSWORDMAX 30
 
+#define  PAYWORDLENGTH 6
+
 typedef NSUInteger LCQKeyRule;
 enum
 {
@@ -33,7 +35,7 @@ enum
     LCQKeyRule_Answer1  = 0x08,
     LCQKeyRule_Answer2  = 0x09,
     LCQKeyRule_Answer3  = 0x0A,
-    LCQKeyRule_Money    = 0x11,
+
     
     LCQKeyRule_Numb     = 0x0B,
     LCQKeyRule_TestCode = 0x0C,
@@ -41,7 +43,12 @@ enum
     
     LCQKeyRule_YesOrNo  = 0x0E,
     LCQKeyRule_Yes      = 0x0F,
-    LCQKeyRule_No       = 0x10
+    LCQKeyRule_No       = 0x10,
+    
+    LCQKeyRule_Money    = 0x11,
+    LCQKeyRule_PayWord  = 0x12,
+    LCQKeyRule_Address  = 0x13,
+    
 };
 
 

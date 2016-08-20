@@ -14,6 +14,7 @@
 #define DrawMoney   @"DrawMoney"    //取款
 #define Transfers   @"Transfers"    //转账
 #define Buy         @"Buy"          //买
+#define MySelf      @"MySelf"       //存取款要用到
 
 
 //用户资金表

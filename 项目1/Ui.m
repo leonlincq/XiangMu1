@@ -89,6 +89,13 @@
             temp_keystatu = [super inputDataAndSaveIn:&temp_data andJudge:LCQKeyChoose_onlyNo];
             break;
             
+        case LCQKeyRule_PayWord:
+            temp_keystatu = [super inputDataAndSaveIn:&temp_data andJudge:LCQKeyChoose_onlyNumb];
+            break;
+            
+        case LCQKeyRule_Address:
+            temp_keystatu = [super inputDataAndSaveIn:&temp_data andJudge:LCQKeyChoose_onlyNumbChar];
+            break;
             
         case LCQKeyRule_Money:
             temp_keystatu = [super inputDataAndSaveIn:&temp_data andJudge:LCQKeyChoose_onlyNumb];
@@ -244,6 +251,26 @@
                 return LCQResultKeyRule_OK;
                 
             case LCQKeyRule_No:
+                return LCQResultKeyRule_OK;
+            
+            case LCQKeyRule_PayWord:
+                if ( temp_data.length == PAYWORDLENGTH)        //对密码再进行限制
+                {
+                    temp_user.payword = temp_data;
+                    *user = temp_user;
+                    return LCQResultKeyRule_OK;
+                }
+                else
+                {
+                    printf("%s",ERROR0x0B_ILLEGAL_PAYLENGTH);
+                    return LCQResultKeyRule_IllegalLength;
+                }
+                break;
+                
+                
+            case LCQKeyRule_Address:
+                temp_user.address = temp_data;
+                *user = temp_user;
                 return LCQResultKeyRule_OK;
                 
             default:

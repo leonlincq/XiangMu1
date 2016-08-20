@@ -73,6 +73,27 @@ enum
     uisuper_Clean_chooseall = 0x01,
     uisuper_Clean_chooseone = 0x02,
 };
+
+//===========================================
+typedef NSUInteger uisuper_CleanMoneyRecord;
+enum
+{
+    uisuper_CleanMoneyRecord_name     = 0x00,
+    uisuper_CleanMoneyRecord_all      = 0x01,
+    uisuper_CleanMoneyRecord_one      = 0x02,
+    uisuper_CleanMoneyRecord_password = 0x03,
+    uisuper_CleanMoneyRecord_sureorno = 0x04,
+    uisuper_CleanMoneyRecord_yes      = 0x05,
+    uisuper_CleanMoneyRecord_no       = 0x06
+};
+
+typedef NSUInteger uisuper_CleanMoneyRecord_choose;
+enum
+{
+    uisuper_CleanMoneyRecord_choosenil = 0x00,
+    uisuper_CleanMoneyRecord_chooseall = 0x01,
+    uisuper_CleanMoneyRecord_chooseone = 0x02,
+};
 //===========================================
 typedef NSUInteger uisuper_SeekProPassword;
 enum
@@ -98,7 +119,11 @@ enum
     uisuper_AddUser_question3   = 0x0A,
     uisuper_AddUser_answer3     = 0x0B,
     uisuper_AddUser_returnmain  = 0x0C,
-    uisuper_AddUser_ok          = 0x0D
+    uisuper_AddUser_ok          = 0x0D,
+    
+    uisuper_AddUser_payword     = 0x0E,
+    uisuper_AddUser_address     = 0x0F,
+    uisuper_AddUser_money       = 0x10,
 };
 //===========================================
 /** 初始化定时器 */

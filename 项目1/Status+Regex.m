@@ -86,6 +86,16 @@
 }
 
 //===========================================
+//          判断输入地址的合法性
+//===========================================
+-(BOOL)isValidateNumbChar:(NSString *)string
+{
+    NSString *stringRegex = @"[a-zA-Z0-9]+";
+    NSPredicate *stringTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", stringRegex];
+    return [stringTest evaluateWithObject:string];
+}
+
+//===========================================
 //          判断用户名的合法性
 //===========================================
 -(BOOL)isValidateName:(NSString *)name
@@ -263,6 +273,12 @@
             }
             break;
             
+        case LCQKeyChoose_onlyNumbChar:
+            if ([self isValidateNumbChar:temp_data] == NO)
+            {
+                return LCQKeyStatu_NO;
+            }
+            break;
             
         case LCQKeyChoose_allKeyValue:
         default:

@@ -18,9 +18,12 @@
 -(FILESTATUS)creatTableForOpMoney;
 /** 添加金钱操作信息 */
 -(FILESTATUS)addOpMoney:(Managemoney *)moneyop;
+/** 删除用户资金信息 */
+-(FILESTATUS)deletOpMoneyWithUser:(NSString *)name;
 /** 查看金钱操作信息 */
 -(FILESTATUS)selectOpMoneyName:(NSString*)name andSaveArray:(NSMutableArray**)array;
 /** 查看金钱操作信息（双条件） */
 -(FILESTATUS)selectOpMoneyName:(NSString*)name andop:(NSString*)op SaveArray:(NSMutableArray**)array;
-
+/** 查看谁转账给我信息 */
+-(FILESTATUS)selectOpmoneytopeople:(NSString*)name andSaveArray:(NSMutableArray**)array;
 @end

@@ -75,6 +75,45 @@
 }
 
 //=====================================================
+//  描述:删除用户资金信息
+//  输入:name:选择的用户
+//  返回:错误代码
+//=====================================================
+-(FILESTATUS)deletOpMoneyWithUser:(NSString *)name
+{
+    FILESTATUS tempsta = FILEYES;
+    FMDatabase *fileop = [FMDatabase databaseWithPath:[self filepath]];
+    
+    if ([fileop open] == NO )
+    {
+        tempsta = FILEOpenError;
+        return tempsta;
+    }
+    
+    if (name == nil)
+    {
+        if ([fileop executeUpdate:@"DELETE FROM OpMoney"] == NO )
+        {
+            [fileop close];
+            tempsta = FILEDeleError;
+            return tempsta;
+        }
+    }
+    else
+    {
+        if ([fileop executeUpdate:@"DELETE FROM OpMoney WHERE opname = ?",name] == NO )
+        {
+            [fileop close];
+            tempsta = FILEDeleError;
+            return tempsta;
+        }
+    }
+    
+    [fileop close];
+    return tempsta;
+}
+
+//=====================================================
 //  描述:选择查看信息，可单选可全选
 //  输入:name:选择的用户，nil代表全选  array:读取出来保存的数组
 //  返回:错误代码
@@ -152,6 +191,50 @@
     {
         fileresult = [fileop executeQuery:@"SELECT opname,allmoney,opaction,opmoney,opmoneytopeople,CreatedTime From OpMoney where opname = ? and opaction = ?",name,op];
     }
+    
+    while ([fileresult next])
+    {
+        Managemoney *temp_date = [[Managemoney alloc]init];
+        
+        temp_date.opname            = [fileresult stringForColumn:@"opname"];
+        temp_date.allmoney          = [fileresult intForColumn:@"allmoney"];
+        temp_date.opaction          = [fileresult stringForColumn:@"opaction"];
+        temp_date.opmoney           = [fileresult intForColumn:@"opmoney"];
+        temp_date.opmoneytopeople   = [fileresult stringForColumn:@"opmoneytopeople"];
+        temp_date.optime            = [fileresult stringForColumn:@"CreatedTime"];
+        
+        [dataarray addObject:temp_date];
+    };
+    
+    *array = dataarray;
+    
+    [fileop close];
+    return tempsta;
+}
+
+//=====================================================
+//  描述:选择谁转账给我
+//  输入:name:接收用户 array:读取出来保存的数组
+//  返回:错误代码
+//=====================================================
+-(FILESTATUS)selectOpmoneytopeople:(NSString*)name andSaveArray:(NSMutableArray**)array
+{
+    FILESTATUS tempsta = FILEYES;
+    NSMutableArray *dataarray = [[NSMutableArray alloc]init];
+    
+    FMDatabase *fileop = [FMDatabase databaseWithPath:[self filepath]];
+    
+    if ([fileop open] == NO )
+    {
+        tempsta = FILEOpenError;
+        return tempsta;
+    }
+    
+    FMResultSet *fileresult;
+    
+
+    fileresult = [fileop executeQuery:@"SELECT opname,allmoney,opaction,opmoney,opmoneytopeople,CreatedTime From OpMoney where opmoneytopeople = ?",name];
+
     
     while ([fileresult next])
     {

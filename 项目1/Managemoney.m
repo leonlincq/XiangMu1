@@ -77,13 +77,18 @@
 {
     const char *printfdata;
     printfdata = [self.opmoneytopeople UTF8String];
+    
     if (printfdata == nil)
     {
-        printf("接收者：无");
+        printf("接收方：无");
+    }
+    else if ([self.opmoneytopeople isEqualToString:MySelf])
+    {
+        printf("接收方：自己");
     }
     else
     {
-        printf("接收者：%s",printfdata);
+        printf("接收方：%s",printfdata);
     }
 }
 

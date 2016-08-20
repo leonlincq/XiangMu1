@@ -238,7 +238,7 @@
                 temp_namestatu = [super seekRule:LCQKeyRule_PassWord AndJudgeSaveUser:&olduserdata];
                 if (temp_namestatu == LCQResultKeyRule_OK)
                 {
-                    if ( newuser.password == olduserdata.password )
+                    if ( [newuser.password isEqualToString:olduserdata.password] )
                     {
                         printf("=========================================\n");
                         [newop saveCommonUserData:newuser];
@@ -394,6 +394,28 @@
                 if (temp_namestatu == LCQResultKeyRule_OK)
                 {
                     newuser.answer3 = olduserdata.answer3;
+                    tempstatu = uimain_Reg_payword;
+                    printf("=========================================\n");
+                }
+                break;
+                
+            case uimain_Reg_payword:               //输入支付密码
+                printf("▶️请输入支付密码(6位纯数字)(🔙可输入'...'取消注册🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_PayWord AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_OK)
+                {
+                    newuser.payword = olduserdata.payword;
+                    tempstatu = uimain_Reg_address;
+                    printf("=========================================\n");
+                }
+                break;
+                
+            case uimain_Reg_address:        //输入地址
+                printf("▶️请输入地址（只能字母、数字）(🔙可输入'...'取消注册🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_Address AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_OK)
+                {
+                    newuser.address = olduserdata.address;
                     tempstatu = uimain_Reg_money;
                     printf("=========================================\n");
                 }

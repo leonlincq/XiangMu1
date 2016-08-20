@@ -48,7 +48,9 @@ enum
     uimain_Reg_returnmain = 0x0C,
     uimain_Reg_ok         = 0x0D,
     
-    uimain_Reg_money    = 0x0E,
+    uimain_Reg_money      = 0x0E,
+    uimain_Reg_payword    = 0x0F,
+    uimain_Reg_address    = 0x10,
 };
 
 typedef NSUInteger uimain_Choose;

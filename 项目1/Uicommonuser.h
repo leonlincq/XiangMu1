@@ -21,7 +21,7 @@ typedef NSUInteger uicommon_Deposit;
 enum
 {
     uicommon_Deposit_money      = 0x00,
-    uicommon_Deposit_password   = 0x01,
+    uicommon_Deposit_payword    = 0x01,
     uicommon_Deposit_ok         = 0x02,
 
 };
@@ -30,7 +30,7 @@ typedef NSUInteger uicommon_DrawMoney;
 enum
 {
     uicommon_DrawMoney_money      = 0x00,
-    uicommon_DrawMoney_password   = 0x01,
+    uicommon_DrawMoney_payword   = 0x01,
     uicommon_DrawMoney_ok         = 0x02,
     
 };
@@ -47,6 +47,16 @@ enum
     uicommon_LookMoneyGo_ok         = 0x06,
     
 };
+//==========================================
+typedef NSUInteger uicommon_UsertGiro;
+enum
+{
+    uicommon_UsertGiro_money        = 0x00,
+    uicommon_UsertGiro_who          = 0x01,
+    uicommon_UsertGiro_payword      = 0x02,
+    uicommon_UsertGiro_ok           = 0x03,
+};
+
 
 //==========================================
 typedef NSUInteger uicommon_Updata;
@@ -61,9 +71,12 @@ enum
     uicommon_Updata_answer1     = 0x05,
     uicommon_Updata_answer2     = 0x06,
     uicommon_Updata_answer3     = 0x07,
+    uicommon_Updata_payword     = 0x08,
+    uicommon_Updata_address     = 0x09,
     
-    uicommon_Updata_name        = 0x08, //登录户不能随意更改
-    uicommon_Updata_member      = 0x09, //用户不能自己更改
+    
+    uicommon_Updata_name        = 0x0D, //登录户不能随意更改
+    uicommon_Updata_member      = 0x0E, //用户不能自己更改
 
     uicommon_Updata_question1   = 0x0A, //密保问题暂时不能自定义
     uicommon_Updata_question2   = 0x0B,

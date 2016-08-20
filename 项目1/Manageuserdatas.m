@@ -179,6 +179,34 @@
     }
 }
 
+-(void)printfPayword
+{
+    const char *printfdata;
+    printfdata = [self.payword UTF8String];
+    if (printfdata == nil)
+    {
+        printf("支付密码：(没填)");
+    }
+    else
+    {
+        printf("支付密码：%s",printfdata);
+    }
+}
+
+-(void)printfAddress
+{
+    const char *printfdata;
+    printfdata = [self.address UTF8String];
+    if (printfdata == nil)
+    {
+        printf("收货地址：(没填)");
+    }
+    else
+    {
+        printf("收货地址：%s",printfdata);
+    }
+}
+
 -(void)printfMoney
 {
     if (self.money == 0)
@@ -239,9 +267,17 @@
     
     printf("1️⃣1️⃣");
     [self printfAnswer3];
-    printf("\n");
-    
+    printf(" ,");
+
     printf("1️⃣2️⃣");
+    [self printfPayword];
+    printf(" ,");
+    
+    printf("1️⃣3️⃣");
+    [self printfAddress];
+    printf(" ,");
+    
+    printf("1️⃣4️⃣");
     [self printfMoney];
     printf("\n");
 }
@@ -293,8 +329,10 @@
     newuser.answer2     = [_answer2 mutableCopy];
     newuser.question3   = [_question3 mutableCopy];
     newuser.answer3     = [_answer3 mutableCopy];
+    newuser.payword     = [_payword mutableCopy];
+    newuser.address     = [_address mutableCopy];
     newuser.money       = _money;
-
+    
     return newuser;
 }
 
@@ -312,6 +350,8 @@
     [aCoder encodeObject:_answer2   forKey:@"answer2"];
     [aCoder encodeObject:_question3 forKey:@"question3"];
     [aCoder encodeObject:_answer3   forKey:@"answer3"];
+    [aCoder encodeObject:_payword   forKey:@"payword"];
+    [aCoder encodeObject:_address   forKey:@"address"];
     [aCoder encodeInteger:_money    forKey:@"money"];
 }
 
@@ -332,6 +372,8 @@
         self.answer2    = [aDecoder decodeObjectForKey:@"answer2"];
         self.question3  = [aDecoder decodeObjectForKey:@"question3"];
         self.answer3    = [aDecoder decodeObjectForKey:@"answer3"];
+        self.payword    = [aDecoder decodeObjectForKey:@"payword"];
+        self.address    = [aDecoder decodeObjectForKey:@"address"];
         self.money      = [aDecoder decodeIntegerForKey:@"money"];
     }
     return self;
@@ -339,7 +381,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"用户名:%@ ,密码:%@ ,真名:%@ ,EMAIL:%@ ,电话号码:%@ ,会员:%@ ,密保问题1:%@ ,密保答案1:%@ ,密保问题2:%@ ,密保答案2:%@ ,密保问题3:%@ ,密保答案3:%@ ,金额:%ld 。",_name,_password,_realname,_email,_phonenum,_member,@QUESTION_FRIST,_answer1,@QUESTION_SECON,_answer2,@QUESTION_THREE,_answer3,_money];
+    return [NSString stringWithFormat:@"用户名:%@ ,密码:%@ ,真名:%@ ,EMAIL:%@ ,电话号码:%@ ,会员:%@ ,密保问题1:%@ ,密保答案1:%@ ,密保问题2:%@ ,密保答案2:%@ ,密保问题3:%@ ,密保答案3:%@ ,支付密码:%@ ,收货地址:%@ ,金额:%ld 。",_name,_password,_realname,_email,_phonenum,_member,@QUESTION_FRIST,_answer1,@QUESTION_SECON,_answer2,@QUESTION_THREE,_answer3,_payword,_address,_money];
 }
 
 

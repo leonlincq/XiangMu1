@@ -133,11 +133,11 @@
     printf("✅         🐴1.用户存款              \n");
     printf("✅         🐑2.用户取款              \n");
     printf("✅         🐧3.查看资金流向           \n");
-    printf("           🐶4.用户转账              \n");
+    printf("✅         🐶4.用户转账              \n");
     printf("✅         🐘5.修改信息              \n");
     printf("           🐤6.购买商品              \n");
     printf("           🐔7.订单操作              \n");
-    printf("           🐹8.购物车                \n");
+    printf("           🐹8.购物车	            \n");
     printf("✅         🐼9.返回登录界面           \n");
     printf("======================================\n");
     
@@ -208,7 +208,9 @@
     opmoney.allmoney        = newuser.money;    //自己目前的金额，Ok
     opmoney.opaction        = Deposit;          //存
     opmoney.opmoney         = 0;                //操作0
-    opmoney.opmoneytopeople = newuser.name;     //给自己，OK
+    opmoney.opmoneytopeople = MySelf;           //给自己，OK
+    
+    NSLog(@"%@",opmoney);
     
     NSMutableArray *temp_alluser = [[NSMutableArray alloc]init];
     
@@ -225,16 +227,16 @@
                 if (temp_namestatu == LCQResultKeyRule_OK)
                 {
                     newuser.money = olduserdata.money;
-                    tempstatu = uicommon_Deposit_password;
+                    tempstatu = uicommon_Deposit_payword;
                 }
                 break;
             
-            case uicommon_Deposit_password:
-                printf("▶️请输入您的密码以确定存款(🔙可输入'...'取消存款🔙)：\n");
-                temp_namestatu = [super seekRule:LCQKeyRule_PassWord AndJudgeSaveUser:&olduserdata];
+            case uicommon_Deposit_payword:
+                printf("▶️请输入您的支付密码以确定存款(🔙可输入'...'取消存款🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_PayWord AndJudgeSaveUser:&olduserdata];
                 if (temp_namestatu == LCQResultKeyRule_OK)
                 {
-                    if ([newuser.password isEqualToString:olduserdata.password])
+                    if ([newuser.payword isEqualToString:olduserdata.payword])
                     {
                         tempstatu = uicommon_Deposit_ok;
                     }
@@ -267,7 +269,7 @@
                 break;
         }
         //这里的状态是底层UI.m检测到'...'，想切回主界面，但困在while出不去
-        if (MyStatuP.StaNow == (SuperUser | S_home))
+        if (MyStatuP.StaNow == (CommonUser | C_home))
         {
             [self enterWaitTimer];
             break;
@@ -298,7 +300,7 @@
     opmoney.allmoney        = newuser.money;    //自己目前的金额，Ok
     opmoney.opaction        = DrawMoney;        //取
     opmoney.opmoney         = 0;                //操作0
-    opmoney.opmoneytopeople = newuser.name;     //给自己，OK
+    opmoney.opmoneytopeople = MySelf;           //给自己，OK
     
     NSMutableArray *temp_alluser = [[NSMutableArray alloc]init];
     
@@ -316,22 +318,22 @@
                 {
                     if (olduserdata.money > newuser.money)
                     {
-                        printf("%s",ERROR0x0A_ILLEGAL_DRAWMONEY);
+                        printf("%s",ERROR0x0A_ILLEGAL_MONEYRANGE);
                     }
                     else
                     {
                         newuser.money = olduserdata.money;
-                        tempstatu = uicommon_DrawMoney_password;
+                        tempstatu = uicommon_DrawMoney_payword;
                     }
                 }
                 break;
                 
-            case uicommon_DrawMoney_password:
-                printf("▶️请输入您的密码以确定取款(🔙可输入'...'取消取款🔙)：\n");
-                temp_namestatu = [super seekRule:LCQKeyRule_PassWord AndJudgeSaveUser:&olduserdata];
+            case uicommon_DrawMoney_payword:
+                printf("▶️请输入您的支付密码以确定取款(🔙可输入'...'取消取款🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_PayWord AndJudgeSaveUser:&olduserdata];
                 if (temp_namestatu == LCQResultKeyRule_OK)
                 {
-                    if ([newuser.password isEqualToString:olduserdata.password])
+                    if ([newuser.payword isEqualToString:olduserdata.payword])
                     {
                         tempstatu = uicommon_DrawMoney_ok;
                     }
@@ -364,7 +366,7 @@
                 break;
         }
         //这里的状态是底层UI.m检测到'...'，想切回主界面，但困在while出不去
-        if (MyStatuP.StaNow == (SuperUser | S_home))
+        if (MyStatuP.StaNow == (CommonUser | C_home))
         {
             [self enterWaitTimer];
             break;
@@ -458,12 +460,13 @@
                 
             case uicommon_LookMoneyGo_ok:
                 [newopmoneyp selectOpMoneyName:newuser.name andop:tempop SaveArray:&temp_alluser];
-                if(temp_alluser.count == 0)
+                if(temp_alluser.count != 0)         //查到数据
                 {
-                    printf("❗️暂无此方面记录❗️\n");
-                }
-                else
-                {
+                    if ([tempop isEqualToString:Transfers])
+                    {
+                        printf("▶️以下是转账给别人：\n");
+                    }
+                    
                     for (NSInteger i = 0; i<temp_alluser.count ; i++)
                     {
                         printf("(%ld)->",i+1);
@@ -471,7 +474,45 @@
                         [opmoney printfAllData];
                         printf("---------\n");
                     }
+                    if ([tempop isEqualToString:Transfers])
+                    {
+                        [newopmoneyp selectOpmoneytopeople:newuser.name andSaveArray:&temp_alluser];
+                        if(temp_alluser.count != 0)
+                        {
+                            printf("▶️以下是别人转给自己的：\n");
+                            for (NSInteger i = 0; i<temp_alluser.count ; i++)
+                            {
+                                printf("(%ld)->",i+1);
+                                opmoney = [temp_alluser[i] copy];
+                                [opmoney printfAllData];
+                                printf("---------\n");
+                            }
+                        }
+                    }
                 }
+                else    //查不到数据，但还有接收别人转账的可能
+                {
+                    if ([tempop isEqualToString:Transfers])
+                    {
+                        [newopmoneyp selectOpmoneytopeople:newuser.name andSaveArray:&temp_alluser];
+                        if(temp_alluser.count != 0)
+                        {
+                            printf("▶️以下是别人转给自己的：\n");
+                            for (NSInteger i = 0; i<temp_alluser.count ; i++)
+                            {
+                                printf("(%ld)->",i+1);
+                                opmoney = [temp_alluser[i] copy];
+                                [opmoney printfAllData];
+                                printf("---------\n");
+                            }
+                            tempstatu = uicommon_LookMoneyGo_ok;
+                            [super uiReturnUpUi:(CommonUser | C_home)];
+                            return;
+                        }
+                    }
+                    printf("❗️暂无此方面记录❗️\n");
+                }
+
                 tempstatu = uicommon_LookMoneyGo_ok;
                 [super uiReturnUpUi:(CommonUser | C_home)];
                 return;
@@ -480,7 +521,7 @@
                 break;
         }
         //这里的状态是底层UI.m检测到'...'，想切回主界面，但困在while出不去
-        if (MyStatuP.StaNow == (SuperUser | S_home))
+        if (MyStatuP.StaNow == (CommonUser | C_home))
         {
             [self enterWaitTimer];
             break;
@@ -493,9 +534,128 @@
 //==========================
 -(void)uiCommonUserUsertGiro
 {
-    Status *MyStatuP = [Status statusShallOneData];
+    Status *MyStatuP                = [Status statusShallOneData];      //更改主方法状态
+    Manageuserdatas *newuser        = [[Manageuserdatas alloc]init];    //要保存的实例
+    Operateuserdatas *newop         = [[Operateuserdatas alloc]init];   //文件操作
+    Manageuserdatas *olduserdata    = [[Manageuserdatas alloc]init];    //找到数据并保存
+    LCQResultKeyRule temp_namestatu = LCQResultKeyRule_Nil;             //按键状态
     
-    [self uiCommonUserUping];;
+    
+    Operatemoney *newopmoneyp       = [[Operatemoney alloc]init];       //资金文件操作
+    Managemoney *opmoney            = [[Managemoney alloc]init];        //资金操作
+    
+    Manageuserdatas *transfersuser  = [[Manageuserdatas alloc]init];    //转账接受方
+    
+    uicommon_UsertGiro tempstatu    = uicommon_UsertGiro_money;           //该方法的状态
+    
+    newuser = [newop readCommonUserData];
+    
+    opmoney.opname          = newuser.name;     //自己的名字，Ok
+    opmoney.allmoney        = newuser.money;    //自己目前的金额，Ok
+    opmoney.opaction        = Transfers;        //转款
+    opmoney.opmoney         = 0;                //操作0
+
+    
+    NSMutableArray *temp_alluser = [[NSMutableArray alloc]init];
+    
+
+    printf("=========================================\n");
+    
+    while(1)
+    {
+        switch (tempstatu)
+        {
+            case uicommon_UsertGiro_money:
+                printf("▶️请输入要转账的金额(🔙可输入'...'取消取款🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_Money AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_OK)
+                {
+                    if (olduserdata.money > newuser.money)
+                    {
+                        printf("%s",ERROR0x0A_ILLEGAL_MONEYRANGE);
+                    }
+                    else
+                    {
+                        newuser.money = olduserdata.money;      //暂时把要转账的金额先保存在newuser.money
+                        tempstatu = uicommon_UsertGiro_who;
+                    }
+                }
+                break;
+                
+            case uicommon_UsertGiro_who:
+                printf("▶️请输入要的用户名(🔙可输入'...'取消取款🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_Name AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_Found)
+                {
+                    if([olduserdata.name isEqualToString:newuser.name])
+                    {
+                        printf("%s",ERROR0x0C_ILLEGAL_OPNAME);
+                    }
+                    else
+                    {
+                        transfersuser = [olduserdata copy];     //转账操作给谁
+                        opmoney.opmoneytopeople = transfersuser.name;
+                        tempstatu = uicommon_UsertGiro_payword;
+                        printf("=========================================\n");
+                    }
+                }
+                else if(temp_namestatu == LCQResultKeyRule_NoFound)
+                {
+                    printf("%s",ERROR0x05_NO_FOUND_USER);
+                }
+                break;
+                
+            case uicommon_UsertGiro_payword:
+                printf("▶️请输入您的支付密码以确定取款(🔙可输入'...'取消取款🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_PayWord AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_OK)
+                {
+                    if ([newuser.payword isEqualToString:olduserdata.payword])
+                    {
+                        tempstatu = uicommon_UsertGiro_ok;
+                    }
+                    else
+                    {
+                        printf("%s",ERROR0x09_ILLEGAL_PASSWORD);
+                    }
+                }
+                break;
+            case uicommon_UsertGiro_ok:
+                opmoney.allmoney -= newuser.money;          //总金额-转账金额
+                opmoney.opmoney = newuser.money;            //转账金额
+                [newopmoneyp addOpMoney:opmoney];           //更新资金操作表
+                
+                
+                //更新接受方的金额
+                transfersuser.money += newuser.money;
+                [newop upUserData:transfersuser withWho:LCQChooseUpdata_money];
+                
+                //更新转账用户信息
+                newuser.money = opmoney.allmoney;
+                [newop upUserData:newuser withWho:LCQChooseUpdata_money];
+                
+                [newop saveCommonUserData:newuser];         //更新plist
+                
+                printf("✅转账操作成功\n");
+                
+                
+                [newopmoneyp selectOpMoneyName:newuser.name andSaveArray:&temp_alluser];
+                opmoney = [temp_alluser[temp_alluser.count - 1] copy];
+                [opmoney printfAllData];
+                
+                [super uiReturnUpUi:(CommonUser | C_home)];
+                return;
+                
+            default:
+                break;
+        }
+        //这里的状态是底层UI.m检测到'...'，想切回主界面，但困在while出不去
+        if (MyStatuP.StaNow == (CommonUser | C_home))
+        {
+            [self enterWaitTimer];
+            break;
+        }
+    }
 }
 
 //==========================
@@ -527,7 +687,9 @@
                 printf("         5️⃣.修改密保答案1\n");
                 printf("         6️⃣.修改密保答案2\n");
                 printf("         7️⃣.修改密保答案3\n");
-                printf("▶️请输入要修改的信息操作序号(1~7):(🔙可输入'...'取消修改🔙)：\n");
+                printf("         8️⃣.修改支付密码\n");
+                printf("         9️⃣.修改收货地址\n");
+                printf("▶️请输入要修改的信息操作序号(1~9):(🔙可输入'...'取消修改🔙)：\n");
                 temp_namestatu = [super seekRule:LCQKeyRule_Numb AndJudgeSaveUser:&olduserdata];
                 if (temp_namestatu == LCQResultKeyRule_OK)
                 {
@@ -541,6 +703,8 @@
                         case uicommon_Updata_answer1:
                         case uicommon_Updata_answer2:
                         case uicommon_Updata_answer3:
+                        case uicommon_Updata_payword:
+                        case uicommon_Updata_address:
                             tempstatu = tempjudge;
                             break;
                             
@@ -673,6 +837,43 @@
                         printf("=========================================\n");
                         printf("✅修改成功，新的");
                         [newuser printfAnswer3];
+                        printf("\n");
+                        printf("=========================================\n");
+                        tempstatu = uicommon_Updata_choose;
+                    }
+                }
+                break;
+                
+                
+            case uicommon_Updata_payword:
+                printf("▶️请输入新的支付密码(6位纯数字)(🔙可输入'...'取消修改🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_PayWord AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_OK)
+                {
+                    newuser.payword = olduserdata.payword;
+                    if ([newop upUserData:newuser withWho:LCQChooseUpdata_payword] == FILEYES)
+                    {
+                        printf("=========================================\n");
+                        printf("✅修改成功，新的");
+                        [newuser printfPayword];
+                        printf("\n");
+                        printf("=========================================\n");
+                        tempstatu = uicommon_Updata_choose;
+                    }
+                }
+                break;
+                
+            case uicommon_Updata_address:
+                printf("▶️请输入新的收货地址（只能字母、数字）(🔙可输入'...'取消修改🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_Address AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_OK)
+                {
+                    newuser.address = olduserdata.address;
+                    if ([newop upUserData:newuser withWho:LCQChooseUpdata_address] == FILEYES)
+                    {
+                        printf("=========================================\n");
+                        printf("✅修改成功，新的");
+                        [newuser printfAddress];
                         printf("\n");
                         printf("=========================================\n");
                         tempstatu = uicommon_Updata_choose;

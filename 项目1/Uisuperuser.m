@@ -147,7 +147,7 @@
     printf("             🐤6.订单操作               \n");
     printf("✅           🐔7.添加用户               \n");
     printf("✅           🐹8.密保库清0              \n");
-    printf("             🐼9.历史资金清除           \n");
+    printf("✅           🐼9.历史资金清除           \n");
     printf("✅           🐬10.查看用户密保          \n");
     printf("✅           🐠11.返回登录界面          \n");
     printf("======================================\n");
@@ -660,6 +660,46 @@
                 if (temp_namestatu == LCQResultKeyRule_OK)
                 {
                     newuser.answer3 = olduserdata.answer3;
+                    tempstatu = uisuper_AddUser_payword;
+                    printf("=========================================\n");
+                }
+                break;
+                
+            case uisuper_AddUser_payword:               //输入支付密码
+                printf("▶️请输入6位纯数字支付密码(🔙可输入'...'取消注册🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_Numb AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_OK)
+                {
+                    if ([olduserdata.member length] == 6)
+                    {
+                        newuser.payword = olduserdata.member;
+                        tempstatu = uisuper_AddUser_address;
+                        printf("=========================================\n");
+                    }
+                    else
+                    {
+                        printf("%s",ERROR0x01_ILLEGAL_NUM);
+                    }
+                }
+                break;
+                
+            case uisuper_AddUser_address:        //输入地址
+                printf("▶️请输入地址（只能字母、数字）(🔙可输入'...'取消注册🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_Address AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_OK)
+                {
+                    newuser.address = olduserdata.address;
+                    tempstatu = uisuper_AddUser_money;
+                    printf("=========================================\n");
+                }
+                break;
+                
+            case uisuper_AddUser_money:        //输入金额
+                printf("▶️请输入该用户金额(🔙可输入'...'取消注册🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_Money AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_OK)
+                {
+                    newuser.money = olduserdata.money;
                     tempstatu = uisuper_AddUser_ok;
                     printf("=========================================\n");
                 }
@@ -740,7 +780,7 @@
                     printf("✅查到的用户信息如下：\n");
                     [newuser printfAllData];
                     cleanchoose = uisuper_Clean_chooseone;
-                    tempstatu = uisuper_Delete_password;
+                    tempstatu = uisuper_CleanProPassword_password;
                     printf("=========================================\n");
                 }
                 else if(temp_namestatu == LCQResultKeyRule_NoFound)
@@ -822,9 +862,153 @@
 //==========================
 -(void)uiSuperUserClemoneyhistory
 {
-    Status *MyStatuP = [Status statusShallOneData];
+    Status *MyStatuP                = [Status statusShallOneData];      //更改主方法状态
+    Manageuserdatas *newuser        = [[Manageuserdatas alloc]init];    //要保存的实例
+    Manageuserdatas *olduserdata    = [[Manageuserdatas alloc]init];    //找到数据并保存
+    LCQResultKeyRule temp_namestatu = LCQResultKeyRule_Nil;             //按键状态
     
-    [self uiSuperUserUping];
+    uisuper_CleanMoneyRecord tempstatu  = uisuper_CleanMoneyRecord_name;              //该方法的状态
+    uisuper_CleanMoneyRecord_choose cleanchoose = uisuper_CleanMoneyRecord_choosenil;
+    
+    Managemoney *opmoney = [[Managemoney alloc]init];
+    Operatemoney *opmoneyp = [[Operatemoney alloc]init];
+    NSMutableArray *temp_alluser = [[NSMutableArray alloc]init];
+    
+    printf("=========================================\n");
+    
+    while(1)
+    {
+        switch (tempstatu)
+        {
+            case uisuper_CleanMoneyRecord_name:
+                printf("         1️⃣.清空所有用户资金操作记录\n");
+                printf("         2️⃣.清空单个用户资金操作记录\n");
+                printf("▶️请输入操作序号(1~2)(🔙可输入'...'取消查看🔙):");
+                temp_namestatu = [super seekRule:LCQKeyRule_Numb AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_OK)
+                {
+                    int tempjudge = [olduserdata.member intValue];
+                    switch ( tempjudge )
+                    {
+                        case uisuper_CleanMoneyRecord_all:
+                        case uisuper_CleanMoneyRecord_one:
+                            tempstatu = tempjudge;
+                            printf("=========================================\n");
+                            break;
+                            
+                        default:
+                            printf("%s",ERROR0x01_ILLEGAL_NUM);
+                            break;
+                    }
+                }
+                break;
+                
+            case uisuper_CleanMoneyRecord_all:
+                cleanchoose = uisuper_CleanMoneyRecord_chooseall;
+                tempstatu = uisuper_CleanMoneyRecord_password;
+                break;
+                
+            case uisuper_CleanMoneyRecord_one:
+                printf("▶️请输入将要清空资金操作记录的用户名(🔙可输入'...'取消清空🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_Name AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_Found)
+                {
+
+                    newuser = [olduserdata copy];
+                    [opmoneyp selectOpMoneyName:newuser.name andSaveArray:&temp_alluser];
+                    if(temp_alluser.count == 0)
+                    {
+                        printf("❗️");
+                        [newuser printfName];
+                        printf("暂无资金操作记录❗️\n");
+                        [super uiReturnUpUi:(MainInterface | M_home)];
+                        return;
+                    }
+                    
+                    printf("✅查到的用户资金操作如下：\n");
+                    for (NSInteger i = 0; i<temp_alluser.count ; i++)
+                    {
+                        printf("(%ld)->",i+1);
+                        opmoney = [temp_alluser[i] copy];
+                        [opmoney printfAllData];
+                        printf("---------\n");
+                    }
+
+                    cleanchoose = uisuper_CleanMoneyRecord_chooseone;
+                    tempstatu = uisuper_CleanMoneyRecord_password;
+                    printf("=========================================\n");
+                }
+                else if(temp_namestatu == LCQResultKeyRule_NoFound)
+                {
+                    printf("%s",ERROR0x05_NO_FOUND_USER);
+                }
+                break;
+                
+            case uisuper_CleanMoneyRecord_password:
+                printf("▶️请输入超级用户密码以获取权限清空(🔙可输入'...'取消清空🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_Admin AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_OK)
+                {
+                    tempstatu = uisuper_CleanMoneyRecord_sureorno;
+                }
+                break;
+                
+                
+            case uisuper_CleanMoneyRecord_sureorno:
+                printf("▶️是否要删除:(输入'YES'或'N0')(🔙可输入'...'取消清空🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_YesOrNo AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_OK)
+                {
+                    if ([olduserdata.member characterAtIndex:0] == 'Y' || [olduserdata.member characterAtIndex:0] == 'y')
+                    {
+                        tempstatu = uisuper_CleanMoneyRecord_yes;
+                    }
+                    else
+                    {
+                        tempstatu = uisuper_CleanMoneyRecord_no;
+                    }
+                    printf("=========================================\n");
+                }
+                break;
+                
+            case uisuper_CleanMoneyRecord_yes:
+                if (cleanchoose == uisuper_CleanMoneyRecord_chooseone)
+                {
+                    if ( [opmoneyp deletOpMoneyWithUser:newuser.name] == FILEYES )
+                    {
+                        printf("✅清空该用户资金记录成功\n");
+                        [MyStatuP StatuChange:(SuperUser | S_home)];
+                        [self enterWaitTimer];
+                        return;
+                    }
+                }
+                else if (cleanchoose == uisuper_CleanMoneyRecord_chooseall)
+                {
+                    if ( [opmoneyp deletOpMoneyWithUser:nil] == FILEYES )
+                    {
+                        printf("✅清空所有用户资金记录成功\n");
+                        [MyStatuP StatuChange:(SuperUser | S_home)];
+                        [self enterWaitTimer];
+                        return;
+                    }
+                }
+                break;
+                
+            case uisuper_CleanMoneyRecord_no:
+                tempstatu = uisuper_CleanMoneyRecord_name;
+                break;
+                
+            default:
+                break;
+        }
+        //这里的状态是底层UI.m检测到'...'，想切回主界面，但困在while出不去
+        if (MyStatuP.StaNow == (SuperUser | S_home))
+        {
+            [self enterWaitTimer];
+            break;
+        }
+    }
+
 }
 
 //==========================

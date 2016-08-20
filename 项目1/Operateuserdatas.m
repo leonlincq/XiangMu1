@@ -35,7 +35,7 @@
         return tempsta;
     }
     
-    if ([fileop executeUpdate:@"CREATE TABLE IF NOT EXISTS UserDatas (name TEXT primary key,password TEXT,realname TEXT,email TEXT,phonenum TEXT,member TEXT,question1 TEXT,answer1 TEXT,question2 TEXT,answer2 TEXT,question3 TEXT,answer3 TEXT,money INTEGER)"] == NO)
+    if ([fileop executeUpdate:@"CREATE TABLE IF NOT EXISTS UserDatas (name TEXT primary key,password TEXT,realname TEXT,email TEXT,phonenum TEXT,member TEXT,question1 TEXT,answer1 TEXT,question2 TEXT,answer2 TEXT,question3 TEXT,answer3 TEXT,payword TEXT,address TEXT,money INTEGER)"] == NO)
     {
         [fileop close];
         tempsta = FILEBuildError;
@@ -62,7 +62,7 @@
         return tempsta;
     }
     
-    if ([fileop executeUpdate:@"INSERT INTO UserDatas(name,password,realname,email,phonenum,member,question1,answer1,question2,answer2,question3,answer3,money) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",userdate.name,userdate.password,userdate.realname,userdate.email,userdate.phonenum,userdate.member,userdate.question1,userdate.answer1,userdate.question2,userdate.answer2,userdate.question3,userdate.answer3,[NSNumber numberWithInteger:userdate.money]] == NO )
+    if ([fileop executeUpdate:@"INSERT INTO UserDatas(name,password,realname,email,phonenum,member,question1,answer1,question2,answer2,question3,answer3,payword,address,money) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",userdate.name,userdate.password,userdate.realname,userdate.email,userdate.phonenum,userdate.member,userdate.question1,userdate.answer1,userdate.question2,userdate.answer2,userdate.question3,userdate.answer3,userdate.payword,userdate.address,[NSNumber numberWithInteger:userdate.money]] == NO )
     {
         [fileop close];
         tempsta = FILEAddError;
@@ -95,11 +95,11 @@
     
     if (name == nil)    //全选
     {
-        fileresult = [fileop executeQuery:@"SELECT name,password,realname,email,phonenum,member,question1,answer1,question2,answer2,question3,answer3,money From UserDatas"];
+        fileresult = [fileop executeQuery:@"SELECT name,password,realname,email,phonenum,member,question1,answer1,question2,answer2,question3,answer3,payword,address,money From UserDatas"];
     }
     else                //单选
     {
-        fileresult = [fileop executeQuery:@"SELECT name,password,realname,email,phonenum,member,question1,answer1,question2,answer2,question3,answer3,money From UserDatas where name = ?",name];
+        fileresult = [fileop executeQuery:@"SELECT name,password,realname,email,phonenum,member,question1,answer1,question2,answer2,question3,answer3,payword,address,money From UserDatas where name = ?",name];
     }
     
     while ([fileresult next])
@@ -118,6 +118,8 @@
         temp_date.answer2   = [fileresult stringForColumn:@"answer2"];
         temp_date.question3 = [fileresult stringForColumn:@"question3"];
         temp_date.answer3   = [fileresult stringForColumn:@"answer3"];
+        temp_date.payword   = [fileresult stringForColumn:@"payword"];
+        temp_date.address   = [fileresult stringForColumn:@"address"];
         temp_date.money     = [[fileresult stringForColumn:@"money"]integerValue];
         
         [dataarray addObject:temp_date];
@@ -296,8 +298,24 @@
             }
             break;
             
+        case LCQChooseUpdata_payword:
+            if ([fileop executeUpdate:@"UPDATE UserDatas SET payword = ? where name = ?",userdate.payword,userdate.name] == NO )
+            {
+                [fileop close];
+                tempsta = FILEUpDataError;
+                return tempsta;
+            }
+            break;
             
-            
+        case LCQChooseUpdata_address:
+            if ([fileop executeUpdate:@"UPDATE UserDatas SET address = ? where name = ?",userdate.address,userdate.name] == NO )
+            {
+                [fileop close];
+                tempsta = FILEUpDataError;
+                return tempsta;
+            }
+            break;
+
         case LCQChooseUpdata_deleanswer:
             if (userdate == nil)
             {
@@ -374,6 +392,8 @@
     [userdic setValue:userdata.answer2 forKey:@"answer2"];
     [userdic setValue:userdata.question3 forKey:@"question3"];
     [userdic setValue:userdata.answer3 forKey:@"answer3"];
+    [userdic setValue:userdata.payword forKey:@"payword"];
+    [userdic setValue:userdata.address forKey:@"address"];
     [userdic setValue:[NSNumber numberWithInteger:userdata.money] forKey:@"money"];
     
 
@@ -406,6 +426,8 @@
     tempuser.answer2    = [saveuserdata objectForKey:@"answer2"];
     tempuser.question3  = [saveuserdata objectForKey:@"question3"];
     tempuser.answer3    = [saveuserdata objectForKey:@"answer3"];
+    tempuser.payword    = [saveuserdata objectForKey:@"payword"];
+    tempuser.address    = [saveuserdata objectForKey:@"address"];
     tempuser.money      = [[saveuserdata objectForKey:@"money"]integerValue];
     
     return tempuser;

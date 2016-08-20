@@ -2,6 +2,123 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:&#x9879;&#x76ee;1.xcodeproj">
+      location = "group:../&#x9879;&#x76ee;1/fmdb">
+   </FileRef>
+   <FileRef
+      location = "group:../&#x9879;&#x76ee;1/main.h">
+   </FileRef>
+   <FileRef
+      location = "group:../&#x9879;&#x76ee;1/main.m">
+   </FileRef>
+   <FileRef
+      location = "group:../&#x9879;&#x76ee;1/Managecollect.h">
+   </FileRef>
+   <FileRef
+      location = "group:../&#x9879;&#x76ee;1/Managecollect.m">
+   </FileRef>
+   <FileRef
+      location = "group:../&#x9879;&#x76ee;1/Managemoney.h">
+   </FileRef>
+   <FileRef
+      location = "group:../&#x9879;&#x76ee;1/Managemoney.m">
+   </FileRef>
+   <FileRef
+      location = "group:../&#x9879;&#x76ee;1/Manageorder.h">
+   </FileRef>
+   <FileRef
+      location = "group:../&#x9879;&#x76ee;1/Manageorder.m">
+   </FileRef>
+   <FileRef
+      location = "group:../&#x9879;&#x76ee;1/Manageshopcar.h">
+   </FileRef>
+   <FileRef
+      location = "group:../&#x9879;&#x76ee;1/Manageshopcar.m">
+   </FileRef>
+   <FileRef
+      location = "group:../&#x9879;&#x76ee;1/Manageuserdatas.h">
+   </FileRef>
+   <FileRef
+      location = "group:../&#x9879;&#x76ee;1/Manageuserdatas.m">
+   </FileRef>
+   <FileRef
+      location = "group:../&#x9879;&#x76ee;1/Managewares.h">
+   </FileRef>
+   <FileRef
+      location = "group:../&#x9879;&#x76ee;1/Managewares.m">
+   </FileRef>
+   <FileRef
+      location = "group:../&#x9879;&#x76ee;1/Operatecollect.h">
+   </FileRef>
+   <FileRef
+      location = "group:../&#x9879;&#x76ee;1/Operatecollect.m">
+   </FileRef>
+   <FileRef
+      location = "group:../&#x9879;&#x76ee;1/Operatemoney.h">
+   </FileRef>
+   <FileRef
+      location = "group:../&#x9879;&#x76ee;1/Operatemoney.m">
+   </FileRef>
+   <FileRef
+      location = "group:../&#x9879;&#x76ee;1/Operateorder.h">
+   </FileRef>
+   <FileRef
+      location = "group:../&#x9879;&#x76ee;1/Operateorder.m">
+   </FileRef>
+   <FileRef
+      location = "group:../&#x9879;&#x76ee;1/Operateshopcar.h">
+   </FileRef>
+   <FileRef
+      location = "group:../&#x9879;&#x76ee;1/Operateshopcar.m">
+   </FileRef>
+   <FileRef
+      location = "group:../&#x9879;&#x76ee;1/Operateuserdatas.h">
+   </FileRef>
+   <FileRef
+      location = "group:../&#x9879;&#x76ee;1/Operateuserdatas.m">
+   </FileRef>
+   <FileRef
+      location = "group:../&#x9879;&#x76ee;1/Operatewares.h">
+   </FileRef>
+   <FileRef
+      location = "group:../&#x9879;&#x76ee;1/Operatewares.m">
+   </FileRef>
+   <FileRef
+      location = "group:../&#x9879;&#x76ee;1/Status.h">
+   </FileRef>
+   <FileRef
+      location = "group:../&#x9879;&#x76ee;1/Status.m">
+   </FileRef>
+   <FileRef
+      location = "group:../&#x9879;&#x76ee;1/Status+Regex.h">
+   </FileRef>
+   <FileRef
+      location = "group:../&#x9879;&#x76ee;1/Status+Regex.m">
+   </FileRef>
+   <FileRef
+      location = "group:../&#x9879;&#x76ee;1/Ui.h">
+   </FileRef>
+   <FileRef
+      location = "group:../&#x9879;&#x76ee;1/Ui.m">
+   </FileRef>
+   <FileRef
+      location = "group:../&#x9879;&#x76ee;1/Uicommonuser.h">
+   </FileRef>
+   <FileRef
+      location = "group:../&#x9879;&#x76ee;1/Uicommonuser.m">
+   </FileRef>
+   <FileRef
+      location = "group:../&#x9879;&#x76ee;1/Uimain.h">
+   </FileRef>
+   <FileRef
+      location = "group:../&#x9879;&#x76ee;1/Uimain.m">
+   </FileRef>
+   <FileRef
+      location = "group:../&#x9879;&#x76ee;1/Uisuperuser.h">
+   </FileRef>
+   <FileRef
+      location = "group:../&#x9879;&#x76ee;1/Uisuperuser.m">
+   </FileRef>
+   <FileRef
+      location = "self:">
    </FileRef>
 </Workspace>
