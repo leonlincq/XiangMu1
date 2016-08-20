@@ -18,7 +18,7 @@
 //=====================================================
 -(NSString *)filepath
 {
-    return [NSHomeDirectory() stringByAppendingPathComponent:@"OnlineSaleSys.sqlite"];
+    return [NSHomeDirectory() stringByAppendingPathComponent:FILEPATH];
 }
 
 //=====================================================
@@ -49,7 +49,7 @@
 
 //=====================================================
 //  描述:在选定表格添加用户信息()
-//  输入:userdate:添加的用户信息
+//  输入:moneyop:添加的用户信息
 //  返回:错误代码
 //=====================================================
 -(FILESTATUS)addOpMoney:(Managemoney *)moneyop

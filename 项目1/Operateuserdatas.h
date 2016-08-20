@@ -13,6 +13,7 @@
 @interface Operateuserdatas : NSObject
 
 
+#define FILEPATH       @"OnlineSaleSys.sqlite"
 
 typedef NSUInteger FILESTATUS;
 #define FILEYES         0x00

@@ -17,47 +17,68 @@
 FMDB   µÚÈý·½sqlite²Ù×÷
 
 
+============================================================================================
+
+ÉÌÆ·
+ÐÕÃû ÉÏ¼Ü×´Ì¬ ÉÌÆ· ·ÖÀà ½ð¶î ÊýÁ¿
+     ÉÏ¼Ü
+     ÏÂ¼Ü
+
+¡ª¡ª-
+ÉÌÆ·²Ù×÷		
+1.ÉÏ¼Ü	-> ÊäÈë ÉÌÆ·Ãû Ñ¡Ôñ·ÖÀà ½ð¶î ÊýÁ¿	£¨ÐÕÃû£¬ÉÏ¼Ü×´Ì¬£¬³ÌÐòÌí¼Ó£©		²åÈë
+	
+2.ÏÂ¼Ü	-> ´òÓ¡³öËùÓÐÉÏ¼ÜÉÌÆ· ->ÇëÊäÈëÐòºÅÏÂ¼Ü¡£				¸Ä×´Ì¬
+
+3.ËÑË÷	-> 3.1.·ÖÀà²é¿´	->  ´òÓ¡¸ÃÀàËùÓÐ¶ÔÏó£¨ÉÏ¼Ü£© ->  
+	   3.2.ÊäÈëÉÌÆ·Ãû -> ²é±í´òÓ¡ËùÓÐÍ¬Ãû£¨ÉÏ¼Ü£© ->	°´ÐòºÅÑ¡Ôñ -> ÊäÈëÊýÁ¿¼ÓÈë¹ºÎï³µ ->    	²åÈë
 
 
-ÓÃ»§ÐÅÏ¢±í(±í1)£º
-Manageuserdatas.m/.h
+============================================================================================
+¹ºÎï³µ
+ÐÕÃû ÎïÆ·Ãû À´Ô´Ë­ ½ð¶î ÊýÁ¿ (×Ü½ð¶î£¿)
 
-// ÓÃ»§Ãû | ÃÜÂë | ÕæÃû | ÓÊ¼þ | µç»° | »áÔ± | ÃÜ±£ÎÊÌâ1 | ÃÜ±£´ð°¸1 | ÃÜ±£ÎÊÌâ2 | ÃÜ±£´ð°¸2 | ÃÜ±£ÎÊÌâ3 | ÃÜ±£´ð°¸3 |
-@property (nonatomic,copy)      NSString    *name;      //ÓÃ»§Ãû       --¹ØÁª
-@property (nonatomic,copy)      NSString    *password;  //ÃÜÂë
-@property (nonatomic,copy)      NSString    *realname;  //ÕæÃû
-@property (nonatomic,copy)      NSString    *email;     //ÓÊ¼þ
-@property (nonatomic,copy)      NSString    *phonenum;  //µç»°
-@property (nonatomic,copy)      NSString    *member;    //»áÔ±
-@property (nonatomic,copy)      NSString    *question1; //ÃÜ±£ÎÊÌâ1
-@property (nonatomic,copy)      NSString    *answer1;   //ÃÜ±£´ð°¸1
-@property (nonatomic,copy)      NSString    *question2; //ÃÜ±£ÎÊÌâ2
-@property (nonatomic,copy)      NSString    *answer2;   //ÃÜ±£´ð°¸2
-@property (nonatomic,copy)      NSString    *question3; //ÃÜ±£ÎÊÌâ3
-@property (nonatomic,copy)      NSString    *answer3;   //ÃÜ±£´ð°¸3
+¡ª¡ª-
+¹ºÎï³µ²Ù×÷
+1.´òÓ¡¹ºÎï³µËùÓÐÐÅÏ¢ -> ÊäÈë ÐòºÅ ->ÊäÈëÊýÁ¿ -> È·ÈÏµØÖ· -> Ö§¸¶ÃÜÂë ->¸¶¿îµ½plist->´´Á¢¶©µ¥£¨¶©µ¥ºÅ²»¶Ï±éÀú£© 	²åÈë
 
+============================================================================================
+
+¶©µ¥
+Âò¼Ò ¶©µ¥ºÅ  ×´Ì¬   	ÉÌÆ· Âô¼Ò ½ð¶î ÊýÁ¿ ÊÕ»õµØÖ·
+          ´´Á¢¶©µ¥²¢¸¶¿î
+          ÒÑ·¢»õ
+          È·ÈÏÊÕ»õ²¢ÆÀ¼Û£¨Íê³É£©
 
 
-ÉÌÆ·Àà±ð±í(±í2)£º		£¿£¡
-Managewares.m/.h
+	  È¡Ïû¶©µ¥£¿(Ïú»Ù)£¨Ö»ÄÜÔÚÂô¼ÒÎ´·¢»õ£©
 
-// ·ÖÀà | ÉÌÆ·±àºÅ | ÉÌÆ·Ãû | ½ð¶î | ÆÀ¼ÛÓÃ»§n | ÆÀ¼Û·ÖÊýn | ...
-@property (nonatomic,copy)      NSString    *wareclass; //·ÖÀà
-@property (nonatomic,copy)      NSString    *warenum;   //ÉÌÆ·±àºÅ
-@property (nonatomic,copy)      NSString    *warename;  //ÉÌÆ·Ãû
-@property (nonatomic,copy)      NSString    *wareprice; //½ð¶î
-@property (nonatomic,copy)      NSString    *wareuser;  //ÆÀ¼ÛÓÃ»§
-@property (nonatomic,copy)      NSString    *warejudge; //ÆÀ¼Û·ÖÊý
+          ÇëÇóÍË¿î
+          Âô¼ÒÍ¬ÒâÍË¿î
+          ÍË¿îÍê³É
 
 
-ÓÃ»§×Ê½ð±í(±í3)£º
-Managemoney.m/.h
-
-// ÓÃ»§Ãû | ×Ü×Ê½ð | ×Ê½ðÁ÷Ïò | ²Ù×÷Ê±¼ä |...
-@property (nonatomic,copy)  NSString    *name;      //ÓÃ»§Ãû       --¹ØÁª
-@property (nonatomic,copy)  NSString    *allmoney;  //×Ü×Ê½ð
-@property (nonatomic,copy)  NSString    *opmoney;   //×Ê½ðÁ÷Ïò (´æ¡¢È¡¡¢×ª)
-@property (nonatomic,copy)  NSString    *optime;    //²Ù×÷Ê±¼ä
+ÆÀ¼Û
+Ë­µÄÉÌÆ· ÉÌÆ·Ãû ÆÀ¼Û·ÖÊý ÆÀ¼ÛÁôÑÔ
 
 
 
+
+¶©µ¥²Ù×÷
+
+
+ÎÒÊÇÂò¼Ò£º
+1.²é¿´ÒÑ¸¶¿î¶©µ¥(Âô¼ÒÎ´·¢»õ)£º	(¶ÁÈ¡ Âò¼Ò ´´Á¢¶©µ¥²¢¸¶¿î¶©µ¥ Êý×Ö)		´òÓ¡£¬ÈôÒªÈ¡Ïû¶©µ¥ÇëÊäÈëÐòºÅ£¬·ñÔò°´ÿÍË³ö¡£ È¡Ïû->»¹Ç®->¸ü¸ÄÎªÒÑÈ¡Ïû      ÍË³öÇë°´ÿ 
+2.²é¿´µÈ´ýÈ·ÈÏÊÕ»õ¶©µ¥(Âô¼ÒÒÑ·¢»õ)£º	(¶ÁÈ¡ Âò¼Ò ÒÑ·¢»õ 	Êý×Ö) 			´òÓ¡£¬ÇëÊäÈëÒª²Ù×÷µÄÐòºÅ¡£È·ÈÏ1£¬ÉêÇëÍË¿î2£¬·ñÔò°´ÿÍË³ö£¬È·ÈÏ->ÏµÍ³´òÇ®->¸ü¸Ä×´Ì¬ÎªÒÑÍê³É£¬ÍË¿î->¸ü¸Ä×´Ì¬->ÇëÇó¡£    ÍË³öÇë°´ÿ 
+3.²é¿´ÒÑÍê³É¶©µ¥£º			(¶ÁÈ¡ Âò¼Ò È·ÈÏÊÕ»õ²¢ÆÀ¼Û£¨Íê³É£© Êý×Ö) 	´òÓ¡£¬ÍË³öÇë°´ÿ 
+4.²é¿´ÒÑÈ¡Ïû¶©µ¥£º			(¶ÁÈ¡ Âò¼Ò È¡Ïû¶©µ¥ Êý×Ö) 			´òÓ¡,ÍË³öÇë°´ÿ
+5.²é¿´ÉêÇëÍË¿î¶©µ¥£º		(¶ÁÈ¡ Âò¼Ò ÇëÇóÍË¿î Êý×Ö) 			´òÓ¡£¬ÍË³öÇë°´ÿ 
+6.²é¿´ÒÑÍê³ÉÍË¿î¶©µ¥£º		(¶ÁÈ¡ Âò¼Ò ÇëÇóÍË¿î Êý×Ö) 			´òÓ¡£¬ÍË³öÇë°´ÿ 
+
+
+ÎÒÊÇÂô¼Ò£º
+7£º²é¿´ÐèÒª·¢»õ¶©µ¥£¨Âò¼ÒÒÑ¸¶¿î£©:	(¶ÁÈ¡     ´´Á¢¶©µ¥²¢¸¶¿î Âô¼Ò Êý×Ö) 	´òÓ¡£¬ÈôÒª·¢»õ£¬ÇëÊäÈë¶©µ¥ÏàÓ¦ÐòºÅ£¬·ñÔò°´ÿÍË³ö¡£ ÐòºÅ-> ¸ü¸ÄÎª·¢»õ      ÍË³öÇë°´ÿ
+8£º²é¿´ÒÑÍê³É¶©µ¥£¨Âò¼ÒÒÑ¸¶¿î£©£º	(¶ÁÈ¡     È·ÈÏÊÕ»õ²¢ÆÀ¼Û£¨Íê³É£© Âô¼Ò Êý×Ö) 	´òÓ¡£¬£¨Ö÷ÒªÓÐÆÀ¼Û£¡£©£¬ÍË³öÇë°´ÿ 
+9£º²é¿´ÒÑÈ¡Ïû¶©µ¥:			(¶ÁÈ¡     È¡Ïû¶©µ¥ Âô¼Ò Êý×Ö) 		´òÓ¡£¬ÍË³öÇë°´ÿ 
+10£º²é¿´ÍË¿î¶©µ¥£¨Âò¼ÒÉêÇëÍË¿î£©£º	(¶ÁÈ¡     ÇëÇóÍË¿î Âô¼Ò Êý×Ö) 		´òÓ¡£¬ÈôÍ¬ÒâÇë°´1£¬ÍË³öÇë°´ÿ 
+11£º²é¿´ÍË¿îÒÑÍê³É¶©µ¥£º		(¶ÁÈ¡     ÍË¿îÍê³É Âô¼Ò Êý×Ö) 		´òÓ¡£¬ÍË³öÇë°´ÿ

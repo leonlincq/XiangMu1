@@ -17,7 +17,7 @@
 //=====================================================
 -(NSString *)filepath
 {
-    return [NSHomeDirectory() stringByAppendingPathComponent:@"OnlineSaleSys.sqlite"];
+    return [NSHomeDirectory() stringByAppendingPathComponent:FILEPATH];
 }
 
 //=====================================================
