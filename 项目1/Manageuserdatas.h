@@ -24,7 +24,7 @@
 
 // 用户名 | 密码 | 真名 | 邮件 | 电话 | 会员 | 密保问题1 | 密保答案1 | 密保问题2 | 密保答案2 | 密保问题3 | 密保答案3 |
 
-@property (nonatomic,copy)      NSString    *name;      //用户名       --关联
+@property (nonatomic,copy)      NSString    *name;      //用户名       --主键
 @property (nonatomic,copy)      NSString    *password;  //密码
 @property (nonatomic,copy)      NSString    *realname;  //真名
 @property (nonatomic,copy)      NSString    *email;     //邮件

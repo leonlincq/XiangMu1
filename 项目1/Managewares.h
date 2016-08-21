@@ -28,9 +28,9 @@
 //          下架
 
 
-@property (nonatomic,copy)      NSString    *warebypeople;  //谁的商品
+@property (nonatomic,copy)      NSString    *warebypeople;  //谁的商品          --关联
 @property (nonatomic,copy)      NSString    *wareflag;      //上架还是下架
-@property (nonatomic,copy)      NSString    *warename;      //商品名
+@property (nonatomic,copy)      NSString    *warename;      //商品名           --主键
 @property (nonatomic,copy)      NSString    *wareclass;     //商品分类
 @property (nonatomic,assign)    NSInteger   wareprice;      //金额
 @property (nonatomic,assign)    NSInteger   waresum;        //商品数量

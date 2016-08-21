@@ -135,7 +135,7 @@
     printf("✅         🐧3.查看资金流向           \n");
     printf("✅         🐶4.用户转账              \n");
     printf("✅         🐘5.修改信息              \n");
-    printf("           🐤6.商品操作              \n");
+    printf("✅         🐤6.商品操作              \n");
     printf("           🐔7.订单操作              \n");
     printf("           🐹8.购物车                \n");
     printf("✅         🐼9.返回登录界面           \n");
@@ -1004,7 +1004,7 @@
                     if (temp_namestatu == LCQResultKeyRule_OK)
                     {
                         NSInteger tempjudge = [olduserdata.member intValue];
-                        if(tempjudge <= temp_alluser.count && tempjudge>0 )
+                        if(tempjudge <= temp_alluser.count && tempjudge>=1 )
                         {
                             newware = [temp_alluser[tempjudge-1] copy];
                             if(newware.waresum !=0)
@@ -1041,7 +1041,7 @@
                     NSInteger tempjudge = [olduserdata.member intValue];
                     if(tempjudge == 0)
                     {
-                        printf("%s",ERROR0x0F_ILLEGAL_WARENUMB);            //超过序号
+                        printf("%s",ERROR0x0F_ILLEGAL_WARENUMB);
                         printf("=========================================\n");
                     }
                     else
@@ -1175,7 +1175,7 @@
                     if (temp_namestatu == LCQResultKeyRule_OK)
                     {
                         NSInteger tempjudge = [olduserdata.member intValue];
-                        if(tempjudge <= temp_alluser.count && tempjudge>0 )
+                        if(tempjudge <= temp_alluser.count && tempjudge>=1 )
                         {
                             newware = [temp_alluser[tempjudge-1] copy];
                             newware.wareflag = DownWare;
@@ -1296,7 +1296,7 @@
                     if (temp_namestatu == LCQResultKeyRule_OK)
                     {
                         NSInteger tempjudge = [olduserdata.member intValue];
-                        if(tempjudge <= temp_alluser.count && tempjudge>0 )
+                        if(tempjudge <= temp_alluser.count && tempjudge>=1 )
                         {
                             newware = [temp_alluser[tempjudge-1] copy];     //选择的信息拷贝出来
                             tempstatu = uicommon_OperaWares_searchshopcar;
@@ -1364,14 +1364,9 @@
 
 //=======================搜索商品结束=======================
                 
-                
-                
-                
-                
             case uicommon_OperaWares_opwareok:
-                [MyStatuP StatuChange:(CommonUser | C_home)];
-                [self enterWaitTimer];
-                break;
+                [super uiReturnUpUi:(CommonUser | C_home)];
+                return;
 
             default:
                 break;
@@ -1379,12 +1374,7 @@
         //这里的状态是底层UI.m检测到'...'，想切回主界面，但困在while出不去
         if (MyStatuP.StaNow == (CommonUser | C_home))
         {
-//            [newop saveCommonUserData:newuser];         //更新plist
-//            printf("=========================================\n");
-//            printf("✅当前您的信息如下：");
-//            [newuser printfAllData];
-//            printf("\n");
-            [super uiReturnUpUi:(CommonUser | C_home)];
+            [self enterWaitTimer];
             break;
         }
     }
@@ -1405,9 +1395,271 @@
 //==========================
 -(void)uiCommonUserShopCar
 {
-    Status *MyStatuP = [Status statusShallOneData];
+    Status *MyStatuP                = [Status statusShallOneData];      //更改主方法状态
+    Manageuserdatas *newuser        = [[Manageuserdatas alloc]init];    //要保存的实例
+    Operateuserdatas *newop         = [[Operateuserdatas alloc]init];   //文件操作
+    Manageuserdatas *olduserdata    = [[Manageuserdatas alloc]init];    //找到数据并保存
+    LCQResultKeyRule temp_namestatu = LCQResultKeyRule_Nil;             //按键状态
+
+    Managewares *newware            = [[Managewares alloc]init];        //商品操作
+    Operatewares *opware            = [[Operatewares alloc]init];       //商品表操作
     
-    [self uiCommonUserUping];
+    
+    Manageshopcar *newshopcar       = [[Manageshopcar alloc]init];      //购物车操作
+    Operateshopcar *opshopcar       = [[Operateshopcar alloc]init];     //购物车表操作
+    
+    Manageorder *neworder           = [[Manageorder alloc]init];        //订单操作
+    Operateorder *oporder           = [[Operateorder alloc]init];       //订单表操作
+    
+    uicommon_ShopCar tempstatu    = uicommon_ShopCar_seek;              //该方法的状态
+    
+    newuser = [newop readCommonUserData];
+    
+    neworder.orderbuyer = newuser.name;
+    neworder.ordersta = Create;
+    
+    NSMutableArray *temp_alluser = [[NSMutableArray alloc]init];
+    
+    
+    printf("=========================================\n");
+    
+    while(1)
+    {
+        switch (tempstatu)
+        {
+            case uicommon_ShopCar_seek:
+                [opshopcar selectShopCarByWho:newuser.name andSaveArray:&temp_alluser];
+                if(temp_alluser.count != 0)
+                {
+                    tempstatu = uicommon_ShopCar_choose;
+                }
+                else
+                {
+                    printf("❗️您购物车空空如也，请去商品操作添加商品❗️\n");
+                    [MyStatuP StatuChange:(CommonUser | C_home)];
+                    [self enterWaitTimer];
+                    return;
+                }
+                break;
+
+            case uicommon_ShopCar_choose:
+                printf("▶️您购物车里有以下商品：\n");
+                for (NSInteger i = 0; i<temp_alluser.count ; i++)
+                {
+                    printf("(%ld)->",i+1);
+                    newshopcar = [temp_alluser[i] copy];
+                    [newshopcar printfAllData];
+                    printf("---------\n");
+                }
+                
+                printf("▶️请输入要添加到购物车的商品序号(🔙可输入'...'取消购物车操作🔙)：");
+                temp_namestatu = [super seekRule:LCQKeyRule_Numb AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_OK)
+                {
+                    NSInteger tempjudge = [olduserdata.member intValue];
+                    if(tempjudge <= temp_alluser.count && tempjudge>=1 )
+                    {
+                        newshopcar = [temp_alluser[tempjudge-1] copy];     //选择的信息拷贝出来
+                        
+                        neworder.orderware  = newshopcar.shopcarname;
+                        neworder.ordersaler = newshopcar.shopcarsaler;
+                        neworder.ordermoney = newshopcar.shopcarmoney;
+                        
+                        tempstatu = uicommon_ShopCar_surenumb;
+                        printf("=========================================\n");
+                    }
+                    else
+                    {
+                        printf("%s",ERROR0x01_ILLEGAL_NUM);            //超过序号
+                    }
+                }
+                break;
+                
+            case uicommon_ShopCar_surenumb:
+                printf("▶️您选择了该商品：\n");
+                [newshopcar printfAllData];
+                printf("▶️该商品卖家剩余");
+                newware.warename = newshopcar.shopcarname;  
+                [opware selectWareByWho:nil andFlag:UpWare andWare:newware.warename andClass:nil andSaveArray:&temp_alluser];
+                newware = [temp_alluser[0] copy];
+                [newware printfWaresum];
+                printf("\n");               
+                
+                if(newware.waresum < newshopcar.shopcarquantity)
+                {
+                    printf("❗️卖家商品数量不足❗️\n");
+                    tempstatu = uicommon_ShopCar_newnumb;
+                }
+                else
+                {
+                    printf("=========================================\n");
+                    printf("         1️⃣.需要修改数量\n");
+                    printf("         2️⃣.不需要修改数量\n");
+                    printf("▶️请选择相应操作序号(1-2)(🔙可输入'...'取消购物车操作🔙)：\n");
+                    temp_namestatu = [super seekRule:LCQKeyRule_Numb AndJudgeSaveUser:&olduserdata];
+                    if (temp_namestatu == LCQResultKeyRule_OK)
+                    {
+                        NSInteger tempjudge = [olduserdata.member intValue];
+                        switch (tempjudge)
+                        {
+                            case 1:
+                                tempstatu = uicommon_ShopCar_newnumb;
+                                printf("=========================================\n");
+                                break;
+                                
+                            case 2:
+                                
+                                neworder.orderquantity  = newshopcar.shopcarquantity;
+                                
+                                tempstatu = uicommon_ShopCar_sureaddress;
+                                printf("=========================================\n");
+                                break;
+                                
+                            default:
+                                printf("%s",ERROR0x01_ILLEGAL_NUM);
+                                break;
+                        }
+                    }
+                }
+                break;
+                
+            case uicommon_ShopCar_newnumb:
+                printf("▶️请输入小于卖家数量(🔙可输入'...'取消购物车操作🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_Numb AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_OK)
+                {
+                    NSInteger tempjudge = [olduserdata.member intValue];
+                    if(tempjudge <= newware.waresum)
+                    {
+                        neworder.orderquantity  = tempjudge;
+                        
+                        tempstatu = uicommon_ShopCar_sureaddress;
+                        printf("=========================================\n");;
+                    }
+                    else
+                    {
+                        printf("%s",ERROR0x10_OVER_WARENUMB);
+                    }
+                }
+                break;
+                
+            case uicommon_ShopCar_sureaddress:
+                printf("✅您的");
+                [newuser printfAddress];
+                 printf("\n");
+                printf("=========================================\n");
+                printf("         1️⃣.使用该地址\n");
+                printf("         2️⃣.使用新地址\n");
+                printf("▶️请选择相应操作序号(1-2)(🔙可输入'...'取消购物车操作🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_Numb AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_OK)
+                {
+                    NSInteger tempjudge = [olduserdata.member intValue];
+                    switch (tempjudge)
+                    {
+                        case 1:
+                            
+                            neworder.orderaddress = newuser.address;
+                            
+                            tempstatu = uicommon_ShopCar_payword;
+                            printf("=========================================\n");
+                            break;
+                            
+                        case 2:
+                            tempstatu = uicommon_ShopCar_newaddress;
+                            printf("=========================================\n");
+                            break;
+                            
+                        default:
+                            printf("%s",ERROR0x01_ILLEGAL_NUM);
+                            break;
+                    }
+                }
+                break;
+                
+            case uicommon_ShopCar_newaddress:
+                printf("▶️请输入收货地址，不会覆盖掉您原来的注册地址（只能字母、数字）(🔙可输入'...'取消购物车操作🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_Address AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_OK)
+                {
+                    neworder.orderaddress = olduserdata.address;
+                    
+                    tempstatu = uicommon_ShopCar_payword;
+                    printf("=========================================\n");
+                }
+                break;
+                
+            case uicommon_ShopCar_payword:
+                neworder.orderallmoney  = neworder.ordermoney * neworder.orderquantity ;
+                
+                printf("▶️请输入您的支付密码以确定支付(🔙可输入'...'取消购物车操作🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_PayWord AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_OK)
+                {
+                    if ([newuser.payword isEqualToString:olduserdata.payword])
+                    {
+                        if(newuser.money >= neworder.orderallmoney)
+                        {
+                            tempstatu = uicommon_ShopCar_buildorder;
+                            printf("=========================================\n");
+                        }
+                        else
+                        {
+                            printf("%s","余额不足，请返回充值");
+                            [MyStatuP StatuChange:(CommonUser | C_home)];
+                            [self enterWaitTimer];
+                            return;
+                        }
+                        
+                    }
+                    else
+                    {
+                        printf("%s",ERROR0x09_ILLEGAL_PASSWORD);
+                    }
+                }
+                break;
+                
+            case uicommon_ShopCar_buildorder:
+                {
+                    NSInteger count_i = 1;
+                    do
+                    {
+                        [oporder selectOrderByWho:nil andOrderSta:nil andOrdernumb:count_i andSaveArray:&temp_alluser];
+                        count_i++;
+                    } while (temp_alluser.count!=0);
+                    
+                    neworder.ordernumb  = count_i-1;
+                    
+                    [oporder addOrder:neworder];
+                            //自己购物车数量要扣掉
+                            //卖家数量要扣掉
+                            //自己的金钱要扣掉
+
+                    tempstatu = uicommon_ShopCar_toorderok;
+                }
+                break;
+                
+            case uicommon_ShopCar_toorderok:
+                printf("=========================================\n");
+                printf("✅成功创建订单，当前订单信息如下：");
+                [neworder printfAllData];
+                printf("\n");
+                
+                [MyStatuP StatuChange:(CommonUser | C_home)];
+                [self enterWaitTimer];
+                return;
+                
+            default:
+                break;
+        }
+        //这里的状态是底层UI.m检测到'...'，想切回主界面，但困在while出不去
+        if (MyStatuP.StaNow == (CommonUser | C_home))
+        {
+            [super uiReturnUpUi:(CommonUser | C_home)];
+            break;
+        }
+        
+    }
 }
 
 @end

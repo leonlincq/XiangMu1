@@ -25,7 +25,6 @@
     
     LCQKeyStatu temp_keystatu;
     
-    Managewares *temp_ware          = [[Managewares alloc]init];
     Operatewares *temp_wareop       = [[Operatewares alloc]init];
     
     

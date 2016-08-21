@@ -493,8 +493,6 @@
 //==========================
 -(void)uiSuperUserOperaUserMoney
 {
-    Status *MyStatuP = [Status statusShallOneData];
-    
     [self uiSuperUserUping];
 }
 
@@ -503,8 +501,6 @@
 //==========================
 -(void)uiSuperUserOperaWares
 {
-    Status *MyStatuP = [Status statusShallOneData];
-    
     [self uiSuperUserUping];
 }
 
@@ -513,8 +509,6 @@
 //==========================
 -(void)uiSuperUserOperaOrder
 {
-    Status *MyStatuP = [Status statusShallOneData];
-    
     [self uiSuperUserUping];
 }
 
@@ -1063,7 +1057,7 @@
                     printf("---------\n");
                 }
                 [self uiReturnUpUi:(SuperUser | S_home)];
-                break;
+                return;
                 
             case uisuper_SeekProPassword_chooseone:
                 printf("▶️请输入要查看的用户名(🔙可输入'...'取消查看🔙)：\n");

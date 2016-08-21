@@ -21,11 +21,11 @@
 
 // 用户名 | 总资金 | 资金流向 | 操作时间 |...
 
-@property (nonatomic,copy)      NSString    *opname;            //用户名       --关联
+@property (nonatomic,copy)      NSString    *opname;            //用户名                   --关联
 @property (nonatomic,assign)    NSInteger   allmoney;           //总资金
 @property (nonatomic,copy)      NSString    *opaction;          //资金操作 (存、取、转)
 @property (nonatomic,assign)    NSInteger   opmoney;            //资金
-@property (nonatomic,copy)      NSString    *opmoneytopeople;   //资金流向谁
+@property (nonatomic,copy)      NSString    *opmoneytopeople;   //资金流向谁             --关联
 @property (nonatomic,copy)      NSString    *optime;            //操作时间
 
 

@@ -35,7 +35,7 @@
         return tempsta;
     }
     
-    if ([fileop executeUpdate:@"CREATE TABLE IF NOT EXISTS Ware (warebypeople TEXT REFERENCES UserDatas￼('name') ON DELETE CASCADE ON UPDATE CASCADE, wareflag TEXT,warename TEXT,wareclass TEXT, wareprice INTEGER,waresum INTEGER)"] == NO)
+    if ([fileop executeUpdate:@"CREATE TABLE IF NOT EXISTS Ware (warebypeople TEXT REFERENCES UserDatas￼('name') ON DELETE CASCADE ON UPDATE CASCADE, wareflag TEXT,warename TEXT primary key,wareclass TEXT, wareprice INTEGER,waresum INTEGER)"] == NO)
     {
         [fileop close];
         tempsta = FILEBuildError;

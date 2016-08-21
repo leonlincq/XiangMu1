@@ -92,18 +92,16 @@ enum
     uicommon_OperaWares_searchware      = 0x03,
     
     uicommon_OperaWares_updownedware    = 0x04,
-    uicommon_OperaWares_updownedwarenumb= 0xF1,
-    uicommon_OperaWares_upwarename      = 0x05,
-    uicommon_OperaWares_upwareclass     = 0x06,
-    uicommon_OperaWares_upwareprice     = 0x07,
-    uicommon_OperaWares_upwaresum       = 0x08,
+    uicommon_OperaWares_updownedwarenumb= 0x05,
+    uicommon_OperaWares_upwarename      = 0x06,
+    uicommon_OperaWares_upwareclass     = 0x07,
+    uicommon_OperaWares_upwareprice     = 0x08,
+    uicommon_OperaWares_upwaresum       = 0x09,
     
-    uicommon_OperaWares_searchclass     = 0X09,
-    
-    uicommon_OperaWares_searchchoose    = 0X0A,
-    
-    uicommon_OperaWares_searchname      = 0x0F,
-    uicommon_OperaWares_searchshopcar   = 0x10,
+    uicommon_OperaWares_searchclass     = 0X0A,
+    uicommon_OperaWares_searchchoose    = 0X0B,
+    uicommon_OperaWares_searchname      = 0x0C,
+    uicommon_OperaWares_searchshopcar   = 0x0D,
     
     uicommon_OperaWares_opwareok        = 0xFF,
 
@@ -119,9 +117,22 @@ enum
     uicommon_OperaWares_OTHER       = 0x05,
 };
 
-
 //==========================================
 
+typedef NSUInteger uicommon_ShopCar;
+enum
+{
+    uicommon_ShopCar_seek           = 0x00,         //打印出该用户所有购物车信息
+    uicommon_ShopCar_choose         = 0x01,         //选择序号
+    uicommon_ShopCar_surenumb       = 0x02,         //该购物车数量，判断卖家的数量。
+    uicommon_ShopCar_newnumb        = 0x03,         //新的数量
+    uicommon_ShopCar_sureaddress    = 0x04,         //该用户地址
+    uicommon_ShopCar_newaddress     = 0x05,         //新的用户地址
+    uicommon_ShopCar_payword        = 0x06,         //支付密码
+    uicommon_ShopCar_buildorder     = 0x07,         //卖家的数量-1。=0要下架
+    uicommon_ShopCar_toorderok      = 0x08,         //创立订单成功
+};
+//==========================================
 
 /** 初始化定时器 */
 -(instancetype)initWithTimer;

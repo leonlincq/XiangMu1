@@ -158,19 +158,19 @@
 
 -(NSString *)returnOpaction
 {
-    if ([self.opaction isEqualToString:Deposit])
+    if ([_opaction isEqualToString:Deposit])
     {
         return @"存款";
     }
-    else if ([self.opaction isEqualToString:DrawMoney])
+    else if ([_opaction isEqualToString:DrawMoney])
     {
         return @"取款";
     }
-    else if ([self.opaction isEqualToString:Transfers])
+    else if ([_opaction isEqualToString:Transfers])
     {
         return @"转账";
     }
-    else if ([self.opaction isEqualToString:Buy])
+    else if ([_opaction isEqualToString:Buy])
     {
         return @"买";
     }

@@ -27,7 +27,11 @@ int main(int argc, const char * argv[])
     [MyWaresP creatTableForWare];       //创建商品表
     
     Operateshopcar *MyShopcarP    = [[Operateshopcar alloc]init];
-    [MyShopcarP creatTableForShopCar];    //创建购物车表
+    [MyShopcarP creatTableForShopCar];  //创建购物车表
+    
+    Operateorder *MyOrderP    = [[Operateorder alloc]init];
+    [MyOrderP creatTableForOrder];      //创建订单表
+    
     
     while (1)
     {

@@ -15,8 +15,8 @@
 // 用户名 | 商品编号n | ...
 
 @property (nonatomic,copy)      NSString    *shopcarbypeople;   //用户名       --关联
-@property (nonatomic,copy)      NSString    *shopcarname;       //商品名称
-@property (nonatomic,copy)      NSString    *shopcarsaler;      //商品来源
+@property (nonatomic,copy)      NSString    *shopcarname;       //商品名称      --关联
+@property (nonatomic,copy)      NSString    *shopcarsaler;      //商品来源      --关联
 @property (nonatomic,assign)    NSInteger   shopcarmoney;       //商品金额
 @property (nonatomic,assign)    NSInteger   shopcarquantity;    //商品数量
 @property (nonatomic,assign)    NSInteger   shopcarallmoney;    //商品总金额
