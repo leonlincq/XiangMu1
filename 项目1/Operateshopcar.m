@@ -35,7 +35,7 @@
         return tempsta;
     }
     
-    if ([fileop executeUpdate:@"CREATE TABLE IF NOT EXISTS ShopCar (shopcarbypeople TEXT REFERENCES UserDatas￼('name') ON DELETE CASCADE ON UPDATE CASCADE, shopcarname TEXT REFERENCES Ware￼('warename') ON DELETE CASCADE ON UPDATE CASCADE,shopcarsaler TEXT REFERENCES Ware￼('warebypeople') ON DELETE CASCADE ON UPDATE CASCADE,shopcarmoney TEXT REFERENCES Ware￼('wareprice') ON DELETE CASCADE ON UPDATE CASCADE,shopcarquantity INTEGER,shopcarallmoney INTEGER)"] == NO)
+    if ([fileop executeUpdate:@"CREATE TABLE IF NOT EXISTS ShopCar (shopcarbypeople TEXT REFERENCES UserDatas￼('name') ON DELETE CASCADE ON UPDATE CASCADE, shopcarname TEXT REFERENCES Ware￼('warename') ON DELETE CASCADE ON UPDATE CASCADE,shopcarsaler TEXT REFERENCES UserDatas￼('name') ON DELETE CASCADE ON UPDATE CASCADE,shopcarmoney INTEGER,shopcarquantity INTEGER,shopcarallmoney INTEGER)"] == NO)
     {
         [fileop close];
         tempsta = FILEBuildError;
@@ -181,7 +181,7 @@
     {
             
         case LCQChooseUpShopCardata_shopcarquantity:
-            if ([fileop executeUpdate:@"UPDATE UserDatas SET shopcarquantity = ? where shopcarbypeople = ?",shopcardata.shopcarquantity,shopcardata.shopcarbypeople] == NO )
+            if ([fileop executeUpdate:@"UPDATE ShopCar SET shopcarquantity = ? where shopcarbypeople = ?",shopcardata.shopcarquantity,shopcardata.shopcarbypeople] == NO )
             {
                 [fileop close];
                 tempsta = FILEUpDataError;

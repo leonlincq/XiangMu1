@@ -19,7 +19,7 @@
 		25F7DE341D5C10D600B12B4F /* Manageuserdatas.m in Sources */ = {isa = PBXBuildFile; fileRef = 25F7DE331D5C10D600B12B4F /* Manageuserdatas.m */; };
 		25F7DE371D5C112100B12B4F /* Managemoney.m in Sources */ = {isa = PBXBuildFile; fileRef = 25F7DE361D5C112100B12B4F /* Managemoney.m */; };
 		25F7DE3B1D5C122700B12B4F /* Manageshopcar.m in Sources */ = {isa = PBXBuildFile; fileRef = 25F7DE3A1D5C122700B12B4F /* Manageshopcar.m */; };
-		25F7DE3F1D5C138500B12B4F /* Managecollect.m in Sources */ = {isa = PBXBuildFile; fileRef = 25F7DE3E1D5C138500B12B4F /* Managecollect.m */; };
+		25F7DE3F1D5C138500B12B4F /* Manageevaluation.m in Sources */ = {isa = PBXBuildFile; fileRef = 25F7DE3E1D5C138500B12B4F /* Manageevaluation.m */; };
 		25F7DE421D5C13DF00B12B4F /* Manageorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 25F7DE411D5C13DF00B12B4F /* Manageorder.m */; };
 		25F7DE451D5C162800B12B4F /* Managewares.m in Sources */ = {isa = PBXBuildFile; fileRef = 25F7DE441D5C162800B12B4F /* Managewares.m */; };
 		25F7DE471D5C187500B12B4F /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 25F7DE461D5C187500B12B4F /* libsqlite3.0.tbd */; };
@@ -27,7 +27,7 @@
 		25F7DE511D5C1AE300B12B4F /* Operatewares.m in Sources */ = {isa = PBXBuildFile; fileRef = 25F7DE501D5C1AE300B12B4F /* Operatewares.m */; };
 		25F7DE551D5C1B1300B12B4F /* Operatemoney.m in Sources */ = {isa = PBXBuildFile; fileRef = 25F7DE541D5C1B1300B12B4F /* Operatemoney.m */; };
 		25F7DE581D5C1B3300B12B4F /* Operateshopcar.m in Sources */ = {isa = PBXBuildFile; fileRef = 25F7DE571D5C1B3300B12B4F /* Operateshopcar.m */; };
-		25F7DE5B1D5C1B4D00B12B4F /* Operatecollect.m in Sources */ = {isa = PBXBuildFile; fileRef = 25F7DE5A1D5C1B4D00B12B4F /* Operatecollect.m */; };
+		25F7DE5B1D5C1B4D00B12B4F /* Operateevaluation.m in Sources */ = {isa = PBXBuildFile; fileRef = 25F7DE5A1D5C1B4D00B12B4F /* Operateevaluation.m */; };
 		25F7DE5E1D5C1B5900B12B4F /* Operateorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 25F7DE5D1D5C1B5900B12B4F /* Operateorder.m */; };
 		25F7DE641D5C72DD00B12B4F /* Uimain.m in Sources */ = {isa = PBXBuildFile; fileRef = 25F7DE631D5C72DD00B12B4F /* Uimain.m */; };
 		25F7DE671D5C72F600B12B4F /* Uisuperuser.m in Sources */ = {isa = PBXBuildFile; fileRef = 25F7DE661D5C72F600B12B4F /* Uisuperuser.m */; };
@@ -74,8 +74,8 @@
 		25F7DE361D5C112100B12B4F /* Managemoney.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Managemoney.m; sourceTree = "<group>"; };
 		25F7DE391D5C122700B12B4F /* Manageshopcar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Manageshopcar.h; sourceTree = "<group>"; };
 		25F7DE3A1D5C122700B12B4F /* Manageshopcar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Manageshopcar.m; sourceTree = "<group>"; };
-		25F7DE3D1D5C138500B12B4F /* Managecollect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Managecollect.h; sourceTree = "<group>"; };
-		25F7DE3E1D5C138500B12B4F /* Managecollect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Managecollect.m; sourceTree = "<group>"; };
+		25F7DE3D1D5C138500B12B4F /* Manageevaluation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Manageevaluation.h; sourceTree = "<group>"; };
+		25F7DE3E1D5C138500B12B4F /* Manageevaluation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Manageevaluation.m; sourceTree = "<group>"; };
 		25F7DE401D5C13DF00B12B4F /* Manageorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Manageorder.h; sourceTree = "<group>"; };
 		25F7DE411D5C13DF00B12B4F /* Manageorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Manageorder.m; sourceTree = "<group>"; };
 		25F7DE431D5C162800B12B4F /* Managewares.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Managewares.h; sourceTree = "<group>"; };
@@ -89,8 +89,8 @@
 		25F7DE541D5C1B1300B12B4F /* Operatemoney.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Operatemoney.m; sourceTree = "<group>"; };
 		25F7DE561D5C1B3300B12B4F /* Operateshopcar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Operateshopcar.h; sourceTree = "<group>"; };
 		25F7DE571D5C1B3300B12B4F /* Operateshopcar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Operateshopcar.m; sourceTree = "<group>"; };
-		25F7DE591D5C1B4D00B12B4F /* Operatecollect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Operatecollect.h; sourceTree = "<group>"; };
-		25F7DE5A1D5C1B4D00B12B4F /* Operatecollect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Operatecollect.m; sourceTree = "<group>"; };
+		25F7DE591D5C1B4D00B12B4F /* Operateevaluation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Operateevaluation.h; sourceTree = "<group>"; };
+		25F7DE5A1D5C1B4D00B12B4F /* Operateevaluation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Operateevaluation.m; sourceTree = "<group>"; };
 		25F7DE5C1D5C1B5900B12B4F /* Operateorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Operateorder.h; sourceTree = "<group>"; };
 		25F7DE5D1D5C1B5900B12B4F /* Operateorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Operateorder.m; sourceTree = "<group>"; };
 		25F7DE621D5C72DD00B12B4F /* Uimain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Uimain.h; sourceTree = "<group>"; };
@@ -168,15 +168,15 @@
 			name = SQLOpOrder;
 			sourceTree = "<group>";
 		};
-		20EA3A961D698BFE0005CED6 /* SQLOpCollect */ = {
+		20EA3A961D698BFE0005CED6 /* SQLOpEvaluation */ = {
 			isa = PBXGroup;
 			children = (
-				25F7DE3D1D5C138500B12B4F /* Managecollect.h */,
-				25F7DE3E1D5C138500B12B4F /* Managecollect.m */,
-				25F7DE591D5C1B4D00B12B4F /* Operatecollect.h */,
-				25F7DE5A1D5C1B4D00B12B4F /* Operatecollect.m */,
+				25F7DE3D1D5C138500B12B4F /* Manageevaluation.h */,
+				25F7DE3E1D5C138500B12B4F /* Manageevaluation.m */,
+				25F7DE591D5C1B4D00B12B4F /* Operateevaluation.h */,
+				25F7DE5A1D5C1B4D00B12B4F /* Operateevaluation.m */,
 			);
-			name = SQLOpCollect;
+			name = SQLOpEvaluation;
 			sourceTree = "<group>";
 		};
 		25EFD3C01D5ABA7F0054829B = {
@@ -218,7 +218,7 @@
 				2031AB491D68D0CD0066DDC9 /* SQLOpWares */,
 				20EA3A941D6977C20005CED6 /* SQLOpShopCar */,
 				20EA3A951D698BBE0005CED6 /* SQLOpOrder */,
-				20EA3A961D698BFE0005CED6 /* SQLOpCollect */,
+				20EA3A961D698BFE0005CED6 /* SQLOpEvaluation */,
 				25EFD3E41D5B1A350054829B /* fmdb */,
 				25EFD3CA1D5ABA7F0054829B /* Products */,
 			);
@@ -302,7 +302,7 @@
 			files = (
 				25F7DE421D5C13DF00B12B4F /* Manageorder.m in Sources */,
 				25F7DE581D5C1B3300B12B4F /* Operateshopcar.m in Sources */,
-				25F7DE5B1D5C1B4D00B12B4F /* Operatecollect.m in Sources */,
+				25F7DE5B1D5C1B4D00B12B4F /* Operateevaluation.m in Sources */,
 				2585F1EE1D5DAA78005E86CC /* Status+Regex.m in Sources */,
 				25EFD3CD1D5ABA7F0054829B /* main.m in Sources */,
 				25EFD3F41D5B1A350054829B /* FMDatabaseQueue.m in Sources */,
@@ -313,7 +313,7 @@
 				25F7DE341D5C10D600B12B4F /* Manageuserdatas.m in Sources */,
 				25F7DE641D5C72DD00B12B4F /* Uimain.m in Sources */,
 				25EFD3F11D5B1A350054829B /* FMDatabase.m in Sources */,
-				25F7DE3F1D5C138500B12B4F /* Managecollect.m in Sources */,
+				25F7DE3F1D5C138500B12B4F /* Manageevaluation.m in Sources */,
 				25EFD3F31D5B1A350054829B /* FMDatabasePool.m in Sources */,
 				25EFD3F51D5B1A350054829B /* FMResultSet.m in Sources */,
 				25F7DE5E1D5C1B5900B12B4F /* Operateorder.m in Sources */,

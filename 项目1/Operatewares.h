@@ -29,7 +29,7 @@ enum
 /** 添加信息   waredata:添加的商品 */
 -(FILESTATUS)addWare:(Managewares *)waredata;
 /** 选择用户   name:选择的用户，nil代表全选  array:读取出来保存的数组 */
--(FILESTATUS)selectWareByWho:(NSString*)name andSaveArray:(NSMutableArray**)array;
+-(FILESTATUS)selectWareByWho:(NSString*)name andFlag:(NSString*)flag andWare:(NSString*)ware andClass:(NSString*)class andSaveArray:(NSMutableArray**)array;
 /** 删除用户   name:选择的用户 */
 -(FILESTATUS)deletWareByWho:(NSString *)name;
 /** 更新用户   waredata:用户信息表   who:更新为上架还是下架 */

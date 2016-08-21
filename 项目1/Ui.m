@@ -16,12 +16,19 @@
 -(LCQResultKeyRule)seekRule:(LCQKeyRule)rule AndJudgeSaveUser:(Manageuserdatas**)user
 {
     Status *MyStatuP                = [Status statusShallOneData];
+    
     Manageuserdatas *temp_user      = [[Manageuserdatas alloc]init];
     Operateuserdatas *temp_op       = [[Operateuserdatas alloc]init];
+    
     NSString *temp_data             = [[NSString alloc]init];
     NSMutableArray *temp_alluser    = [[NSMutableArray alloc]init];
     
     LCQKeyStatu temp_keystatu;
+    
+    Managewares *temp_ware          = [[Managewares alloc]init];
+    Operatewares *temp_wareop       = [[Operatewares alloc]init];
+    
+    
     
     switch (rule)
     {
@@ -100,6 +107,14 @@
         case LCQKeyRule_Money:
             temp_keystatu = [super inputDataAndSaveIn:&temp_data andJudge:LCQKeyChoose_onlyNumb];
             break;
+            
+        case LCQKeyRule_WareName:
+            temp_keystatu = [super inputDataAndSaveIn:&temp_data andJudge:LCQKeyChoose_onlyNumbChar];
+            break;
+            
+        case LCQKeyRule_UpWareName:
+            temp_keystatu = [super inputDataAndSaveIn:&temp_data andJudge:LCQKeyChoose_onlyNumbChar];
+            
             
         default:
             break;
@@ -273,6 +288,54 @@
                 *user = temp_user;
                 return LCQResultKeyRule_OK;
                 
+                
+            case LCQKeyRule_WareName:
+                if ([temp_wareop selectWareByWho:nil andFlag:nil andWare:temp_data andClass:nil andSaveArray:&temp_alluser] == FILEYES )
+                {
+                    if(temp_alluser.count != 0)
+                    {
+                        temp_user.member = temp_data;
+                        *user = temp_user;
+                        return LCQResultKeyRule_Found;
+                    }
+                    else
+                    {
+                        temp_user.member = temp_data;
+                        *user = temp_user;
+                        return LCQResultKeyRule_NoFound;
+                    }
+                }
+                else
+                {
+                    printf("%s",ERROR0xFE_FILE_OPNE_ERROR);
+                    return LCQResultKeyRule_OpenFilefail;
+                }
+                break;
+                
+            case LCQKeyRule_UpWareName:
+                if ([temp_wareop selectWareByWho:nil andFlag:UpWare andWare:temp_data andClass:nil andSaveArray:&temp_alluser] == FILEYES )
+                {
+                    if(temp_alluser.count != 0)
+                    {
+                        temp_user.member = temp_data;
+                        *user = temp_user;
+                        return LCQResultKeyRule_Found;
+                    }
+                    else
+                    {
+                        temp_user.member = temp_data;
+                        *user = temp_user;
+                        return LCQResultKeyRule_NoFound;
+                    }
+                }
+                else
+                {
+                    printf("%s",ERROR0xFE_FILE_OPNE_ERROR);
+                    return LCQResultKeyRule_OpenFilefail;
+                }
+                break;
+                
+                
             default:
                 break;
         }
@@ -280,8 +343,6 @@
     }
     return LCQResultKeyRule_Nil;
 }
-
-
 
 //==========================
 //      返回界面

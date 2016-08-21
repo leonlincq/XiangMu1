@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "Operateuserdatas.h"
 #import "Operatemoney.h"
+#import "Operatewares.h"
+#import "Operateshopcar.h"
 
 @interface Status : NSObject
 
@@ -35,6 +37,11 @@
 #define ERROR0x0B_ILLEGAL_PAYLENGTH             "❌请重新输入（错误代码0x0B：输入的长度不符合规范，只能是6位）❌\n"
 
 #define ERROR0x0C_ILLEGAL_OPNAME                "❌请重新输入（错误代码0x0C：不能转给自己）❌\n"
+#define ERROR0x0D_REPE_WARENAME                 "❌请重新输入（错误代码0x0D：重复的商品名）❌\n"
+#define ERROR0x0E_NO_FOUND_WARENAME             "❌请重新输入（错误代码0x0E：没有找到此商品）❌\n"
+#define ERROR0x0F_ILLEGAL_WARENUMB              "❌请重新输入（错误代码0x0F：商品数量不能为0）❌\n"
+#define ERROR0x10_OVER_WARENUMB                 "❌请重新输入（错误代码0x10：超过卖家商品数量）❌\n"
+
 
 #define ERROR0xFE_FILE_OPNE_ERROR               "❌错误（错误代码0xFE：打不开文档）❌\n"
 #define ERROR0xFF_NO_ERROR                      "❌错误（错误代码0xFF：没有错误😂）❌\n"

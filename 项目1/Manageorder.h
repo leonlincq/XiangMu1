@@ -10,16 +10,22 @@
 
 @interface Manageorder : NSObject
 
-//用户订单表
+#define Create          @"Create"           //创立订单并付款
+#define SendWare        @"SendWare"         //已发货
+#define SureWare        @"SureWare"         //确认收货并评价（完成）
+#define Cancel          @"Cancel"           //取消订单？(销毁)（只能在卖家未发货）
+#define RequestRefund   @"RequestRefund"    //请求退款
+#define AgreeRefund     @"AgreeRefund"      //卖家同意退款
+#define RefundOK        @"RefundOK"         //退款完成
 
-//更新标记位？ | 用户名 | 订单编号 | 订单操作/状态 | 商品编号n |...
-
-@property (nonatomic,assign)    NSUInteger  orderflag;  //更新标记位?
-@property (nonatomic,copy)      NSString    *name;      //用户名       --关联
-@property (nonatomic,assign)    NSUInteger  *ordernum;  //订单编号
-@property (nonatomic,assign)    NSUInteger  *ordersta;  //订单操作/状态
-@property (nonatomic,assign)    NSUInteger  *warenum;   //商品编号
-
-
+@property (nonatomic,copy)      NSString    *orderBuyer;    //订单买家
+@property (nonatomic,assign)    NSInteger   ordernumb;      //订单编号
+@property (nonatomic,copy)      NSString    *ordersta;      //订单操作/状态
+@property (nonatomic,copy)      NSString    *orderware;     //订单商品
+@property (nonatomic,copy)      NSString    *ordersaler;    //订单卖家
+@property (nonatomic,assign)    NSInteger   ordermoney;     //订单商品金额
+@property (nonatomic,assign)    NSInteger   orderquantity;  //订单商品数量
+@property (nonatomic,assign)    NSInteger   orderallmoney;  //订单总金额
+@property (nonatomic,copy)      NSString    *orderaddress;  //订单收货地址
 
 @end

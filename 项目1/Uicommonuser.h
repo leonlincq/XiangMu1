@@ -83,7 +83,44 @@ enum
     uicommon_Updata_question3   = 0x0C,
 };
 //==========================================
+typedef NSUInteger uicommon_OperaWares;
+enum
+{
+    uicommon_OperaWares_choose          = 0x00,
+    uicommon_OperaWares_upware          = 0x01,
+    uicommon_OperaWares_downware        = 0x02,
+    uicommon_OperaWares_searchware      = 0x03,
+    
+    uicommon_OperaWares_updownedware    = 0x04,
+    uicommon_OperaWares_updownedwarenumb= 0xF1,
+    uicommon_OperaWares_upwarename      = 0x05,
+    uicommon_OperaWares_upwareclass     = 0x06,
+    uicommon_OperaWares_upwareprice     = 0x07,
+    uicommon_OperaWares_upwaresum       = 0x08,
+    
+    uicommon_OperaWares_searchclass     = 0X09,
+    
+    uicommon_OperaWares_searchchoose    = 0X0A,
+    
+    uicommon_OperaWares_searchname      = 0x0F,
+    uicommon_OperaWares_searchshopcar   = 0x10,
+    
+    uicommon_OperaWares_opwareok        = 0xFF,
 
+};
+
+enum
+{
+    uicommon_OperaWares_nil         = 0x00,
+    uicommon_OperaWares_IT          = 0x01,
+    uicommon_OperaWares_EAT         = 0x02,
+    uicommon_OperaWares_LIFE        = 0x03,
+    uicommon_OperaWares_STUDENTTOOL = 0x04,
+    uicommon_OperaWares_OTHER       = 0x05,
+};
+
+
+//==========================================
 
 
 /** 初始化定时器 */
@@ -102,8 +139,8 @@ enum
 -(void)uiCommonUserUsertGiro;
 /** 修改密码 */
 -(void)uiCommonUserUpData;
-/** 购买商品 */
--(void)uiCommonUserBuyWares;
+/** 商品操作 */
+-(void)uiCommonUserOperaWares;
 /** 订单操作 */
 -(void)uiCommonUserOperaOrder;
 /** 购物车 */

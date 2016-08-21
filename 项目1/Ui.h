@@ -49,6 +49,9 @@ enum
     LCQKeyRule_PayWord  = 0x12,
     LCQKeyRule_Address  = 0x13,
     
+    
+    LCQKeyRule_WareName     = 0x14,     //仅查找商品名
+    LCQKeyRule_UpWareName   = 0x15,     //查找上架商品名
 };
 
 

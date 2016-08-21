@@ -78,7 +78,7 @@
 //  输入:name:选择的用户，nil代表全选  array:读取出来保存的数组
 //  返回:错误代码
 //=====================================================
--(FILESTATUS)selectWareByWho:(NSString*)name andSaveArray:(NSMutableArray**)array
+-(FILESTATUS)selectWareByWho:(NSString*)name andFlag:(NSString*)flag andWare:(NSString*)ware andClass:(NSString*)class andSaveArray:(NSMutableArray**)array
 {
     FILESTATUS tempsta = FILEYES;
     NSMutableArray *dataarray = [[NSMutableArray alloc]init];
@@ -93,13 +93,25 @@
     
     FMResultSet *fileresult;
     
-    if (name == nil)    //全选
+    if (name == nil && flag == nil && ware == nil && class == nil)
     {
         fileresult = [fileop executeQuery:@"SELECT warebypeople,wareflag,warename,wareclass,wareprice,waresum From Ware"];
     }
-    else                //单选
+    else if(name != nil && flag != nil && ware == nil && class == nil)
     {
-        fileresult = [fileop executeQuery:@"SELECT warebypeople,wareflag,warename,wareclass,wareprice,waresum From Ware where warebypeople = ?",name];
+        fileresult = [fileop executeQuery:@"SELECT warebypeople,wareflag,warename,wareclass,wareprice,waresum From Ware where warebypeople = ? and wareflag = ?",name,flag];
+    }
+    else if(name == nil && flag == nil && ware != nil && class == nil)
+    {
+        fileresult = [fileop executeQuery:@"SELECT warebypeople,wareflag,warename,wareclass,wareprice,waresum From Ware where warename = ?",ware];
+    }
+    else if(name == nil && flag != nil && ware != nil && class == nil)
+    {
+        fileresult = [fileop executeQuery:@"SELECT warebypeople,wareflag,warename,wareclass,wareprice,waresum From Ware where warename = ? and wareflag = ?",ware,flag];
+    }
+    else if(name == nil && flag != nil && ware == nil && class != nil)
+    {
+        fileresult = [fileop executeQuery:@"SELECT warebypeople,wareflag,warename,wareclass,wareprice,waresum From Ware where wareflag = ? and wareclass = ?",flag,class];
     }
     
     while ([fileresult next])
@@ -181,7 +193,7 @@
     {
 
         case LCQChooseUpWaredata_wareflag:
-            if ([fileop executeUpdate:@"UPDATE UserDatas SET wareflag = ? where warebypeople = ?",waredata.wareflag,waredata.warebypeople] == NO )
+            if ([fileop executeUpdate:@"UPDATE Ware SET wareflag = ? where warebypeople = ? and warename = ? ",waredata.wareflag,waredata.warebypeople,waredata.warename] == NO )
             {
                 [fileop close];
                 tempsta = FILEUpDataError;
