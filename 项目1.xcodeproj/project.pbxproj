@@ -146,6 +146,39 @@
 			name = SQLOpWares;
 			sourceTree = "<group>";
 		};
+		20EA3A941D6977C20005CED6 /* SQLOpShopCar */ = {
+			isa = PBXGroup;
+			children = (
+				25F7DE391D5C122700B12B4F /* Manageshopcar.h */,
+				25F7DE3A1D5C122700B12B4F /* Manageshopcar.m */,
+				25F7DE561D5C1B3300B12B4F /* Operateshopcar.h */,
+				25F7DE571D5C1B3300B12B4F /* Operateshopcar.m */,
+			);
+			name = SQLOpShopCar;
+			sourceTree = "<group>";
+		};
+		20EA3A951D698BBE0005CED6 /* SQLOpOrder */ = {
+			isa = PBXGroup;
+			children = (
+				25F7DE401D5C13DF00B12B4F /* Manageorder.h */,
+				25F7DE411D5C13DF00B12B4F /* Manageorder.m */,
+				25F7DE5C1D5C1B5900B12B4F /* Operateorder.h */,
+				25F7DE5D1D5C1B5900B12B4F /* Operateorder.m */,
+			);
+			name = SQLOpOrder;
+			sourceTree = "<group>";
+		};
+		20EA3A961D698BFE0005CED6 /* SQLOpCollect */ = {
+			isa = PBXGroup;
+			children = (
+				25F7DE3D1D5C138500B12B4F /* Managecollect.h */,
+				25F7DE3E1D5C138500B12B4F /* Managecollect.m */,
+				25F7DE591D5C1B4D00B12B4F /* Operatecollect.h */,
+				25F7DE5A1D5C1B4D00B12B4F /* Operatecollect.m */,
+			);
+			name = SQLOpCollect;
+			sourceTree = "<group>";
+		};
 		25EFD3C01D5ABA7F0054829B = {
 			isa = PBXGroup;
 			children = (
@@ -183,8 +216,9 @@
 				2031AB471D68D04A0066DDC9 /* SQLOpUserData */,
 				2031AB481D68D07C0066DDC9 /* SQLOpMoney */,
 				2031AB491D68D0CD0066DDC9 /* SQLOpWares */,
-				25F7DE2E1D5C0F0400B12B4F /* Sqldatas */,
-				25F7DE4B1D5C1A0600B12B4F /* Sqloperate */,
+				20EA3A941D6977C20005CED6 /* SQLOpShopCar */,
+				20EA3A951D698BBE0005CED6 /* SQLOpOrder */,
+				20EA3A961D698BFE0005CED6 /* SQLOpCollect */,
 				25EFD3E41D5B1A350054829B /* fmdb */,
 				25EFD3CA1D5ABA7F0054829B /* Products */,
 			);
@@ -208,32 +242,6 @@
 				25EFD3F01D5B1A350054829B /* Info.plist */,
 			);
 			path = fmdb;
-			sourceTree = "<group>";
-		};
-		25F7DE2E1D5C0F0400B12B4F /* Sqldatas */ = {
-			isa = PBXGroup;
-			children = (
-				25F7DE391D5C122700B12B4F /* Manageshopcar.h */,
-				25F7DE3A1D5C122700B12B4F /* Manageshopcar.m */,
-				25F7DE3D1D5C138500B12B4F /* Managecollect.h */,
-				25F7DE3E1D5C138500B12B4F /* Managecollect.m */,
-				25F7DE401D5C13DF00B12B4F /* Manageorder.h */,
-				25F7DE411D5C13DF00B12B4F /* Manageorder.m */,
-			);
-			name = Sqldatas;
-			sourceTree = "<group>";
-		};
-		25F7DE4B1D5C1A0600B12B4F /* Sqloperate */ = {
-			isa = PBXGroup;
-			children = (
-				25F7DE561D5C1B3300B12B4F /* Operateshopcar.h */,
-				25F7DE571D5C1B3300B12B4F /* Operateshopcar.m */,
-				25F7DE591D5C1B4D00B12B4F /* Operatecollect.h */,
-				25F7DE5A1D5C1B4D00B12B4F /* Operatecollect.m */,
-				25F7DE5C1D5C1B5900B12B4F /* Operateorder.h */,
-				25F7DE5D1D5C1B5900B12B4F /* Operateorder.m */,
-			);
-			name = Sqloperate;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

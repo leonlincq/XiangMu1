@@ -163,7 +163,7 @@
 
 //=====================================================
 //  描述:更新用户信息
-//  输入:name:选择的用户
+//  输入:waredata:选择的用户
 //  返回:错误代码
 //=====================================================
 -(FILESTATUS)upWareData:(Managewares *)waredata withStatu:(LCQChooseUpWaredata)statu
