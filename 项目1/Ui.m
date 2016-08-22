@@ -113,7 +113,11 @@
             
         case LCQKeyRule_UpWareName:
             temp_keystatu = [super inputDataAndSaveIn:&temp_data andJudge:LCQKeyChoose_onlyNumbChar];
+            break;
             
+        case LCQKeyRule_UpWareNameVague:
+            temp_keystatu = [super inputDataAndSaveIn:&temp_data andJudge:LCQKeyChoose_onlyNumbChar];
+            break;
             
         default:
             break;
@@ -333,6 +337,30 @@
                     return LCQResultKeyRule_OpenFilefail;
                 }
                 break;
+                
+            case LCQKeyRule_UpWareNameVague:
+                if ([temp_wareop vagueSearchWare:temp_data andSaveArray:&temp_alluser] == FILEYES )
+                {
+                    if(temp_alluser.count != 0)
+                    {
+                        temp_user.member = temp_data;
+                        *user = temp_user;
+                        return LCQResultKeyRule_Found;
+                    }
+                    else
+                    {
+                        temp_user.member = temp_data;
+                        *user = temp_user;
+                        return LCQResultKeyRule_NoFound;
+                    }
+                }
+                else
+                {
+                    printf("%s",ERROR0xFE_FILE_OPNE_ERROR);
+                    return LCQResultKeyRule_OpenFilefail;
+                }
+                break;
+                
                 
                 
             default:

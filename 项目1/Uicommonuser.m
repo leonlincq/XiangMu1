@@ -137,7 +137,7 @@
     printf("✅         🐘5.修改信息              \n");
     printf("✅         🐤6.商品操作              \n");
     printf("           🐔7.订单操作              \n");
-    printf("           🐹8.购物车                \n");
+    printf("✅         🐹8.购物车                \n");
     printf("✅         🐼9.返回登录界面           \n");
     printf("======================================\n");
     
@@ -209,8 +209,6 @@
     opmoney.opaction        = Deposit;          //存
     opmoney.opmoney         = 0;                //操作0
     opmoney.opmoneytopeople = MySelf;           //给自己，OK
-    
-    NSLog(@"%@",opmoney);
     
     NSMutableArray *temp_alluser = [[NSMutableArray alloc]init];
     
@@ -948,6 +946,7 @@
                         case uicommon_OperaWares_downware:      //下架商品
                         case uicommon_OperaWares_searchware:    //搜索商品
                             tempstatu = tempjudge;
+                            printf("=========================================\n");
                             break;
                             
                         default:
@@ -1011,6 +1010,8 @@
                             {
                                 newware.wareflag = UpWare;
                                 [opware upWareData:newware withStatu:LCQChooseUpWaredata_wareflag];
+                                printf("✅您重新上架的商品信息如下：");
+                                [newware printfAllData];
                                 tempstatu = uicommon_OperaWares_opwareok;
                                 printf("=========================================\n");
                             }
@@ -1142,7 +1143,10 @@
                     newware.waresum = [olduserdata.member intValue];
                     if(newware.waresum >0)
                     {
+                        [opware addWare:newware];
                         tempstatu = uicommon_OperaWares_opwareok;
+                        printf("✅您上架的商品信息如下：");
+                        [newware printfAllData];
                         printf("=========================================\n");
                     }
                     else
@@ -1180,6 +1184,8 @@
                             newware = [temp_alluser[tempjudge-1] copy];
                             newware.wareflag = DownWare;
                             [opware upWareData:newware withStatu:LCQChooseUpWaredata_wareflag];
+                            printf("✅您下架的商品信息如下：");
+                            [newware printfAllData];
                             tempstatu = uicommon_OperaWares_opwareok;
                             printf("=========================================\n");
                         }
@@ -1321,9 +1327,32 @@
                 temp_namestatu = [super seekRule:LCQKeyRule_UpWareName AndJudgeSaveUser:&olduserdata];
                 if (temp_namestatu == LCQResultKeyRule_Found)
                 {
-                    newware.warename = olduserdata.member;
-                    tempstatu = uicommon_OperaWares_searchshopcar;
-                    printf("=========================================\n");
+                    if ([opware vagueSearchWare:olduserdata.member andSaveArray:&temp_alluser] == FILEYES )
+                    {
+                        for (NSInteger i = 0; i<temp_alluser.count ; i++)
+                        {
+                            printf("(%ld)->",i+1);
+                            newware = [temp_alluser[i] copy];
+                            [newware printfAllData];
+                            printf("---------\n");
+                        }
+                        printf("▶️请输入要添加到购物车的商品序号(🔙可输入'...'取消添加🔙)：");
+                        temp_namestatu = [super seekRule:LCQKeyRule_Numb AndJudgeSaveUser:&olduserdata];
+                        if (temp_namestatu == LCQResultKeyRule_OK)
+                        {
+                            NSInteger tempjudge = [olduserdata.member intValue];
+                            if(tempjudge <= temp_alluser.count && tempjudge>=1 )
+                            {
+                                newware = [temp_alluser[tempjudge-1] copy];     //选择的信息拷贝出来
+                                tempstatu = uicommon_OperaWares_searchshopcar;
+                                printf("=========================================\n");
+                            }
+                            else
+                            {
+                                printf("%s",ERROR0x01_ILLEGAL_NUM);            //超过序号
+                            }
+                        }
+                    }
                 }
                 else if (temp_namestatu == LCQResultKeyRule_NoFound)
                 {
@@ -1336,12 +1365,18 @@
                 [opware selectWareByWho:nil andFlag:UpWare andWare:newware.warename andClass:nil andSaveArray:&temp_alluser];        //遍历数据
                 newware = [temp_alluser[0] copy];
                 [newware printfAllData];
+                if ([newware.warebypeople isEqualToString:newuser.name])
+                {
+                    printf("❗️防刷单系统：您不能购买自己商品❗️\n");
+                    tempstatu = uicommon_OperaWares_opwareok;
+                    break;
+                }
                 printf("▶️请输入要添加的数量(🔙可输入'...'取消商品操作🔙)：");
                 temp_namestatu = [super seekRule:LCQKeyRule_Numb AndJudgeSaveUser:&olduserdata];
                 if (temp_namestatu == LCQResultKeyRule_OK)
                 {
                     NSInteger tempjudge = [olduserdata.member intValue];
-                    if(tempjudge <= newware.waresum )
+                    if(tempjudge <= newware.waresum && tempjudge>0)
                     {
 
                         newshopcar.shopcarname      = newware.warename;
@@ -1350,14 +1385,29 @@
                         newshopcar.shopcarquantity  = tempjudge;
                         newshopcar.shopcarallmoney  = newshopcar.shopcarmoney * newshopcar.shopcarquantity;
                         
-                        [opshopcar addToShopCar:newshopcar];
+                        temp_alluser = nil;
                         
+                        [opshopcar selectShopCarByWho:newshopcar.shopcarname andSaveArray:&temp_alluser];
+                        
+                        //如果之前没有，要添加
+                        if (temp_alluser.count == 0)
+                        {
+                            [opshopcar addToShopCar:newshopcar];
+                        }
+                        else //如果之前有，要插入
+                        {
+                            newshopcar = [temp_alluser[0] copy];
+                            newshopcar.shopcarquantity += tempjudge;
+                            [opshopcar upShopCarData:newshopcar withStatu:LCQChooseUpShopCardata_shopcarquantity];
+                        }
+                        printf("✅您当前购物车该商品信息如下：");
+                        [newshopcar printfAllData];
                         tempstatu = uicommon_OperaWares_opwareok;
                         printf("=========================================\n");
                     }
                     else
                     {
-                        printf("%s",ERROR0x10_OVER_WARENUMB);            //超过数量
+                        printf("%s",ERROR0x11_ILLEGAL_WARENUMB);            //数量有误
                     }
                 }
                 break;
@@ -1365,6 +1415,7 @@
 //=======================搜索商品结束=======================
                 
             case uicommon_OperaWares_opwareok:
+                
                 [super uiReturnUpUi:(CommonUser | C_home)];
                 return;
 
@@ -1452,7 +1503,7 @@
                     printf("---------\n");
                 }
                 
-                printf("▶️请输入要添加到购物车的商品序号(🔙可输入'...'取消购物车操作🔙)：");
+                printf("▶️请输入要购买的商品序号(🔙可输入'...'取消购物车操作🔙)：");
                 temp_namestatu = [super seekRule:LCQKeyRule_Numb AndJudgeSaveUser:&olduserdata];
                 if (temp_namestatu == LCQResultKeyRule_OK)
                 {
@@ -1476,9 +1527,9 @@
                 break;
                 
             case uicommon_ShopCar_surenumb:
-                printf("▶️您选择了该商品：\n");
+                printf("✅您选择了该商品：\n");
                 [newshopcar printfAllData];
-                printf("▶️该商品卖家剩余");
+                printf("✅该商品卖家剩余");
                 newware.warename = newshopcar.shopcarname;  
                 [opware selectWareByWho:nil andFlag:UpWare andWare:newware.warename andClass:nil andSaveArray:&temp_alluser];
                 newware = [temp_alluser[0] copy];
@@ -1631,22 +1682,42 @@
                     neworder.ordernumb  = count_i-1;
                     
                     [oporder addOrder:neworder];
-                            //自己购物车数量要扣掉
-                            //卖家数量要扣掉
-                            //自己的金钱要扣掉
-
+                    
+                    //自己购物车数量要扣掉
+                    newshopcar.shopcarquantity -= neworder.orderquantity;
+                    [opshopcar upShopCarData:newshopcar withStatu:LCQChooseUpShopCardata_shopcarquantity];
+                    
+                     //如果==0 还要删除
+                    if (newshopcar.shopcarquantity == 0)
+                    {
+                        [opshopcar deletShopCarByWho:newshopcar.shopcarname];
+                    }
+                    
+                    //卖家数量要扣掉
+                    newware.waresum -= neworder.orderquantity;
+                    [opware upWareData:newware withStatu:LCQChooseUpWaredata_waresum];
+                    
+                    //如果==0 还要下架
+                    if (newware.waresum == 0)
+                    {
+                        newware.wareflag = DownWare;
+                        [opware upWareData:newware withStatu:LCQChooseUpWaredata_wareflag];
+                    }
+                    
+                    //自己的金钱要扣掉
+                    newuser.money -= neworder.orderallmoney;
+                    
                     tempstatu = uicommon_ShopCar_toorderok;
                 }
                 break;
                 
             case uicommon_ShopCar_toorderok:
                 printf("=========================================\n");
-                printf("✅成功创建订单，当前订单信息如下：");
+                printf("✅成功创建订单，当前订单信息如下：\n");
                 [neworder printfAllData];
                 printf("\n");
-                
-                [MyStatuP StatuChange:(CommonUser | C_home)];
-                [self enterWaitTimer];
+        
+                [super uiReturnUpUi:(CommonUser | C_home)];
                 return;
                 
             default:
@@ -1655,7 +1726,7 @@
         //这里的状态是底层UI.m检测到'...'，想切回主界面，但困在while出不去
         if (MyStatuP.StaNow == (CommonUser | C_home))
         {
-            [super uiReturnUpUi:(CommonUser | C_home)];
+            [self enterWaitTimer];
             break;
         }
         

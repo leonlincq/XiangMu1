@@ -62,7 +62,7 @@
         return tempsta;
     }
     
-    if ([fileop executeUpdate:@"INSERT INTO Order(orderbuyer,ordernumb,ordersta,orderware,ordersaler,ordermoney,orderquantity,orderallmoney,orderaddress) VALUES (?,?,?,?,?,?,?,?,?)",orderdata.orderbuyer,[NSNumber numberWithInteger:orderdata.ordernumb],orderdata.ordersta,orderdata.orderware,orderdata.ordersaler,[NSNumber numberWithInteger:orderdata.ordermoney],[NSNumber numberWithInteger:orderdata.orderquantity],[NSNumber numberWithInteger:orderdata.orderallmoney],orderdata.orderaddress] == NO )
+    if ([fileop executeUpdate:@"INSERT INTO Orders(orderbuyer,ordernumb,ordersta,orderware,ordersaler,ordermoney,orderquantity,orderallmoney,orderaddress) VALUES (?,?,?,?,?,?,?,?,?)",orderdata.orderbuyer,[NSNumber numberWithInteger:orderdata.ordernumb],orderdata.ordersta,orderdata.orderware,orderdata.ordersaler,[NSNumber numberWithInteger:orderdata.ordermoney],[NSNumber numberWithInteger:orderdata.orderquantity],[NSNumber numberWithInteger:orderdata.orderallmoney],orderdata.orderaddress] == NO )
     {
         [fileop close];
         tempsta = FILEAddError;
@@ -95,19 +95,19 @@
     
     if (name == nil && sta == nil && numb == 0)
     {
-        fileresult = [fileop executeQuery:@"SELECT orderbuyer,ordernumb,ordersta,orderware,ordersaler,ordermoney,orderquantity,orderallmoney,orderaddress From Order"];
+        fileresult = [fileop executeQuery:@"SELECT orderbuyer,ordernumb,ordersta,orderware,ordersaler,ordermoney,orderquantity,orderallmoney,orderaddress From Orders"];
     }
     else if (name != nil && sta == nil && numb == 0)
     {
-        fileresult = [fileop executeQuery:@"SELECT orderbuyer,ordernumb,ordersta,orderware,ordersaler,ordermoney,orderquantity,orderallmoney,orderaddress From Order where orderbuyer = ?",name];
+        fileresult = [fileop executeQuery:@"SELECT orderbuyer,ordernumb,ordersta,orderware,ordersaler,ordermoney,orderquantity,orderallmoney,orderaddress From Orders where orderbuyer = ?",name];
     }
     else if (name != nil && sta != nil && numb == 0)
     {
-        fileresult = [fileop executeQuery:@"SELECT orderbuyer,ordernumb,ordersta,orderware,ordersaler,ordermoney,orderquantity,orderallmoney,orderaddress From Order where orderbuyer = ? and ordersta = ?",name,sta];
+        fileresult = [fileop executeQuery:@"SELECT orderbuyer,ordernumb,ordersta,orderware,ordersaler,ordermoney,orderquantity,orderallmoney,orderaddress From Orders where orderbuyer = ? and ordersta = ?",name,sta];
     }
     else if (name == nil && sta == nil && numb != 0)
     {
-        fileresult = [fileop executeQuery:@"SELECT orderbuyer,ordernumb,ordersta,orderware,ordersaler,ordermoney,orderquantity,orderallmoney,orderaddress From Order where ordernumb = ?",numb];
+        fileresult = [fileop executeQuery:@"SELECT orderbuyer,ordernumb,ordersta,orderware,ordersaler,ordermoney,orderquantity,orderallmoney,orderaddress From Orders where ordernumb = ?",numb];
     }
     
     
@@ -152,7 +152,7 @@
     
     if (name == nil)
     {
-        if ([fileop executeUpdate:@"DELETE FROM Order"] == NO )
+        if ([fileop executeUpdate:@"DELETE FROM Orders"] == NO )
         {
             [fileop close];
             tempsta = FILEDeleError;
@@ -161,7 +161,7 @@
     }
     else
     {
-        if ([fileop executeUpdate:@"DELETE FROM Order WHERE orderbuyer = ?",name] == NO )
+        if ([fileop executeUpdate:@"DELETE FROM Orders WHERE orderbuyer = ?",name] == NO )
         {
             [fileop close];
             tempsta = FILEDeleError;
@@ -193,7 +193,7 @@
     {
             
         case LCQChooseUpOrderdata_ordersta:
-            if ([fileop executeUpdate:@"UPDATE Order SET ordersta = ? where ordernumb = ?",orderdata.ordersta,orderdata.ordernumb] == NO )
+            if ([fileop executeUpdate:@"UPDATE Orders SET ordersta = ? where ordernumb = ?",orderdata.ordersta,orderdata.ordernumb] == NO )
             {
                 [fileop close];
                 tempsta = FILEUpDataError;

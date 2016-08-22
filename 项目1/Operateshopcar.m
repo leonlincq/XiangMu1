@@ -78,7 +78,7 @@
 //  输入:name:选择的用户，nil代表全选  array:读取出来保存的数组
 //  返回:错误代码
 //=====================================================
--(FILESTATUS)selectShopCarByWho:(NSString*)name andSaveArray:(NSMutableArray**)array
+-(FILESTATUS)selectShopCarByWho:(NSString*)buyer andSaveArray:(NSMutableArray**)array
 {
     FILESTATUS tempsta = FILEYES;
     NSMutableArray *dataarray = [[NSMutableArray alloc]init];
@@ -93,13 +93,13 @@
     
     FMResultSet *fileresult;
     
-    if (name == nil)    //全选
+    if (buyer == nil)    //全选
     {
         fileresult = [fileop executeQuery:@"SELECT shopcarbypeople,shopcarname,shopcarsaler,shopcarmoney,shopcarquantity,shopcarallmoney From ShopCar"];
     }
     else                //单选
     {
-        fileresult = [fileop executeQuery:@"SELECT shopcarbypeople,shopcarname,shopcarsaler,shopcarmoney,shopcarquantity,shopcarallmoney From ShopCar where shopcarbypeople = ?",name];
+        fileresult = [fileop executeQuery:@"SELECT shopcarbypeople,shopcarname,shopcarsaler,shopcarmoney,shopcarquantity,shopcarallmoney From ShopCar where shopcarbypeople = ?",buyer];
     }
     
     while ([fileresult next])
@@ -127,7 +127,7 @@
 //  输入:name:选择的用户
 //  返回:错误代码
 //=====================================================
--(FILESTATUS)deletShopCarByWho:(NSString *)name
+-(FILESTATUS)deletShopCarByWho:(NSString *)shopcarname
 {
     FILESTATUS tempsta = FILEYES;
     FMDatabase *fileop = [FMDatabase databaseWithPath:[self filepath]];
@@ -138,7 +138,7 @@
         return tempsta;
     }
     
-    if (name == nil)
+    if (shopcarname == nil)
     {
         if ([fileop executeUpdate:@"DELETE FROM ShopCar"] == NO )
         {
@@ -149,7 +149,7 @@
     }
     else
     {
-        if ([fileop executeUpdate:@"DELETE FROM ShopCar WHERE shopcarbypeople = ?",name] == NO )
+        if ([fileop executeUpdate:@"DELETE FROM ShopCar WHERE shopcarname = ?",shopcarname] == NO )
         {
             [fileop close];
             tempsta = FILEDeleError;
@@ -181,7 +181,7 @@
     {
             
         case LCQChooseUpShopCardata_shopcarquantity:
-            if ([fileop executeUpdate:@"UPDATE ShopCar SET shopcarquantity = ? where shopcarbypeople = ?",shopcardata.shopcarquantity,shopcardata.shopcarbypeople] == NO )
+            if ([fileop executeUpdate:@"UPDATE ShopCar SET shopcarquantity = ? where shopcarname = ? and shopcarbypeople = ?",shopcardata.shopcarquantity,shopcardata.shopcarname,shopcardata.shopcarbypeople] == NO )
             {
                 [fileop close];
                 tempsta = FILEUpDataError;

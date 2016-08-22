@@ -42,7 +42,7 @@
 #define ERROR0x0E_NO_FOUND_WARENAME             "❌请重新输入（错误代码0x0E：没有找到此商品）❌\n"
 #define ERROR0x0F_ILLEGAL_WARENUMB              "❌请重新输入（错误代码0x0F：商品数量不能为0）❌\n"
 #define ERROR0x10_OVER_WARENUMB                 "❌请重新输入（错误代码0x10：超过卖家商品数量）❌\n"
-
+#define ERROR0x11_ILLEGAL_WARENUMB              "❌请重新输入（错误代码0x11：输入的数量有误）❌\n"
 
 #define ERROR0xFE_FILE_OPNE_ERROR               "❌错误（错误代码0xFE：打不开文档）❌\n"
 #define ERROR0xFF_NO_ERROR                      "❌错误（错误代码0xFF：没有错误😂）❌\n"

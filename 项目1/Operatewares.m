@@ -200,6 +200,15 @@
                 return tempsta;
             }
             break;
+        
+        case LCQChooseUpWaredata_waresum:
+            if ([fileop executeUpdate:@"UPDATE Ware SET waresum = ? where warebypeople = ? and warename = ? ",waredata.waresum,waredata.warebypeople,waredata.warename] == NO )
+            {
+                [fileop close];
+                tempsta = FILEUpDataError;
+                return tempsta;
+            }
+            break;
 
         default:
             break;
@@ -209,4 +218,50 @@
     return tempsta;
    
 }
+
+//=====================================================
+//  描述:模糊查看商品
+//  输入:ware:选择的商品名  array:读取出来保存的数组
+//  返回:错误代码
+//=====================================================
+-(FILESTATUS)vagueSearchWare:(NSString*)ware andSaveArray:(NSMutableArray**)array
+{
+    FILESTATUS tempsta = FILEYES;
+    NSMutableArray *dataarray = [[NSMutableArray alloc]init];
+    
+    FMDatabase *fileop = [FMDatabase databaseWithPath:[self filepath]];
+    
+    if ([fileop open] == NO )
+    {
+        tempsta = FILEOpenError;
+        return tempsta;
+    }
+    
+    FMResultSet *fileresult;
+    
+    NSString *tempdata = [NSString stringWithFormat:@"SELECT warebypeople,wareflag,warename,wareclass,wareprice,waresum From Ware WHERE warename LIKE '%%%@%%' ",ware];
+    
+    fileresult = [fileop executeQuery:tempdata];
+
+    
+    while ([fileresult next])
+    {
+        Managewares *temp_date = [[Managewares alloc]init];
+        
+        temp_date.warebypeople  = [fileresult stringForColumn:@"warebypeople"];
+        temp_date.wareflag      = [fileresult stringForColumn:@"wareflag"];
+        temp_date.warename      = [fileresult stringForColumn:@"warename"];
+        temp_date.wareclass     = [fileresult stringForColumn:@"wareclass"];
+        temp_date.wareprice     = [fileresult intForColumn:@"wareprice"];
+        temp_date.waresum       = [fileresult intForColumn:@"waresum"];
+        
+        [dataarray addObject:temp_date];
+    };
+    
+    *array = dataarray;
+    
+    [fileop close];
+    return tempsta;
+}
+
 @end

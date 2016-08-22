@@ -35,4 +35,6 @@ enum
 /** 更新用户   waredata:用户信息表   who:更新为上架还是下架 */
 -(FILESTATUS)upWareData:(Managewares *)waredata withStatu:(LCQChooseUpWaredata)statu;
 
+/** 模糊查看商品 ware:模糊商品名 */
+-(FILESTATUS)vagueSearchWare:(NSString*)ware andSaveArray:(NSMutableArray**)array;
 @end

@@ -55,27 +55,27 @@
 
 -(void)printfWareclass
 {
-    if (self.wareflag == nil)
+    if (self.wareclass == nil)
     {
         printf("分类：无");
     }
-    else if([self.wareflag isEqualToString:IT] )
+    else if([self.wareclass isEqualToString:IT] )
     {
         printf("分类：数码");
     }
-    else if([self.wareflag isEqualToString:EAT] )
+    else if([self.wareclass isEqualToString:EAT] )
     {
         printf("分类：食物");
     }
-    else if([self.wareflag isEqualToString:LIFE] )
+    else if([self.wareclass isEqualToString:LIFE] )
     {
         printf("分类：生活");
     }
-    else if([self.wareflag isEqualToString:STUDENTTOOL] )
+    else if([self.wareclass isEqualToString:STUDENTTOOL] )
     {
         printf("分类：学习用品");
     }
-    else if([self.wareflag isEqualToString:OTHER] )
+    else if([self.wareclass isEqualToString:OTHER] )
     {
         printf("分类：其他");
     }
@@ -145,7 +145,33 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"卖家:%@ ,状态:%@ ,商品名:%@ ,分类:%@ ,单价:%ld ,数量:%ld 。",_warebypeople,_wareflag,_warename,_wareclass,_wareprice,_waresum];
+    return [NSString stringWithFormat:@"卖家:%@ ,状态:%@ ,商品名:%@ ,分类:%@ ,单价:%ld ,数量:%ld 。",_warebypeople,_wareflag,_warename,[self returnWareclass],_wareprice,_waresum];
+}
+
+-(NSString*)returnWareclass
+{
+    if([_wareclass isEqualToString:IT] )
+    {
+        return @"数码";
+    }
+    else if([_wareclass isEqualToString:EAT] )
+    {
+        return @"食物";
+    }
+    else if([_wareclass isEqualToString:LIFE] )
+    {
+        return @"生活";
+    }
+    else if([_wareclass isEqualToString:STUDENTTOOL] )
+    {
+        return @"学习用品";
+    }
+    else if([_wareclass isEqualToString:OTHER] )
+    {
+        return @"其他";
+    }
+
+    return @"无";
 }
 
 @end
