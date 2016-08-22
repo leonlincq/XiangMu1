@@ -183,11 +183,15 @@
     
     FMResultSet *fileresult;
     
-    if (op == nil)    //全选
+    if (op == nil)
     {
         fileresult = [fileop executeQuery:@"SELECT opname,allmoney,opaction,opmoney,opmoneytopeople,CreatedTime From OpMoney where opname = ?",name];
     }
-    else                //单选
+    else if([op isEqualToString:Buy])
+    {
+        fileresult = [fileop executeQuery:@"SELECT opname,allmoney,opaction,opmoney,opmoneytopeople,CreatedTime From OpMoney where opname = ? and opaction = ?",name,BuyToAdmin];
+    }
+    else
     {
         fileresult = [fileop executeQuery:@"SELECT opname,allmoney,opaction,opmoney,opmoneytopeople,CreatedTime From OpMoney where opname = ? and opaction = ?",name,op];
     }
@@ -205,10 +209,40 @@
         
         [dataarray addObject:temp_date];
     };
+    [fileop close];
+    
+    
+    //======买的要记录
+    if ([op isEqualToString:Buy])
+    {
+        if ([fileop open] == NO )
+        {
+            tempsta = FILEOpenError;
+            return tempsta;
+        }
+        
+        FMResultSet *fileresult;
+        
+        fileresult = [fileop executeQuery:@"SELECT opname,allmoney,opaction,opmoney,opmoneytopeople,CreatedTime From OpMoney where opname = ? and opaction = ?",name,BuyToSaler];
+
+        while ([fileresult next])
+        {
+            Managemoney *temp_date = [[Managemoney alloc]init];
+            
+            temp_date.opname            = [fileresult stringForColumn:@"opname"];
+            temp_date.allmoney          = [fileresult intForColumn:@"allmoney"];
+            temp_date.opaction          = [fileresult stringForColumn:@"opaction"];
+            temp_date.opmoney           = [fileresult intForColumn:@"opmoney"];
+            temp_date.opmoneytopeople   = [fileresult stringForColumn:@"opmoneytopeople"];
+            temp_date.optime            = [fileresult stringForColumn:@"CreatedTime"];
+            
+            [dataarray addObject:temp_date];
+        };
+        [fileop close];
+    }
+    //======买的要记录
     
     *array = dataarray;
-    
-    [fileop close];
     return tempsta;
 }
 

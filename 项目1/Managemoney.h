@@ -13,8 +13,16 @@
 #define Deposit     @"Deposit"      //存款
 #define DrawMoney   @"DrawMoney"    //取款
 #define Transfers   @"Transfers"    //转账
-#define Buy         @"Buy"          //买
+#define Buy         @"Buy"          //购买
+#define Saler       @"Saler"        //出售
 #define MySelf      @"MySelf"       //存取款要用到
+
+//===========两者只能选其一
+#define BuyToAdmin  @"BuyToAdmin"   //钱到管理者手里
+#define BuyToSaler  @"BuyToSaler"   //钱到卖家手里
+//===========
+
+
 
 
 //用户资金表

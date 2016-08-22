@@ -409,6 +409,7 @@
                 printf("         3️⃣.查看取款记录\n");
                 printf("         4️⃣.查看转账记录\n");
                 printf("         5️⃣.查看购买记录\n");
+                printf("         5️⃣.查看出售记录\n");
                 printf("▶️请输入操作序号(1~5)(🔙可输入'...'取消查看🔙):");
                 temp_namestatu = [super seekRule:LCQKeyRule_Numb AndJudgeSaveUser:&olduserdata];
                 if (temp_namestatu == LCQResultKeyRule_OK)
@@ -455,6 +456,12 @@
                 tempop = Buy;
                 tempstatu = uicommon_LookMoneyGo_ok;
                 break;
+                
+            case uicommon_LookMoneyGo_sale:
+                tempop = Saler;
+                tempstatu = uicommon_LookMoneyGo_ok;
+                break;
+                
                 
             case uicommon_LookMoneyGo_ok:
                 [newopmoneyp selectOpMoneyName:newuser.name andop:tempop SaveArray:&temp_alluser];
@@ -1481,18 +1488,18 @@
         {
             case uicommon_OperaOrder_seek:
                 printf("🅰我是买家\n");
-                printf("      1️⃣.查看已付款订单(卖家未发货):%ld\n",[oporder searchOrderByBuyer:newuser.name andOrderSta:Create andSaler:nil]);
-                printf("      2️⃣.查看等待确认收货订单(卖家已发货):%ld\n",[oporder searchOrderByBuyer:newuser.name andOrderSta:SendWare andSaler:nil]);
-                printf("      3️⃣.查看已完成订单:%ld\n",[oporder searchOrderByBuyer:newuser.name andOrderSta:SureWare andSaler:nil]);
-                printf("      4️⃣.查看已取消订单:%ld\n",[oporder searchOrderByBuyer:newuser.name andOrderSta:Cancel andSaler:nil]);
-                printf("      5️⃣.查看申请退款订单:%ld\n",[oporder searchOrderByBuyer:newuser.name andOrderSta:RequestRefund andSaler:nil]);
-                printf("      6️⃣.查看已完成退款订单:%ld\n",[oporder searchOrderByBuyer:newuser.name andOrderSta:RefundOK andSaler:nil]);
+                printf("      1️⃣.查看已付款订单(卖家未发货):%ld\n",[oporder searchOrderByBuyer:newuser.name andOrderSta:Create andSaler:nil andKeyToErgodic:NO]);
+                printf("      2️⃣.查看等待确认收货订单(卖家已发货):%ld\n",[oporder searchOrderByBuyer:newuser.name andOrderSta:SendWare andSaler:nil andKeyToErgodic:NO]);
+                printf("      3️⃣.查看已完成订单:%ld\n",[oporder searchOrderByBuyer:newuser.name andOrderSta:SureWare andSaler:nil andKeyToErgodic:NO]);
+                printf("      4️⃣.查看已取消订单:%ld\n",[oporder searchOrderByBuyer:newuser.name andOrderSta:Cancel andSaler:nil andKeyToErgodic:NO]);
+                printf("      5️⃣.查看申请退款订单:%ld\n",[oporder searchOrderByBuyer:newuser.name andOrderSta:RequestRefund andSaler:nil andKeyToErgodic:NO]);
+                printf("      6️⃣.查看已完成退款订单:%ld\n",[oporder searchOrderByBuyer:newuser.name andOrderSta:RefundOK andSaler:nil andKeyToErgodic:NO]);
                 printf("🅱我是卖家\n");
-                printf("      1️⃣.查看需要发货订单（买家已付款）:%ld\n",[oporder searchOrderByBuyer:nil andOrderSta:Create andSaler:newuser.name]);
-                printf("      2️⃣.查看已完成订单（买家已确认评价）:%ld\n",[oporder searchOrderByBuyer:nil andOrderSta:SureWare andSaler:newuser.name]);
-                printf("      3️⃣.查看已取消订单:%ld\n",[oporder searchOrderByBuyer:nil andOrderSta:Cancel andSaler:newuser.name]);
-                printf("      4️⃣.查看退款订单（买家申请退款）:%ld\n",[oporder searchOrderByBuyer:nil andOrderSta:RequestRefund andSaler:newuser.name]);
-                printf("      5️⃣.查看退款已完成订单:%ld\n",[oporder searchOrderByBuyer:nil andOrderSta:RefundOK andSaler:newuser.name]);
+                printf("      1️⃣.查看需要发货订单（买家已付款）:%ld\n",[oporder searchOrderByBuyer:nil andOrderSta:Create andSaler:newuser.name andKeyToErgodic:NO]);
+                printf("      2️⃣.查看已完成订单（买家已确认评价）:%ld\n",[oporder searchOrderByBuyer:nil andOrderSta:SureWare andSaler:newuser.name andKeyToErgodic:NO]);
+                printf("      3️⃣.查看已取消订单:%ld\n",[oporder searchOrderByBuyer:nil andOrderSta:Cancel andSaler:newuser.name andKeyToErgodic:NO]);
+                printf("      4️⃣.查看退款订单（买家申请退款）:%ld\n",[oporder searchOrderByBuyer:nil andOrderSta:RequestRefund andSaler:newuser.name andKeyToErgodic:NO]);
+                printf("      5️⃣.查看退款已完成订单:%ld\n",[oporder searchOrderByBuyer:nil andOrderSta:RefundOK andSaler:newuser.name andKeyToErgodic:NO]);
                 
                 tempstatu = uicommon_OperaOrder_choose;
                 break;
@@ -1586,29 +1593,37 @@
 //=====================身份：买家操作=====================
                 
                 
-            case uicommon_OperaOrder_lookcreateorder:
-                
+            case uicommon_OperaOrder_lookcreateorder:           //查看已创建订单，可以取消操作
+                //取消直接成功要退款
                 break;
                 
-            case uicommon_OperaOrder_looksendware:
-                
+            case uicommon_OperaOrder_looksendware:             //卖家已发货订单，等待确认收货操作
+                //确认收货-支付面-打款-评价-资金流向（买家、卖家各一笔） -> 同时卖家资金要多一笔账
+                //退款 - 进行请求退款操作，跳状态
                 break;
                 
-            case uicommon_OperaOrder_looksureware:
-                
+            case uicommon_OperaOrder_looksureware:          //已完成订单，只能查看，不能操作
+                [oporder searchOrderByBuyer:newuser.name andOrderSta:SureWare andSaler:nil andKeyToErgodic:YES];
+                tempstatu = uicommon_OperaOrder_OK;
+                printf("=========================================\n");
                 break;
                 
-            case uicommon_OperaOrder_lookcancel:
-                
+            case uicommon_OperaOrder_lookcancel:            //已取消订单，只能查看，不能操作
+                [oporder searchOrderByBuyer:newuser.name andOrderSta:Cancel andSaler:nil andKeyToErgodic:YES];
+                tempstatu = uicommon_OperaOrder_OK;
+                printf("=========================================\n");
                 break;
                 
-            case uicommon_OperaOrder_lookrequestrefund:
-                
+            case uicommon_OperaOrder_lookrequestrefund:     //已申请退款订单，只能查看，不能操作
+                [oporder searchOrderByBuyer:newuser.name andOrderSta:RequestRefund andSaler:nil andKeyToErgodic:YES];
+                tempstatu = uicommon_OperaOrder_OK;
+                printf("=========================================\n");
                 break;
-                
-                
-            case uicommon_OperaOrder_lookrefundok:
-                
+
+            case uicommon_OperaOrder_lookrefundok:          //已申请退款成功订单，只能查看，不能操作
+                [oporder searchOrderByBuyer:newuser.name andOrderSta:RefundOK andSaler:nil andKeyToErgodic:YES];
+                tempstatu = uicommon_OperaOrder_OK;
+                printf("=========================================\n");
                 break;
                 
 //=====================身份：买家操作结束=====================
@@ -1616,28 +1631,39 @@
 //=====================身份：卖买家操作=====================
                 
                 
-            case uicommon_OperaOrder_Saler_lookBuyercreateorder:
-                
+            case uicommon_OperaOrder_Saler_lookBuyercreateorder:    //要对买家创建的订单进行操作
+                //点发货
                 break;
                 
-            case uicommon_OperaOrder_Saler_lookBuyersureware:
-                
+            case uicommon_OperaOrder_Saler_lookBuyersureware:       //查看已完成订单，只能查看，不能操作
+                [oporder searchOrderByBuyer:nil andOrderSta:SureWare andSaler:newuser.name andKeyToErgodic:YES];
+                tempstatu = uicommon_OperaOrder_OK;
+                printf("=========================================\n");
                 break;
                 
-            case uicommon_OperaOrder_Saler_lookBuyercancel:
-                
+            case uicommon_OperaOrder_Saler_lookBuyercancel:         //查看已取消订单，只能查看，不能操作
+                [oporder searchOrderByBuyer:nil andOrderSta:Cancel andSaler:newuser.name andKeyToErgodic:YES];
+                tempstatu = uicommon_OperaOrder_OK;
+                printf("=========================================\n");
                 break;
                 
-            case uicommon_OperaOrder_Saler_ookrBuyerequestrefund:
-                
+            case uicommon_OperaOrder_Saler_ookrBuyerequestrefund:      //需要对退款进行操作
+                //点退款->钱打回去
                 break;
                 
-            case uicommon_OperaOrder_Saler_lookBuyerrefundok:
-                
+            case uicommon_OperaOrder_Saler_lookBuyerrefundok:          //已申请退款成功订单，只能查看，不能操作
+                [oporder searchOrderByBuyer:nil andOrderSta:RefundOK andSaler:newuser.name andKeyToErgodic:YES];
+                tempstatu = uicommon_OperaOrder_OK;
+                printf("=========================================\n");
                 break;
                 
 //=====================身份：卖家操作结束=====================
                 
+            case uicommon_OperaOrder_NOTHING:
+                printf("✅暂无此类订单\n");
+                tempstatu = uicommon_OperaOrder_OK;
+                printf("=========================================\n");
+                break;
                 
             case uicommon_OperaOrder_OK:
                 [super uiReturnUpUi:(CommonUser | C_home)];
@@ -1675,6 +1701,9 @@
     
     Manageorder *neworder           = [[Manageorder alloc]init];        //订单操作
     Operateorder *oporder           = [[Operateorder alloc]init];       //订单表操作
+    
+    Managemoney *newmoney           = [[Managemoney alloc]init];        //资金操作
+    Operatemoney *opmoney           = [[Operatemoney alloc]init];       //资金表操作
     
     uicommon_ShopCar tempstatu    = uicommon_ShopCar_seek;              //该方法的状态
     
@@ -1931,6 +1960,14 @@
                 newuser.money -= neworder.orderallmoney;
                 [newop upUserData:newuser withWho:LCQChooseUpdata_money];
                 [newop saveCommonUserData:newuser];         //更新plist
+                
+                
+                newmoney.opname             = newuser.name;
+                newmoney.allmoney           = newuser.money;
+                newmoney.opaction           = BuyToAdmin;
+                newmoney.opmoney            = neworder.orderallmoney;
+                newmoney.opmoneytopeople    = neworder.ordersaler;
+                [opmoney addOpMoney:newmoney];           //更新资金操作表
                 
                 tempstatu = uicommon_ShopCar_toorderok;
                 break;

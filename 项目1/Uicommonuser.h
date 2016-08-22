@@ -44,7 +44,8 @@ enum
     uicommon_LookMoneyGo_drawmoney  = 0x03,
     uicommon_LookMoneyGo_transfers  = 0x04,
     uicommon_LookMoneyGo_buy        = 0x05,
-    uicommon_LookMoneyGo_ok         = 0x06,
+    uicommon_LookMoneyGo_sale       = 0x06,
+    uicommon_LookMoneyGo_ok         = 0x07,
     
 };
 //==========================================
@@ -137,7 +138,7 @@ enum
     uicommon_OperaOrder_Saler_ookrBuyerequestrefund     = 0x0B,     //查看已退款订单
     uicommon_OperaOrder_Saler_lookBuyerrefundok         = 0x0C,     //查看退款已完成订单
 
-    
+    uicommon_OperaOrder_NOTHING             = 0xFE,
     uicommon_OperaOrder_OK                  = 0xFF,     //订单操作完成
 };
 //==========================================

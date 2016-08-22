@@ -214,8 +214,10 @@
 //  输入:buyer:身为买家   sta:订单状态    saler：身为卖家
 //  返回:错误代码
 //=====================================================
--(NSInteger)searchOrderByBuyer:(NSString*)buyer andOrderSta:(NSString*)sta andSaler:(NSInteger)saler
+-(NSInteger)searchOrderByBuyer:(NSString*)buyer andOrderSta:(NSString*)sta andSaler:(NSString*)saler andKeyToErgodic:(BOOL)key
 {
+    Manageorder *neworder = [[Manageorder alloc]init];
+    
     NSMutableArray *dataarray = [[NSMutableArray alloc]init];
     
     FMDatabase *fileop = [FMDatabase databaseWithPath:[self filepath]];
@@ -252,6 +254,26 @@
     
     [fileop close];
     
+    
+    if (key == YES )
+    {
+        if (dataarray.count != 0)
+        {
+            printf("✅此类订单信息如下：\n");
+            for (NSInteger count_i = 0; count_i < dataarray.count; count_i++)
+            {
+                printf("(%ld)->",count_i+1);
+                neworder = [dataarray[count_i] copy];
+                [neworder printfAllData];
+                printf("---------\n");
+            }
+        }
+        else
+        {
+            printf("✅暂无此类订单\n");
+        }
+    }
+ 
     return dataarray.count;
 }
 
