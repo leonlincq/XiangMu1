@@ -140,7 +140,7 @@
     printf("✅         🐶4.用户转账              \n");
     printf("✅         🐘5.修改信息              \n");
     printf("✅         🐤6.商品操作              \n");
-    printf("           🐔7.订单操作              \n");
+    printf("✅         🐔7.订单操作              \n");
     printf("✅         🐹8.购物车                \n");
     printf("✅         🐼9.查看个人信息           \n");
     printf("✅         🐬10.返回登录界面          \n");
@@ -943,9 +943,9 @@
         switch (tempstatu)
         {
             case uicommon_OperaWares_choose:
-                printf("         1️⃣.上架商品\n");
-                printf("         2️⃣.下架商品\n");
-                printf("         3️⃣.搜索商品\n");
+                printf("         1️⃣.上架商品(我是卖家)\n");
+                printf("         2️⃣.下架商品(我是卖家)\n");
+                printf("         3️⃣.搜索商品(我是买家)\n");
                 printf("▶️请输入操作序号(1~3)(🔙可输入'...'取消商品操作🔙)：");
                 temp_namestatu = [super seekRule:LCQKeyRule_Numb AndJudgeSaveUser:&olduserdata];
                 if (temp_namestatu == LCQResultKeyRule_OK)
@@ -1513,8 +1513,9 @@
                 temp_namestatu = [super seekRule:LCQKeyRule_ABand1_6 AndJudgeSaveUser:&olduserdata];
                 if (temp_namestatu == LCQResultKeyRule_OK)
                 {
-                    if ([olduserdata.member characterAtIndex:0 == 'A'] || [olduserdata.member characterAtIndex:0 == 'a'] )
+                    if ([olduserdata.member characterAtIndex:0] == 'A' || [olduserdata.member characterAtIndex:0] == 'a' )
                     {
+                        NSLog(@"1");
                         switch ( [olduserdata.member characterAtIndex:1] )
                         {
                             case '1':
@@ -1552,7 +1553,7 @@
                                 break;
                         }
                     }
-                    else if ([olduserdata.member characterAtIndex:0 == 'B'] || [olduserdata.member characterAtIndex:0 == 'b'] )
+                    else if ([olduserdata.member characterAtIndex:0] == 'B' || [olduserdata.member characterAtIndex:0] == 'b' )
                     {
                         switch ( [olduserdata.member characterAtIndex:1] )
                         {
@@ -1681,11 +1682,13 @@
                     
                         //更新plist
                         [newop saveCommonUserData:newuser];
+                        printf("✅取消订单成功\n");
                         tempstatu = uicommon_OperaOrder_OK;
                         printf("=========================================\n");
                     }
                     else
                     {
+                        printf("✅您放弃取消订单\n");
                         tempstatu = uicommon_OperaOrder_OK;
                     }
                     printf("=========================================\n");
@@ -1715,7 +1718,7 @@
                 break;
                 
             case uicommon_OperaOrder_choosesendwarenumb:   //选择已发货的商品
-                printf("▶️若要 确认收货 或 请求退款 ，请输入括号里的序号(🔙可输入'...'返回🔙)：");
+                printf("▶️请先选中需要操作的商品序号，再进行 确认收货 或 请求退款(🔙可输入'...'返回🔙)：");
                 temp_namestatu = [super seekRule:LCQKeyRule_Numb AndJudgeSaveUser:&olduserdata];
                 if (temp_namestatu == LCQResultKeyRule_OK)
                 {
@@ -1947,11 +1950,12 @@
                 
 //=====================身份：买家操作结束=====================
                 
-//=====================身份：卖买家操作=====================
+//=====================身份：卖家操作=====================
                 
                 
             case uicommon_OperaOrder_Saler_lookBuyercreateorder:    //要对买家创建的订单进行操作
                 [oporder selectOrderByWho:nil andOrderSta:Create andOrdernumb:0 andSaler:newuser.name andSaveArray:&temp_alluser];
+                NSLog(@"%ld",temp_alluser.count);
                 if (temp_alluser.count != 0)
                 {
                     for (NSInteger i = 0; i<temp_alluser.count ; i++)
@@ -2385,7 +2389,7 @@
                 
             case uicommon_ShopCar_toorderok:
                 printf("=========================================\n");
-                printf("✅成功创建订单，当前订单信息如下：\n");
+                printf("✅扣款成功并创建订单，当前订单信息如下：\n");
                 [neworder printfAllData];
                 printf("\n");
         
