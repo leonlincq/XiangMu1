@@ -15,7 +15,6 @@
 #define SureWare        @"SureWare"         //确认收货并评价（完成）
 #define Cancel          @"Cancel"           //取消订单？(销毁)（只能在卖家未发货）
 #define RequestRefund   @"RequestRefund"    //请求退款
-#define AgreeRefund     @"AgreeRefund"      //卖家同意退款
 #define RefundOK        @"RefundOK"         //退款完成
 
 @property (nonatomic,copy)      NSString    *orderbuyer;    //订单买家          --关联

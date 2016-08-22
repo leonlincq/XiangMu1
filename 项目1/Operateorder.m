@@ -209,4 +209,51 @@
     return tempsta;
 }
 
+//=====================================================
+//  描述:查找有多少订单
+//  输入:buyer:身为买家   sta:订单状态    saler：身为卖家
+//  返回:错误代码
+//=====================================================
+-(NSInteger)searchOrderByBuyer:(NSString*)buyer andOrderSta:(NSString*)sta andSaler:(NSInteger)saler
+{
+    NSMutableArray *dataarray = [[NSMutableArray alloc]init];
+    
+    FMDatabase *fileop = [FMDatabase databaseWithPath:[self filepath]];
+    
+    [fileop open];
+
+    FMResultSet *fileresult;
+    
+    if (buyer != nil && sta != nil && saler == nil)
+    {
+        fileresult = [fileop executeQuery:@"SELECT orderbuyer,ordernumb,ordersta,orderware,ordersaler,ordermoney,orderquantity,orderallmoney,orderaddress From Orders where orderbuyer = ? and ordersta = ?",buyer,sta];
+    }
+    else if (buyer == nil && sta != nil && saler != nil)
+    {
+        fileresult = [fileop executeQuery:@"SELECT orderbuyer,ordernumb,ordersta,orderware,ordersaler,ordermoney,orderquantity,orderallmoney,orderaddress From Orders where ordersta = ? and ordersaler = ?",sta,saler];
+    }
+
+    while ([fileresult next])
+    {
+        Manageorder *temp_date = [[Manageorder alloc]init];
+        
+        temp_date.orderbuyer    = [fileresult stringForColumn:@"orderbuyer"];
+        temp_date.ordernumb     = [fileresult intForColumn:@"ordernumb"];
+        temp_date.ordersta      = [fileresult stringForColumn:@"ordersta"];
+        temp_date.orderware     = [fileresult stringForColumn:@"orderware"];
+        temp_date.ordersaler    = [fileresult stringForColumn:@"ordersaler"];
+        temp_date.ordermoney    = [fileresult intForColumn:@"ordermoney"];
+        temp_date.orderquantity = [fileresult intForColumn:@"orderquantity"];
+        temp_date.orderallmoney = [fileresult intForColumn:@"orderallmoney"];
+        temp_date.orderaddress  = [fileresult stringForColumn:@"orderaddress"];
+        
+        [dataarray addObject:temp_date];
+    };
+    
+    [fileop close];
+    
+    return dataarray.count;
+}
+
+
 @end

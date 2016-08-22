@@ -1473,17 +1473,118 @@
     
     printf("=========================================\n");
     
+    NSInteger numb = 0;
+    
     while(1)
     {
         switch (tempstatu)
         {
             case uicommon_OperaOrder_seek:
+                printf("🅰我是买家\n");
+                printf("      1️⃣.查看已付款订单(卖家未发货):%ld\n",[oporder searchOrderByBuyer:newuser.name andOrderSta:Create andSaler:nil]);
+                printf("      2️⃣.查看等待确认收货订单(卖家已发货):%ld\n",[oporder searchOrderByBuyer:newuser.name andOrderSta:SendWare andSaler:nil]);
+                printf("      3️⃣.查看已完成订单:%ld\n",[oporder searchOrderByBuyer:newuser.name andOrderSta:SureWare andSaler:nil]);
+                printf("      4️⃣.查看已取消订单:%ld\n",[oporder searchOrderByBuyer:newuser.name andOrderSta:Cancel andSaler:nil]);
+                printf("      5️⃣.查看申请退款订单:%ld\n",[oporder searchOrderByBuyer:newuser.name andOrderSta:RequestRefund andSaler:nil]);
+                printf("      6️⃣.查看已完成退款订单:%ld\n",[oporder searchOrderByBuyer:newuser.name andOrderSta:RefundOK andSaler:nil]);
+                printf("🅱我是卖家\n");
+                printf("      1️⃣.查看需要发货订单（买家已付款）:%ld\n",[oporder searchOrderByBuyer:nil andOrderSta:Create andSaler:newuser.name]);
+                printf("      2️⃣.查看已完成订单（买家已确认评价）:%ld\n",[oporder searchOrderByBuyer:nil andOrderSta:SureWare andSaler:newuser.name]);
+                printf("      3️⃣.查看已取消订单:%ld\n",[oporder searchOrderByBuyer:nil andOrderSta:Cancel andSaler:newuser.name]);
+                printf("      4️⃣.查看退款订单（买家申请退款）:%ld\n",[oporder searchOrderByBuyer:nil andOrderSta:RequestRefund andSaler:newuser.name]);
+                printf("      5️⃣.查看退款已完成订单:%ld\n",[oporder searchOrderByBuyer:nil andOrderSta:RefundOK andSaler:newuser.name]);
                 
+                tempstatu = uicommon_OperaOrder_choose;
+                break;
+
+        case uicommon_OperaOrder_choose:
+                printf("▶️请输入要查看内容'A'+'(1~6)' 或 'B'+'(1~5)'(如输入A1、B3)(🔙可输入'...'取消登录🔙)：");
+                temp_namestatu = [super seekRule:LCQKeyRule_ABand1_6 AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_OK)
+                {
+                    if ([olduserdata.member characterAtIndex:0 == 'A'] || [olduserdata.member characterAtIndex:0 == 'a'] )
+                    {
+                        switch ( [olduserdata.member characterAtIndex:1] )
+                        {
+                            case '1':
+                                tempstatu = uicommon_OperaOrder_lookcreateorder;    //1️⃣.查看已付款订单(卖家未发货)
+                                printf("=========================================\n");
+                                break;
+                                
+                            case '2':
+                                tempstatu = uicommon_OperaOrder_looksendware;       //2️⃣.查看等待确认收货订单(卖家已发货)
+                                printf("=========================================\n");
+                                break;
+                                
+                            case '3':
+                                tempstatu = uicommon_OperaOrder_looksureware;      //3️⃣.查看已完成订单
+                                printf("=========================================\n");
+                                break;
+                                
+                            case '4':
+                                tempstatu = uicommon_OperaOrder_lookcancel;         //4️⃣.查看已取消订单
+                                printf("=========================================\n");
+                                break;
+                                
+                            case '5':
+                                tempstatu = uicommon_OperaOrder_lookrequestrefund;  //5️⃣.查看申请退款订单
+                                printf("=========================================\n");
+                                break;
+                                
+                            case '6':
+                                tempstatu = uicommon_OperaOrder_lookrefundok;       //6️⃣.查看已完成退款订单
+                                printf("=========================================\n");
+                                break;
+                                
+                            default:
+                                printf("%s",ERROR0x02_ILLEGAL_RULE);
+                                break;
+                        }
+                    }
+                    else if ([olduserdata.member characterAtIndex:0 == 'B'] || [olduserdata.member characterAtIndex:0 == 'b'] )
+                    {
+                        switch ( [olduserdata.member characterAtIndex:1] )
+                        {
+                            case '1':
+                                tempstatu = uicommon_OperaOrder_Saler_lookBuyercreateorder;     //1️⃣.查看需要发货订单（买家已付款）
+                                printf("=========================================\n");
+                                break;
+                                
+                            case '2':
+                                tempstatu = uicommon_OperaOrder_Saler_lookBuyersureware;        //2️⃣.查看已完成订单（买家已确认评价）
+                                printf("=========================================\n");
+                                break;
+                                
+                            case '3':
+                                tempstatu = uicommon_OperaOrder_Saler_lookBuyercancel;          //3️⃣.查看已取消订单
+                                printf("=========================================\n");
+                                break;
+                                
+                            case '4':
+                                tempstatu = uicommon_OperaOrder_Saler_ookrBuyerequestrefund;    // 4️⃣.查看退款订单（买家申请退款）
+                                printf("=========================================\n");
+                                break;
+                                
+                            case '5':
+                                tempstatu = uicommon_OperaOrder_Saler_lookBuyerrefundok;        // 5️⃣.查看退款已完成订单
+                                printf("=========================================\n");
+                                break;
+ 
+                            default:
+                                printf("%s",ERROR0x02_ILLEGAL_RULE);
+                                break;
+                        }
+                        
+                    }
+                    else
+                    {
+                        printf("%s",ERROR0x02_ILLEGAL_RULE);
+                    }
+                }
                 break;
                 
-            case uicommon_OperaOrder_choose:
+//=====================身份：买家操作=====================
                 
-                break;
                 
             case uicommon_OperaOrder_lookcreateorder:
                 
@@ -1493,7 +1594,7 @@
                 
                 break;
                 
-            case uicommon_OperaOrder_lookcsureware:
+            case uicommon_OperaOrder_looksureware:
                 
                 break;
                 
@@ -1505,13 +1606,38 @@
                 
                 break;
                 
-            case uicommon_OperaOrder_lookagreerefund:
-                
-                break;
                 
             case uicommon_OperaOrder_lookrefundok:
                 
                 break;
+                
+//=====================身份：买家操作结束=====================
+                
+//=====================身份：卖买家操作=====================
+                
+                
+            case uicommon_OperaOrder_Saler_lookBuyercreateorder:
+                
+                break;
+                
+            case uicommon_OperaOrder_Saler_lookBuyersureware:
+                
+                break;
+                
+            case uicommon_OperaOrder_Saler_lookBuyercancel:
+                
+                break;
+                
+            case uicommon_OperaOrder_Saler_ookrBuyerequestrefund:
+                
+                break;
+                
+            case uicommon_OperaOrder_Saler_lookBuyerrefundok:
+                
+                break;
+                
+//=====================身份：卖家操作结束=====================
+                
                 
             case uicommon_OperaOrder_OK:
                 [super uiReturnUpUi:(CommonUser | C_home)];

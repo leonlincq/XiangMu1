@@ -119,6 +119,10 @@
             temp_keystatu = [super inputDataAndSaveIn:&temp_data andJudge:LCQKeyChoose_onlyNumbChar];
             break;
             
+        case LCQKeyRule_ABand1_6:
+              temp_keystatu = [super inputDataAndSaveIn:&temp_data andJudge:LCQKeyChoose_onlyAB16];
+            break;
+
         default:
             break;
     }
@@ -361,6 +365,10 @@
                 }
                 break;
                 
+            case LCQKeyRule_ABand1_6:       //暂时用“会员”来装按键数值，回去再判断
+                temp_user.member = temp_data;
+                *user = temp_user;
+                return LCQResultKeyRule_OK;
                 
                 
             default:

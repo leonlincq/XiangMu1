@@ -62,10 +62,10 @@
     {
         printf("状态：请求退款(等待卖家确认)");
     }
-    else if([self.ordersta isEqualToString:AgreeRefund] )
-    {
-        printf("状态：卖家同意退款");
-    }
+//    else if([self.ordersta isEqualToString:AgreeRefund] )
+//    {
+//        printf("状态：卖家同意退款");
+//    }
     else if([self.ordersta isEqualToString:RefundOK] )
     {
         printf("状态：退款完成");
@@ -234,10 +234,10 @@
     {
         return @"请求退款(等待卖家确认)";
     }
-    else if ([_ordersta isEqualToString:AgreeRefund])
-    {
-        return @"卖家同意退款";
-    }
+//    else if ([_ordersta isEqualToString:AgreeRefund])
+//    {
+//        return @"卖家同意退款";
+//    }
     else if ([_ordersta isEqualToString:RefundOK])
     {
         return @"退款完成";

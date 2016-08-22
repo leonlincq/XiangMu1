@@ -166,6 +166,16 @@
 }
 
 //===========================================
+//          判断是否A-B1-6
+//===========================================
+-(BOOL)isValidateAB16:(NSString *)data
+{
+    NSString *dataRegex = @"[Aa][1-6]|[Bb][1-5]";
+    NSPredicate *dataTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", dataRegex];
+    return [dataTest evaluateWithObject:data];
+}
+
+//===========================================
 //          判断邮箱地址的合法性
 //
 //  @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"
@@ -275,6 +285,13 @@
             
         case LCQKeyChoose_onlyNumbChar:
             if ([self isValidateNumbChar:temp_data] == NO)
+            {
+                return LCQKeyStatu_NO;
+            }
+            break;
+            
+        case LCQKeyChoose_onlyAB16:
+            if ([self isValidateAB16:temp_data] == NO)
             {
                 return LCQKeyStatu_NO;
             }

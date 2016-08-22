@@ -126,11 +126,17 @@ enum
     
     uicommon_OperaOrder_lookcreateorder     = 0x02,     //查看已创建订单
     uicommon_OperaOrder_looksendware        = 0x03,     //查看已发货订单
-    uicommon_OperaOrder_lookcsureware       = 0x04,     //查看确认收货订单
+    uicommon_OperaOrder_looksureware        = 0x04,     //查看确认收货订单
     uicommon_OperaOrder_lookcancel          = 0x05,     //查看取消订单
     uicommon_OperaOrder_lookrequestrefund   = 0x06,     //查看请求退款订单
-    uicommon_OperaOrder_lookagreerefund     = 0x07,     //查看卖家同意退款订单
-    uicommon_OperaOrder_lookrefundok        = 0x08,     //查看已退款完成订单
+    uicommon_OperaOrder_lookrefundok        = 0x07,     //查看已退款完成订单
+    
+    uicommon_OperaOrder_Saler_lookBuyercreateorder      = 0x08,     //查看需要发货订单（买家已付款）
+    uicommon_OperaOrder_Saler_lookBuyersureware         = 0x09,     //查看已完成订单（买家已确认收货）
+    uicommon_OperaOrder_Saler_lookBuyercancel           = 0x0A,     //查看已取消订单
+    uicommon_OperaOrder_Saler_ookrBuyerequestrefund     = 0x0B,     //查看已退款订单
+    uicommon_OperaOrder_Saler_lookBuyerrefundok         = 0x0C,     //查看退款已完成订单
+
     
     uicommon_OperaOrder_OK                  = 0xFF,     //订单操作完成
 };

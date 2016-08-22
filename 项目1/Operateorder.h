@@ -30,5 +30,7 @@ enum
 -(FILESTATUS)deletOrderByWho:(NSString *)name;
 /** 更新用户   waredata:用户信息表   who:更新为上架还是下架 */
 -(FILESTATUS)upOrderData:(Manageorder *)orderdata withStatu:(LCQChooseUpOrderdata)statu;
+/** 查找有多少订单 */
+-(NSInteger)searchOrderByBuyer:(NSString*)buyer andOrderSta:(NSString*)sta andSaler:(NSString*)saler;
 
 @end

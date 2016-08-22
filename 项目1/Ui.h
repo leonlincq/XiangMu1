@@ -53,6 +53,9 @@ enum
     LCQKeyRule_WareName         = 0x14,     //仅查找商品名
     LCQKeyRule_UpWareName       = 0x15,     //查找上架商品名
     LCQKeyRule_UpWareNameVague  = 0x16,     //模糊查找上架商品名
+    
+    LCQKeyRule_ABand1_6         = 0x17
+    
 };
 
 
