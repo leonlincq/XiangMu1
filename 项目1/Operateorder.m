@@ -107,7 +107,7 @@
     }
     else if (name == nil && sta == nil && numb != 0)
     {
-        fileresult = [fileop executeQuery:@"SELECT orderbuyer,ordernumb,ordersta,orderware,ordersaler,ordermoney,orderquantity,orderallmoney,orderaddress From Orders where ordernumb = ?",numb];
+        fileresult = [fileop executeQuery:@"SELECT orderbuyer,ordernumb,ordersta,orderware,ordersaler,ordermoney,orderquantity,orderallmoney,orderaddress From Orders where ordernumb = ?",[NSNumber numberWithInteger:numb]];
     }
     
     
@@ -193,7 +193,7 @@
     {
             
         case LCQChooseUpOrderdata_ordersta:
-            if ([fileop executeUpdate:@"UPDATE Orders SET ordersta = ? where ordernumb = ?",orderdata.ordersta,orderdata.ordernumb] == NO )
+            if ([fileop executeUpdate:@"UPDATE Orders SET ordersta = ? where ordernumb = ?",orderdata.ordersta,[NSNumber numberWithInteger:orderdata.ordernumb]] == NO )
             {
                 [fileop close];
                 tempsta = FILEUpDataError;

@@ -78,7 +78,7 @@
 //  输入:name:选择的用户，nil代表全选  array:读取出来保存的数组
 //  返回:错误代码
 //=====================================================
--(FILESTATUS)selectShopCarByWho:(NSString*)buyer andSaveArray:(NSMutableArray**)array
+-(FILESTATUS)selectShopCarByWho:(NSString*)buyer andWare:(NSString*)ware andSaveArray:(NSMutableArray**)array
 {
     FILESTATUS tempsta = FILEYES;
     NSMutableArray *dataarray = [[NSMutableArray alloc]init];
@@ -93,14 +93,21 @@
     
     FMResultSet *fileresult;
     
-    if (buyer == nil)    //全选
+    if (buyer == nil && ware == nil)
     {
         fileresult = [fileop executeQuery:@"SELECT shopcarbypeople,shopcarname,shopcarsaler,shopcarmoney,shopcarquantity,shopcarallmoney From ShopCar"];
     }
-    else                //单选
+    else if (buyer != nil && ware != nil)
+    {
+        fileresult = [fileop executeQuery:@"SELECT shopcarbypeople,shopcarname,shopcarsaler,shopcarmoney,shopcarquantity,shopcarallmoney From ShopCar where shopcarbypeople = ? and shopcarname = ?",buyer,ware];
+    }
+    else if (buyer != nil && ware == nil)
     {
         fileresult = [fileop executeQuery:@"SELECT shopcarbypeople,shopcarname,shopcarsaler,shopcarmoney,shopcarquantity,shopcarallmoney From ShopCar where shopcarbypeople = ?",buyer];
     }
+    
+    
+    
     
     while ([fileresult next])
     {
@@ -127,7 +134,7 @@
 //  输入:name:选择的用户
 //  返回:错误代码
 //=====================================================
--(FILESTATUS)deletShopCarByWho:(NSString *)shopcarname
+-(FILESTATUS)deletShopCarByWho:(NSString *)shopcarbuyer andWare:(NSString *)shopcarname
 {
     FILESTATUS tempsta = FILEYES;
     FMDatabase *fileop = [FMDatabase databaseWithPath:[self filepath]];
@@ -149,7 +156,7 @@
     }
     else
     {
-        if ([fileop executeUpdate:@"DELETE FROM ShopCar WHERE shopcarname = ?",shopcarname] == NO )
+        if ([fileop executeUpdate:@"DELETE FROM ShopCar WHERE shopcarbypeople = ? and shopcarname = ?",shopcarbuyer,shopcarname] == NO )
         {
             [fileop close];
             tempsta = FILEDeleError;
@@ -176,12 +183,21 @@
         tempsta = FILEOpenError;
         return tempsta;
     }
-    
+
     switch (statu)
     {
             
         case LCQChooseUpShopCardata_shopcarquantity:
-            if ([fileop executeUpdate:@"UPDATE ShopCar SET shopcarquantity = ? where shopcarname = ? and shopcarbypeople = ?",shopcardata.shopcarquantity,shopcardata.shopcarname,shopcardata.shopcarbypeople] == NO )
+            if ([fileop executeUpdate:@"UPDATE ShopCar SET shopcarquantity = ? where shopcarname = ? and shopcarbypeople = ?",[NSNumber numberWithInteger:shopcardata.shopcarquantity],shopcardata.shopcarname,shopcardata.shopcarbypeople] == NO )
+            {
+                [fileop close];
+                tempsta = FILEUpDataError;
+                return tempsta;
+            }
+            break;
+            
+        case LCQChooseUpShopCardata_shopcarallmoney:
+            if ([fileop executeUpdate:@"UPDATE ShopCar SET shopcarallmoney = ? where shopcarname = ? and shopcarbypeople = ?",[NSNumber numberWithInteger:shopcardata.shopcarallmoney],shopcardata.shopcarname,shopcardata.shopcarbypeople] == NO )
             {
                 [fileop close];
                 tempsta = FILEUpDataError;
@@ -192,7 +208,7 @@
         default:
             break;
     }
-    
+
     [fileop close];
     return tempsta;
 }

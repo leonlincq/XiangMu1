@@ -114,6 +114,7 @@
         fileresult = [fileop executeQuery:@"SELECT warebypeople,wareflag,warename,wareclass,wareprice,waresum From Ware where wareflag = ? and wareclass = ?",flag,class];
     }
     
+    
     while ([fileresult next])
     {
         Managewares *temp_date = [[Managewares alloc]init];
@@ -202,7 +203,7 @@
             break;
         
         case LCQChooseUpWaredata_waresum:
-            if ([fileop executeUpdate:@"UPDATE Ware SET waresum = ? where warebypeople = ? and warename = ? ",waredata.waresum,waredata.warebypeople,waredata.warename] == NO )
+            if ([fileop executeUpdate:@"UPDATE Ware SET waresum = ? where warebypeople = ? and warename = ? ",[NSNumber numberWithInteger:waredata.waresum],waredata.warebypeople,waredata.warename] == NO )
             {
                 [fileop close];
                 tempsta = FILEUpDataError;
