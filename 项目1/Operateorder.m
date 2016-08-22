@@ -78,7 +78,7 @@
 //  输入:name:选择的用户，nil代表全选  array:读取出来保存的数组
 //  返回:错误代码
 //=====================================================
--(FILESTATUS)selectOrderByWho:(NSString*)name andOrderSta:(NSString*)sta andOrdernumb:(NSInteger)numb andSaveArray:(NSMutableArray**)array
+-(FILESTATUS)selectOrderByWho:(NSString*)name andOrderSta:(NSString*)sta andOrdernumb:(NSInteger)numb andSaler:(NSString*)saler andSaveArray:(NSMutableArray**)array
 {
     FILESTATUS tempsta = FILEYES;
     NSMutableArray *dataarray = [[NSMutableArray alloc]init];
@@ -93,22 +93,27 @@
     
     FMResultSet *fileresult;
     
-    if (name == nil && sta == nil && numb == 0)
+    if (name == nil && sta == nil && numb == 0 && saler == nil)
     {
         fileresult = [fileop executeQuery:@"SELECT orderbuyer,ordernumb,ordersta,orderware,ordersaler,ordermoney,orderquantity,orderallmoney,orderaddress From Orders"];
     }
-    else if (name != nil && sta == nil && numb == 0)
+    else if (name != nil && sta == nil && numb == 0 && saler == nil)
     {
         fileresult = [fileop executeQuery:@"SELECT orderbuyer,ordernumb,ordersta,orderware,ordersaler,ordermoney,orderquantity,orderallmoney,orderaddress From Orders where orderbuyer = ?",name];
     }
-    else if (name != nil && sta != nil && numb == 0)
+    else if (name != nil && sta != nil && numb == 0 && saler == nil)
     {
         fileresult = [fileop executeQuery:@"SELECT orderbuyer,ordernumb,ordersta,orderware,ordersaler,ordermoney,orderquantity,orderallmoney,orderaddress From Orders where orderbuyer = ? and ordersta = ?",name,sta];
     }
-    else if (name == nil && sta == nil && numb != 0)
+    else if (name == nil && sta == nil && numb != 0 && saler == nil)
     {
         fileresult = [fileop executeQuery:@"SELECT orderbuyer,ordernumb,ordersta,orderware,ordersaler,ordermoney,orderquantity,orderallmoney,orderaddress From Orders where ordernumb = ?",[NSNumber numberWithInteger:numb]];
     }
+    else if (name == nil && sta != nil && numb == 0 && saler != nil)
+    {
+        fileresult = [fileop executeQuery:@"SELECT orderbuyer,ordernumb,ordersta,orderware,ordersaler,ordermoney,orderquantity,orderallmoney,orderaddress From Orders where ordersta = ? and ordersaler = ?",sta,saler];
+    }
+    
     
     
     while ([fileresult next])
@@ -193,13 +198,23 @@
     {
             
         case LCQChooseUpOrderdata_ordersta:
-            if ([fileop executeUpdate:@"UPDATE Orders SET ordersta = ? where ordernumb = ?",orderdata.ordersta,[NSNumber numberWithInteger:orderdata.ordernumb]] == NO )
+            if ([fileop executeUpdate:@"UPDATE Orders SET ordersta = ? where orderware = ? and orderbuyer = ?",orderdata.ordersta,orderdata.orderware,orderdata.orderbuyer] == NO )
             {
                 [fileop close];
                 tempsta = FILEUpDataError;
                 return tempsta;
             }
             break;
+            
+        case LCQChooseUpOrderdata_ordernumb:
+            if ([fileop executeUpdate:@"UPDATE Orders SET ordernumb = ? where orderware = ?",[NSNumber numberWithInteger:orderdata.ordernumb],orderdata.orderware] == NO )
+            {
+                [fileop close];
+                tempsta = FILEUpDataError;
+                return tempsta;
+            }
+            break;
+            
             
         default:
             break;

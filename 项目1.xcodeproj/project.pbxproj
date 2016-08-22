@@ -113,7 +113,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2031AB471D68D04A0066DDC9 /* SQLOpUserData */ = {
+		2031AB471D68D04A0066DDC9 /* SQLOpUserDatas */ = {
 			isa = PBXGroup;
 			children = (
 				25F7DE321D5C10D600B12B4F /* Manageuserdatas.h */,
@@ -121,7 +121,7 @@
 				25F7DE4C1D5C1A9D00B12B4F /* Operateuserdatas.h */,
 				25F7DE4D1D5C1A9D00B12B4F /* Operateuserdatas.m */,
 			);
-			name = SQLOpUserData;
+			name = SQLOpUserDatas;
 			sourceTree = "<group>";
 		};
 		2031AB481D68D07C0066DDC9 /* SQLOpMoney */ = {
@@ -213,7 +213,7 @@
 				25F7DE661D5C72F600B12B4F /* Uisuperuser.m */,
 				25F7DE681D5C731100B12B4F /* Uicommonuser.h */,
 				25F7DE691D5C731100B12B4F /* Uicommonuser.m */,
-				2031AB471D68D04A0066DDC9 /* SQLOpUserData */,
+				2031AB471D68D04A0066DDC9 /* SQLOpUserDatas */,
 				2031AB481D68D07C0066DDC9 /* SQLOpMoney */,
 				2031AB491D68D0CD0066DDC9 /* SQLOpWares */,
 				20EA3A941D6977C20005CED6 /* SQLOpShopCar */,

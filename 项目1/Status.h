@@ -12,6 +12,7 @@
 #import "Operatewares.h"
 #import "Operateshopcar.h"
 #import "Operateorder.h"
+#import "Operateevaluation.h"
 
 @interface Status : NSObject
 
@@ -95,7 +96,8 @@ enum
     C_buyWares        = 0x06,     //购买商品
     C_operaOrder      = 0x07,     //订单操作
     C_shopCar         = 0x08,     //购物车
-    C_returnWelcome   = 0x09      //返回欢迎界面
+    C_printfMyData    = 0x09,     //查看个人信息
+    C_returnWelcome   = 0x0A      //返回欢迎界面
 };
 
 
@@ -110,5 +112,6 @@ enum
 -(void)StatuChange:(LCQSTATUS)newstatus;
 /** 状态码查看 */
 -(void)lookStatu;
-
+/** 建表 */
+-(void)initTable;
 @end

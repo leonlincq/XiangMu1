@@ -135,9 +135,26 @@ enum
     uicommon_OperaOrder_Saler_lookBuyercreateorder      = 0x08,     //查看需要发货订单（买家已付款）
     uicommon_OperaOrder_Saler_lookBuyersureware         = 0x09,     //查看已完成订单（买家已确认收货）
     uicommon_OperaOrder_Saler_lookBuyercancel           = 0x0A,     //查看已取消订单
-    uicommon_OperaOrder_Saler_ookrBuyerequestrefund     = 0x0B,     //查看已退款订单
+    uicommon_OperaOrder_Saler_ookrBuyerequestrefund     = 0x0B,     //查看申请退款订单
     uicommon_OperaOrder_Saler_lookBuyerrefundok         = 0x0C,     //查看退款已完成订单
 
+    uicommon_OperaOrder_cancelorderbynumb   = 0x0D,     //买家选择订单号是否取消
+    uicommon_OperaOrder_surecancelorder     = 0x0E,     //买家确定取消订单号
+    
+    uicommon_OperaOrder_sendwarebynumb      = 0x0F,     //卖家选择发货
+    
+    uicommon_OperaOrder_choosesendwarenumb = 0x10,     //选择已发货的商品
+    uicommon_OperaOrder_choosesureorrefund = 0x11,     //选择确认或退款
+    uicommon_OperaOrder_choosesureget      = 0x12,     //确认收货
+    uicommon_OperaOrder_payword            = 0x13,     //支付密码
+    uicommon_OperaOrder_chooseevaluationlevel   = 0x14,     //评价等级
+    uicommon_OperaOrder_chooseevaluationpoint   = 0x15,     //评价分数
+    uicommon_OperaOrder_chooserefund            = 0x16,     //退款
+    
+    uicommon_OperaOrder_surerefund              = 0x17,     //卖家选择退款
+    
+    
+    
     uicommon_OperaOrder_NOTHING             = 0xFE,
     uicommon_OperaOrder_OK                  = 0xFF,     //订单操作完成
 };
@@ -180,5 +197,7 @@ enum
 -(void)uiCommonUserOperaOrder;
 /** 购物车 */
 -(void)uiCommonUserShopCar;
+/** 打印个人信息 */
+-(void)uiCommonPrintfUserData;
 
 @end

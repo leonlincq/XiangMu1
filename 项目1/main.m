@@ -16,22 +16,8 @@ int main(int argc, const char * argv[])
     Uimain       *MyUiMP = [[Uimain alloc]initWithTimer];
     Uisuperuser  *MyUiSP = [[Uisuperuser alloc]initWithTimer];
     Uicommonuser *MyUiCP = [[Uicommonuser alloc]initWithTimer];
-    
-    Operateuserdatas *MySqlP    = [[Operateuserdatas alloc]init];
-    [MySqlP creatTable];       //创建用户信息表，先这样，以后可能要把所有的表格初始化封装起来
-    
-    Operatemoney *MyMoneyP      = [[Operatemoney alloc]init];
-    [MyMoneyP creatTableForOpMoney];    //创建资金表
 
-    Operatewares *MyWaresP      = [[Operatewares alloc]init];
-    [MyWaresP creatTableForWare];       //创建商品表
-    
-    Operateshopcar *MyShopcarP    = [[Operateshopcar alloc]init];
-    [MyShopcarP creatTableForShopCar];  //创建购物车表
-    
-    Operateorder *MyOrderP    = [[Operateorder alloc]init];
-    [MyOrderP creatTableForOrder];      //创建订单表
-    
+    [MyStatuP initTable];       //创建各种表格
     
     while (1)
     {

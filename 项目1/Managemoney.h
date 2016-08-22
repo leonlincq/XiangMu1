@@ -21,6 +21,11 @@
 #define BuyToAdmin  @"BuyToAdmin"   //钱到管理者手里
 #define BuyToSaler  @"BuyToSaler"   //钱到卖家手里
 //===========
+#define AdminToBuy  @"AdminToBuy"   //钱到管理者手里
+#define SalerToBuy  @"SalerToBuy"   //钱到卖家手里
+//===========
+#define Admin       @"Admin"        //管理员
+
 
 
 

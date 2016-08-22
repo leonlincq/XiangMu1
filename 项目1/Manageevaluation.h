@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Manageevaluation : NSObject
+@interface Manageevaluation : NSObject<NSCopying>
 
 #define OneStar     @"OneStar"      //一颗星
 #define TwoStar     @"TwoStar"      //二颗星
@@ -22,11 +22,16 @@
 
 
 
-@property (nonatomic,copy)      NSString    *EvaluationBySaler;     //谁卖的
-@property (nonatomic,copy)      NSString    *EvaluationByWare;      //谁的商品
-@property (nonatomic,copy)      NSString    *EvaluationByBuyer;     //谁买的
-@property (nonatomic,copy)      NSString    *EvaluationByLevel;     //评价级别
-@property (nonatomic,copy)      NSString    *EvaluationByPoint;     //评价分数
+@property (nonatomic,copy)      NSString    *evaluationBySaler;     //谁卖的
+@property (nonatomic,copy)      NSString    *evaluationByWare;      //谁的商品
+@property (nonatomic,copy)      NSString    *evaluationByBuyer;     //谁买的
+@property (nonatomic,copy)      NSString    *evaluationByLevel;     //评价级别
+@property (nonatomic,copy)      NSString    *evaluationByPoint;     //评价分数
 
-
+-(void)printfEvaluationBySaler;
+-(void)printfEvaluationByWare;
+-(void)printfEvaluationByBuyer;
+-(void)printfEvaluationByLevel;
+-(void)printfEvaluationByPoint;
+-(void)printfAllData;
 @end

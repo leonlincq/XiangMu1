@@ -79,7 +79,7 @@
 //  输入:name:选择的用户
 //  返回:错误代码
 //=====================================================
--(FILESTATUS)deletOpMoneyWithUser:(NSString *)name
+-(FILESTATUS)deletOpMoneyWithUser:(NSString *)opaction
 {
     FILESTATUS tempsta = FILEYES;
     FMDatabase *fileop = [FMDatabase databaseWithPath:[self filepath]];
@@ -90,7 +90,7 @@
         return tempsta;
     }
     
-    if (name == nil)
+    if (opaction == nil)
     {
         if ([fileop executeUpdate:@"DELETE FROM OpMoney"] == NO )
         {
@@ -101,7 +101,7 @@
     }
     else
     {
-        if ([fileop executeUpdate:@"DELETE FROM OpMoney WHERE opname = ?",name] == NO )
+        if ([fileop executeUpdate:@"DELETE FROM OpMoney WHERE opaction = ?",opaction] == NO )
         {
             [fileop close];
             tempsta = FILEDeleError;
@@ -220,11 +220,57 @@
             tempsta = FILEOpenError;
             return tempsta;
         }
-        
-        FMResultSet *fileresult;
-        
+
         fileresult = [fileop executeQuery:@"SELECT opname,allmoney,opaction,opmoney,opmoneytopeople,CreatedTime From OpMoney where opname = ? and opaction = ?",name,BuyToSaler];
 
+        while ([fileresult next])
+        {
+            Managemoney *temp_date = [[Managemoney alloc]init];
+            
+            temp_date.opname            = [fileresult stringForColumn:@"opname"];
+            temp_date.allmoney          = [fileresult intForColumn:@"allmoney"];
+            temp_date.opaction          = [fileresult stringForColumn:@"opaction"];
+            temp_date.opmoney           = [fileresult intForColumn:@"opmoney"];
+            temp_date.opmoneytopeople   = [fileresult stringForColumn:@"opmoneytopeople"];
+            temp_date.optime            = [fileresult stringForColumn:@"CreatedTime"];
+            
+            [dataarray addObject:temp_date];
+        };
+        [fileop close];
+        
+        
+        if ([fileop open] == NO )
+        {
+            tempsta = FILEOpenError;
+            return tempsta;
+        }
+
+        fileresult = [fileop executeQuery:@"SELECT opname,allmoney,opaction,opmoney,opmoneytopeople,CreatedTime From OpMoney where opname = ? and opaction = ?",name,AdminToBuy];
+        
+        while ([fileresult next])
+        {
+            Managemoney *temp_date = [[Managemoney alloc]init];
+            
+            temp_date.opname            = [fileresult stringForColumn:@"opname"];
+            temp_date.allmoney          = [fileresult intForColumn:@"allmoney"];
+            temp_date.opaction          = [fileresult stringForColumn:@"opaction"];
+            temp_date.opmoney           = [fileresult intForColumn:@"opmoney"];
+            temp_date.opmoneytopeople   = [fileresult stringForColumn:@"opmoneytopeople"];
+            temp_date.optime            = [fileresult stringForColumn:@"CreatedTime"];
+            
+            [dataarray addObject:temp_date];
+        };
+        [fileop close];
+        
+
+        if ([fileop open] == NO )
+        {
+            tempsta = FILEOpenError;
+            return tempsta;
+        }
+        
+        fileresult = [fileop executeQuery:@"SELECT opname,allmoney,opaction,opmoney,opmoneytopeople,CreatedTime From OpMoney where opname = ? and opaction = ?",name,SalerToBuy];
+        
         while ([fileresult next])
         {
             Managemoney *temp_date = [[Managemoney alloc]init];
@@ -269,6 +315,45 @@
 
     fileresult = [fileop executeQuery:@"SELECT opname,allmoney,opaction,opmoney,opmoneytopeople,CreatedTime From OpMoney where opmoneytopeople = ?",name];
 
+    
+    while ([fileresult next])
+    {
+        Managemoney *temp_date = [[Managemoney alloc]init];
+        
+        temp_date.opname            = [fileresult stringForColumn:@"opname"];
+        temp_date.allmoney          = [fileresult intForColumn:@"allmoney"];
+        temp_date.opaction          = [fileresult stringForColumn:@"opaction"];
+        temp_date.opmoney           = [fileresult intForColumn:@"opmoney"];
+        temp_date.opmoneytopeople   = [fileresult stringForColumn:@"opmoneytopeople"];
+        temp_date.optime            = [fileresult stringForColumn:@"CreatedTime"];
+        
+        [dataarray addObject:temp_date];
+    };
+    
+    *array = dataarray;
+    
+    [fileop close];
+    return tempsta;
+}
+
+-(FILESTATUS)lookOpaction:(NSString*)opaction andSaveArray:(NSMutableArray**)array
+{
+    FILESTATUS tempsta = FILEYES;
+    NSMutableArray *dataarray = [[NSMutableArray alloc]init];
+    
+    FMDatabase *fileop = [FMDatabase databaseWithPath:[self filepath]];
+    
+    if ([fileop open] == NO )
+    {
+        tempsta = FILEOpenError;
+        return tempsta;
+    }
+    
+    FMResultSet *fileresult;
+    
+    
+    fileresult = [fileop executeQuery:@"SELECT opname,allmoney,opaction,opmoney,opmoneytopeople,CreatedTime From OpMoney where opaction = ?",opaction];
+    
     
     while ([fileresult next])
     {
