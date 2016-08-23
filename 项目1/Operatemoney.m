@@ -112,7 +112,6 @@
     [fileop close];
     return tempsta;
 }
-
 //=====================================================
 //  描述:选择查看信息，可单选可全选
 //  输入:name:选择的用户，nil代表全选  array:读取出来保存的数组
@@ -162,7 +161,6 @@
     return tempsta;
 }
 
-
 //=====================================================
 //  描述:选择查看信息，可单选可全选
 //  输入:name:选择的用户，nil代表全选  array:读取出来保存的数组
@@ -183,15 +181,11 @@
     
     FMResultSet *fileresult;
     
-    if (op == nil)
+    if (name !=nil && op == nil)        //查看某人的所有操作
     {
         fileresult = [fileop executeQuery:@"SELECT opname,allmoney,opaction,opmoney,opmoneytopeople,CreatedTime From OpMoney where opname = ?",name];
     }
-    else if([op isEqualToString:Buy])
-    {
-        fileresult = [fileop executeQuery:@"SELECT opname,allmoney,opaction,opmoney,opmoneytopeople,CreatedTime From OpMoney where opname = ? and opaction = ?",name,BuyerToAdmin];
-    }
-    else
+    else if (name !=nil && op != nil)   //查看某人的某项操作
     {
         fileresult = [fileop executeQuery:@"SELECT opname,allmoney,opaction,opmoney,opmoneytopeople,CreatedTime From OpMoney where opname = ? and opaction = ?",name,op];
     }
@@ -211,167 +205,7 @@
     };
     [fileop close];
     
-    
-    //======买的要记录
-    if ([op isEqualToString:Buy])
-    {
-        if ([fileop open] == NO )
-        {
-            tempsta = FILEOpenError;
-            return tempsta;
-        }
-
-        fileresult = [fileop executeQuery:@"SELECT opname,allmoney,opaction,opmoney,opmoneytopeople,CreatedTime From OpMoney where opname = ? and opaction = ?",name,BuyerToSaler];
-
-        while ([fileresult next])
-        {
-            Managemoney *temp_date = [[Managemoney alloc]init];
-            
-            temp_date.opname            = [fileresult stringForColumn:@"opname"];
-            temp_date.allmoney          = [fileresult intForColumn:@"allmoney"];
-            temp_date.opaction          = [fileresult stringForColumn:@"opaction"];
-            temp_date.opmoney           = [fileresult intForColumn:@"opmoney"];
-            temp_date.opmoneytopeople   = [fileresult stringForColumn:@"opmoneytopeople"];
-            temp_date.optime            = [fileresult stringForColumn:@"CreatedTime"];
-            
-            [dataarray addObject:temp_date];
-        };
-        [fileop close];
-        
-        
-        if ([fileop open] == NO )
-        {
-            tempsta = FILEOpenError;
-            return tempsta;
-        }
-
-        fileresult = [fileop executeQuery:@"SELECT opname,allmoney,opaction,opmoney,opmoneytopeople,CreatedTime From OpMoney where opname = ? and opaction = ?",name,AdminToBuyer];
-        
-        while ([fileresult next])
-        {
-            Managemoney *temp_date = [[Managemoney alloc]init];
-            
-            temp_date.opname            = [fileresult stringForColumn:@"opname"];
-            temp_date.allmoney          = [fileresult intForColumn:@"allmoney"];
-            temp_date.opaction          = [fileresult stringForColumn:@"opaction"];
-            temp_date.opmoney           = [fileresult intForColumn:@"opmoney"];
-            temp_date.opmoneytopeople   = [fileresult stringForColumn:@"opmoneytopeople"];
-            temp_date.optime            = [fileresult stringForColumn:@"CreatedTime"];
-            
-            [dataarray addObject:temp_date];
-        };
-        [fileop close];
-        
-
-        if ([fileop open] == NO )
-        {
-            tempsta = FILEOpenError;
-            return tempsta;
-        }
-        
-        fileresult = [fileop executeQuery:@"SELECT opname,allmoney,opaction,opmoney,opmoneytopeople,CreatedTime From OpMoney where opname = ? and opaction = ?",name,SalerToBuyer];
-        
-        while ([fileresult next])
-        {
-            Managemoney *temp_date = [[Managemoney alloc]init];
-            
-            temp_date.opname            = [fileresult stringForColumn:@"opname"];
-            temp_date.allmoney          = [fileresult intForColumn:@"allmoney"];
-            temp_date.opaction          = [fileresult stringForColumn:@"opaction"];
-            temp_date.opmoney           = [fileresult intForColumn:@"opmoney"];
-            temp_date.opmoneytopeople   = [fileresult stringForColumn:@"opmoneytopeople"];
-            temp_date.optime            = [fileresult stringForColumn:@"CreatedTime"];
-            
-            [dataarray addObject:temp_date];
-        };
-        [fileop close];
-    }
-    //======买的要记录
-    
     *array = dataarray;
-    return tempsta;
-}
-
-//=====================================================
-//  描述:选择谁转账给我
-//  输入:name:接收用户 array:读取出来保存的数组
-//  返回:错误代码
-//=====================================================
--(FILESTATUS)selectOpmoneytopeople:(NSString*)name andSaveArray:(NSMutableArray**)array
-{
-    FILESTATUS tempsta = FILEYES;
-    NSMutableArray *dataarray = [[NSMutableArray alloc]init];
-    
-    FMDatabase *fileop = [FMDatabase databaseWithPath:[self filepath]];
-    
-    if ([fileop open] == NO )
-    {
-        tempsta = FILEOpenError;
-        return tempsta;
-    }
-    
-    FMResultSet *fileresult;
-    
-
-    fileresult = [fileop executeQuery:@"SELECT opname,allmoney,opaction,opmoney,opmoneytopeople,CreatedTime From OpMoney where opmoneytopeople = ?",name];
-
-    
-    while ([fileresult next])
-    {
-        Managemoney *temp_date = [[Managemoney alloc]init];
-        
-        temp_date.opname            = [fileresult stringForColumn:@"opname"];
-        temp_date.allmoney          = [fileresult intForColumn:@"allmoney"];
-        temp_date.opaction          = [fileresult stringForColumn:@"opaction"];
-        temp_date.opmoney           = [fileresult intForColumn:@"opmoney"];
-        temp_date.opmoneytopeople   = [fileresult stringForColumn:@"opmoneytopeople"];
-        temp_date.optime            = [fileresult stringForColumn:@"CreatedTime"];
-        
-        [dataarray addObject:temp_date];
-    };
-    
-    *array = dataarray;
-    
-    [fileop close];
-    return tempsta;
-}
-
--(FILESTATUS)lookOpaction:(NSString*)opaction andSaveArray:(NSMutableArray**)array
-{
-    FILESTATUS tempsta = FILEYES;
-    NSMutableArray *dataarray = [[NSMutableArray alloc]init];
-    
-    FMDatabase *fileop = [FMDatabase databaseWithPath:[self filepath]];
-    
-    if ([fileop open] == NO )
-    {
-        tempsta = FILEOpenError;
-        return tempsta;
-    }
-    
-    FMResultSet *fileresult;
-    
-    
-    fileresult = [fileop executeQuery:@"SELECT opname,allmoney,opaction,opmoney,opmoneytopeople,CreatedTime From OpMoney where opaction = ?",opaction];
-    
-    
-    while ([fileresult next])
-    {
-        Managemoney *temp_date = [[Managemoney alloc]init];
-        
-        temp_date.opname            = [fileresult stringForColumn:@"opname"];
-        temp_date.allmoney          = [fileresult intForColumn:@"allmoney"];
-        temp_date.opaction          = [fileresult stringForColumn:@"opaction"];
-        temp_date.opmoney           = [fileresult intForColumn:@"opmoney"];
-        temp_date.opmoneytopeople   = [fileresult stringForColumn:@"opmoneytopeople"];
-        temp_date.optime            = [fileresult stringForColumn:@"CreatedTime"];
-        
-        [dataarray addObject:temp_date];
-    };
-    
-    *array = dataarray;
-    
-    [fileop close];
     return tempsta;
 }
 

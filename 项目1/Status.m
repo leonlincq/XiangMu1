@@ -88,6 +88,10 @@ static Status *Mystatus = nil;
     //创建评价表
     Operateevaluation *MyEvaluationP    = [[Operateevaluation alloc]init];
     [MyEvaluationP creatTableForEvaluation];
+    
+    //创建买卖表
+    Operatebuyandsale *MyBuyandsaleP    = [[Operatebuyandsale alloc]init];
+    [MyBuyandsaleP creatTableForOpBuyAndSale];
 }
 
 

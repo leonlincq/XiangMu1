@@ -24,8 +24,5 @@
 -(FILESTATUS)selectOpMoneyName:(NSString*)name andSaveArray:(NSMutableArray**)array;
 /** 查看金钱操作信息（双条件） */
 -(FILESTATUS)selectOpMoneyName:(NSString*)name andop:(NSString*)op SaveArray:(NSMutableArray**)array;
-/** 查看谁转账给我信息 */
--(FILESTATUS)selectOpmoneytopeople:(NSString*)name andSaveArray:(NSMutableArray**)array;
-/** 查看某个单独信息 */
--(FILESTATUS)lookOpaction:(NSString*)opaction andSaveArray:(NSMutableArray**)array;
+
 @end

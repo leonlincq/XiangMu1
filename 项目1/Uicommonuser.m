@@ -143,7 +143,7 @@
     printf("✅         🐔7.订单操作              \n");
     printf("✅         🐹8.购物车                \n");
     printf("✅         🐼9.查看个人信息           \n");
-    printf("✅         🐬10.返回登录界面          \n");
+    printf("✅         🐬10.注销,返回登录界面     \n");
     printf("======================================\n");
     
     while (1)
@@ -262,10 +262,13 @@
                 
                 printf("✅充值操作成功\n");
                 
-                [newopmoneyp selectOpMoneyName:newuser.name andSaveArray:&temp_alluser];
-                opmoney = [temp_alluser[temp_alluser.count - 1] copy];
-                [opmoney printfAllData];
-        
+                [newopmoneyp selectOpMoneyName:newuser.name andop:Deposit SaveArray:&temp_alluser];
+                if(temp_alluser.count != 0)
+                {
+                    opmoney = [temp_alluser[temp_alluser.count - 1] copy];
+                    [opmoney printfAllData];
+                }
+                
                 [super uiReturnUpUi:(CommonUser | C_home)];
                 return;
                 
@@ -359,9 +362,12 @@
                 
                 printf("✅取款操作成功，已发到您的银行卡上\n");
                 
-                [newopmoneyp selectOpMoneyName:newuser.name andSaveArray:&temp_alluser];
-                opmoney = [temp_alluser[temp_alluser.count - 1] copy];
-                [opmoney printfAllData];
+                [newopmoneyp selectOpMoneyName:newuser.name andop:DrawMoney SaveArray:&temp_alluser];
+                if(temp_alluser.count != 0)
+                {
+                    opmoney = [temp_alluser[temp_alluser.count - 1] copy];
+                    [opmoney printfAllData];
+                }
                 
                 [super uiReturnUpUi:(CommonUser | C_home)];
                 return;
@@ -393,6 +399,8 @@
     Operatemoney *newopmoneyp       = [[Operatemoney alloc]init];       //资金文件操作
     Managemoney *opmoney            = [[Managemoney alloc]init];        //资金操作
     
+    Operatebuyandsale *opbas        = [[Operatebuyandsale alloc]init];  //资金表操作
+    
     uicommon_LookMoneyGo tempstatu    = uicommon_LookMoneyGo_choose;           //该方法的状态
     
     newuser = [newop readCommonUserData];
@@ -401,7 +409,7 @@
     
     
     NSMutableArray *temp_alluser = [[NSMutableArray alloc]init];
-    
+    NSMutableArray *temp_allusert2 = [[NSMutableArray alloc]init];
     
     printf("=========================================\n");
     
@@ -415,8 +423,9 @@
                 printf("         3️⃣.查看取款记录\n");
                 printf("         4️⃣.查看转账记录\n");
                 printf("         5️⃣.查看购买记录\n");
-                printf("         5️⃣.查看出售记录\n");
-                printf("▶️请输入操作序号(1~5)(🔙可输入'...'取消查看🔙):");
+                printf("         6️⃣.查看出售记录\n");
+                printf("         7️⃣.查看取消、退款记录\n");
+                printf("▶️请输入操作序号(1~7)(🔙可输入'...'取消查看🔙):");
                 temp_namestatu = [super seekRule:LCQKeyRule_Numb AndJudgeSaveUser:&olduserdata];
                 if (temp_namestatu == LCQResultKeyRule_OK)
                 {
@@ -428,6 +437,8 @@
                         case uicommon_LookMoneyGo_drawmoney:
                         case uicommon_LookMoneyGo_transfers:
                         case uicommon_LookMoneyGo_buy:
+                        case uicommon_LookMoneyGo_sale:
+                        case uicommon_LookMoneyGo_refun:
                             tempstatu = tempjudge;
                             break;
                             
@@ -438,46 +449,27 @@
                 }
                 break;
                 
-            case uicommon_LookMoneyGo_all:
-                tempop = nil;
-                tempstatu = uicommon_LookMoneyGo_ok;
-                break;
-                
+                //==============
             case uicommon_LookMoneyGo_deposit:
                 tempop = Deposit;
-                tempstatu = uicommon_LookMoneyGo_ok;
+                tempstatu = uicommon_LookMoneyGo_onlymoney;
                 break;
                 
             case uicommon_LookMoneyGo_drawmoney:
                 tempop = DrawMoney;
-                tempstatu = uicommon_LookMoneyGo_ok;
+                tempstatu = uicommon_LookMoneyGo_onlymoney;
                 break;
                 
             case uicommon_LookMoneyGo_transfers:
                 tempop = Transfers;
-                tempstatu = uicommon_LookMoneyGo_ok;
+                tempstatu = uicommon_LookMoneyGo_onlymoney;
                 break;
+                //==============
                 
-            case uicommon_LookMoneyGo_buy:
-                tempop = Buy;
-                tempstatu = uicommon_LookMoneyGo_ok;
-                break;
-                
-            case uicommon_LookMoneyGo_sale:
-                tempop = Saler;
-                tempstatu = uicommon_LookMoneyGo_ok;
-                break;
-                
-                
-            case uicommon_LookMoneyGo_ok:
+            case uicommon_LookMoneyGo_onlymoney:
                 [newopmoneyp selectOpMoneyName:newuser.name andop:tempop SaveArray:&temp_alluser];
                 if(temp_alluser.count != 0)         //查到数据
                 {
-                    if ([tempop isEqualToString:Transfers])
-                    {
-                        printf("▶️以下是转账给别人：\n");
-                    }
-                    
                     for (NSInteger i = 0; i<temp_alluser.count ; i++)
                     {
                         printf("(%ld)->",i+1);
@@ -487,10 +479,9 @@
                     }
                     if ([tempop isEqualToString:Transfers])
                     {
-                        [newopmoneyp selectOpmoneytopeople:newuser.name andSaveArray:&temp_alluser];
+                        [newopmoneyp selectOpMoneyName:newuser.name andop:Receipt SaveArray:&temp_alluser];
                         if(temp_alluser.count != 0)
                         {
-                            printf("▶️以下是别人转给自己的：\n");
                             for (NSInteger i = 0; i<temp_alluser.count ; i++)
                             {
                                 printf("(%ld)->",i+1);
@@ -505,10 +496,9 @@
                 {
                     if ([tempop isEqualToString:Transfers])
                     {
-                        [newopmoneyp selectOpmoneytopeople:newuser.name andSaveArray:&temp_alluser];
+                        [newopmoneyp selectOpMoneyName:newuser.name andop:Receipt SaveArray:&temp_alluser];
                         if(temp_alluser.count != 0)
                         {
-                            printf("▶️以下是别人转给自己的：\n");
                             for (NSInteger i = 0; i<temp_alluser.count ; i++)
                             {
                                 printf("(%ld)->",i+1);
@@ -523,7 +513,119 @@
                     }
                     printf("❗️暂无此方面记录❗️\n");
                 }
+                break;
+                
+            case uicommon_LookMoneyGo_all:          //遍历操作金钱还有购买商品
+                [newopmoneyp selectOpMoneyName:newuser.name andop:nil SaveArray:&temp_alluser];
+                if(temp_alluser.count != 0)
+                {
+                    for (NSInteger i = 0; i<temp_alluser.count ; i++)
+                    {
+                        printf("(%ld)->",i+1);
+                        opmoney = [temp_alluser[i] copy];
+                        [opmoney printfAllData];
+                        printf("---------\n");
+                    }
+                }
+                [opbas selectOpBuyAndSaleName:newuser.name andOrderNum:0 andop:nil SaveArray:&temp_alluser];
+                if(temp_alluser.count != 0)         //查到数据
+                {
+                    for (NSInteger i = 0; i<temp_alluser.count ; i++)
+                    {
+                        printf("(%ld)->",i+1);
+                        opmoney = [temp_alluser[i] copy];
+                        [opmoney printfAllData];
+                        printf("---------\n");
+                    }
+                }
+                tempstatu = uicommon_LookMoneyGo_ok;
+                break;
+    
 
+                
+            case uicommon_LookMoneyGo_buy:
+                [opbas selectOpBuyAndSaleName:newuser.name andOrderNum:0 andop:BuyerToAdmin SaveArray:&temp_alluser];
+                if(temp_alluser.count != 0)         //查到数据
+                {
+                    for (NSInteger i = 0; i<temp_alluser.count ; i++)
+                    {
+                        printf("(%ld)->",i+1);
+                        opmoney = [temp_alluser[i] copy];
+                        [opmoney printfAllData];
+                        printf("---------\n");
+                    }
+                }
+                [opbas selectOpBuyAndSaleName:newuser.name andOrderNum:0 andop:BuyerToSaler SaveArray:&temp_allusert2];
+                if(temp_allusert2.count != 0)         //查到数据
+                {
+                    for (NSInteger i = 0; i<temp_allusert2.count ; i++)
+                    {
+                        printf("(%ld)->",i+1);
+                        opmoney = [temp_allusert2[i] copy];
+                        [opmoney printfAllData];
+                        printf("---------\n");
+                    }
+                }
+                
+                if(temp_alluser.count == 0 && temp_allusert2.count == 0)
+                {
+                    printf("❗️暂无此方面记录❗️\n");
+                }
+                tempstatu = uicommon_LookMoneyGo_ok;
+                break;
+                
+            case uicommon_LookMoneyGo_sale:
+                [opbas selectOpBuyAndSaleName:newuser.name andOrderNum:0 andop:SalerSuccess SaveArray:&temp_alluser];
+                if(temp_alluser.count != 0)         //查到数据
+                {
+                    for (NSInteger i = 0; i<temp_alluser.count ; i++)
+                    {
+                        printf("(%ld)->",i+1);
+                        opmoney = [temp_alluser[i] copy];
+                        [opmoney printfAllData];
+                        printf("---------\n");
+                    }
+                }
+                else
+                {
+                    printf("❗️暂无此方面记录❗️\n");
+                }
+                tempstatu = uicommon_LookMoneyGo_ok;
+                break;
+                
+            case uicommon_LookMoneyGo_refun:
+                [opbas selectOpBuyAndSaleName:newuser.name andOrderNum:0 andop:CancelToBuyer SaveArray:&temp_alluser];
+                if(temp_alluser.count != 0)         //查到数据
+                {
+                    for (NSInteger i = 0; i<temp_alluser.count ; i++)
+                    {
+                        printf("(%ld)->",i+1);
+                        opmoney = [temp_alluser[i] copy];
+                        [opmoney printfAllData];
+                        printf("---------\n");
+                    }
+                }
+                [opbas selectOpBuyAndSaleName:newuser.name andOrderNum:0 andop:RefundToBuyer SaveArray:&temp_allusert2];
+                if(temp_allusert2.count != 0)         //查到数据
+                {
+                    for (NSInteger i = 0; i<temp_allusert2.count ; i++)
+                    {
+                        printf("(%ld)->",i+1);
+                        opmoney = [temp_allusert2[i] copy];
+                        [opmoney printfAllData];
+                        printf("---------\n");
+                    }
+                }
+                
+                if(temp_alluser.count == 0 && temp_allusert2.count == 0)
+                {
+                    printf("❗️暂无此方面记录❗️\n");
+                }
+                tempstatu = uicommon_LookMoneyGo_ok;
+                break;
+                
+                
+            case uicommon_LookMoneyGo_ok:
                 tempstatu = uicommon_LookMoneyGo_ok;
                 [super uiReturnUpUi:(CommonUser | C_home)];
                 return;
@@ -649,11 +751,12 @@
                 
                 printf("✅转账操作成功\n");
                 
-                
-                [newopmoneyp selectOpMoneyName:newuser.name andSaveArray:&temp_alluser];
-                opmoney = [temp_alluser[temp_alluser.count - 1] copy];
-                [opmoney printfAllData];
-                
+                [newopmoneyp selectOpMoneyName:newuser.name andop:Transfers SaveArray:&temp_alluser];
+                if(temp_alluser.count != 0)
+                {
+                    opmoney = [temp_alluser[temp_alluser.count - 1] copy];
+                    [opmoney printfAllData];
+                }
                 [super uiReturnUpUi:(CommonUser | C_home)];
                 return;
                 
@@ -1067,6 +1170,7 @@
                         
                         newware.waresum = tempjudge;
                         [opware upWareData:newware withStatu:LCQChooseUpWaredata_waresum];
+                        
                         tempstatu = uicommon_OperaWares_opwareok;
                         printf("=========================================\n");
                     }
@@ -1352,35 +1456,38 @@
                 {
                     if ([opware vagueSearchWare:olduserdata.member andSaveArray:&temp_alluser] == FILEYES )
                     {
-                        for (NSInteger i = 0; i<temp_alluser.count ; i++)
+                        if(temp_alluser.count != 0)
                         {
-                            printf("(%ld)->",i+1);
-                            newware = [temp_alluser[i] copy];
-                            [newware printfAllData];
-                            printf("---------\n");
-                        }
-                        printf("▶️请输入要添加到购物车的商品序号(🔙可输入'...'取消添加🔙)：");
-                        temp_namestatu = [super seekRule:LCQKeyRule_Numb AndJudgeSaveUser:&olduserdata];
-                        if (temp_namestatu == LCQResultKeyRule_OK)
-                        {
-                            NSInteger tempjudge = [olduserdata.member intValue];
-                            if(tempjudge <= temp_alluser.count && tempjudge>=1 )
+                            for (NSInteger i = 0; i<temp_alluser.count ; i++)
                             {
-                                newware = [temp_alluser[tempjudge-1] copy];     //选择的信息拷贝出来
-                                
-                                if ([newware.warebypeople isEqualToString:newuser.name])
-                                {
-                                    printf("❗️防刷单系统：您不能购买自己商品❗️\n");
-                                    tempstatu = uicommon_OperaWares_opwareok;
-                                    break;
-                                }
-                                
-                                tempstatu = uicommon_OperaWares_searchshopcar;
-                                printf("=========================================\n");
+                                printf("(%ld)->",i+1);
+                                newware = [temp_alluser[i] copy];
+                                [newware printfAllData];
+                                printf("---------\n");
                             }
-                            else
+                            printf("▶️请输入要添加到购物车的商品序号(🔙可输入'...'取消添加🔙)：");
+                            temp_namestatu = [super seekRule:LCQKeyRule_Numb AndJudgeSaveUser:&olduserdata];
+                            if (temp_namestatu == LCQResultKeyRule_OK)
                             {
-                                printf("%s",ERROR0x01_ILLEGAL_NUM);            //超过序号
+                                NSInteger tempjudge = [olduserdata.member intValue];
+                                if(tempjudge <= temp_alluser.count && tempjudge>=1 )
+                                {
+                                    newware = [temp_alluser[tempjudge-1] copy];     //选择的信息拷贝出来
+                                    
+                                    if ([newware.warebypeople isEqualToString:newuser.name])
+                                    {
+                                        printf("❗️防刷单系统：您不能购买自己商品❗️\n");
+                                        tempstatu = uicommon_OperaWares_opwareok;
+                                        break;
+                                    }
+                                    
+                                    tempstatu = uicommon_OperaWares_searchshopcar;
+                                    printf("=========================================\n");
+                                }
+                                else
+                                {
+                                    printf("%s",ERROR0x01_ILLEGAL_NUM);            //超过序号
+                                }
                             }
                         }
                     }
@@ -1394,8 +1501,11 @@
             case uicommon_OperaWares_searchshopcar:
                 printf("✅您选择的商品如下：\n");
                 [opware selectWareByWho:nil andFlag:UpWare andWare:newware.warename andClass:nil andSaveArray:&temp_alluser];        //遍历数据
-                newware = [temp_alluser[0] copy];
-                [newware printfAllData];
+                if(temp_alluser.count != 0)
+                {
+                    newware = [temp_alluser[0] copy];
+                    [newware printfAllData];
+                }
                 printf("✅该商品评价记录如下：\n");
                 [opevaluation selectEvaluationByWho:nil andWare:newware.warename andSaler:newware.warebypeople andSaveArray:&temp_alluser];
                 if (temp_alluser.count == 0)
@@ -1487,11 +1597,11 @@
     Manageorder *neworder           = [[Manageorder alloc]init];        //订单操作
     Operateorder *oporder           = [[Operateorder alloc]init];       //订单表操作
     
-    Managemoney *newmoney           = [[Managemoney alloc]init];        //资金操作
-    Operatemoney *opmoney           = [[Operatemoney alloc]init];       //资金表操作
-    
     Manageevaluation *newevaluation = [[Manageevaluation alloc]init];   //评价操作
     Operateevaluation *opevaluation = [[Operateevaluation alloc]init];  //评价表操作
+    
+    Managebuyandsale *newbas        = [[Managebuyandsale alloc]init];   //资金操作
+    Operatebuyandsale *opbas        = [[Operatebuyandsale alloc]init];  //资金表操作
     
     uicommon_OperaOrder tempstatu    = uicommon_OperaOrder_seek;        //该方法的状态
     
@@ -1516,14 +1626,14 @@
                 printf("      3️⃣.查看已完成订单:%ld\n",[oporder searchOrderByBuyer:newuser.name andOrderSta:SureWare andSaler:nil andKeyToErgodic:NO]);
                 printf("      4️⃣.查看已取消订单:%ld\n",[oporder searchOrderByBuyer:newuser.name andOrderSta:Cancel andSaler:nil andKeyToErgodic:NO]);
                 printf("      5️⃣.查看申请退款订单:%ld\n",[oporder searchOrderByBuyer:newuser.name andOrderSta:RequestRefund andSaler:nil andKeyToErgodic:NO]);
-                printf("      6️⃣.查看已完成退款订单:%ld\n",[oporder searchOrderByBuyer:newuser.name andOrderSta:RefundOK andSaler:nil andKeyToErgodic:NO]);
+                printf("      6️⃣.查看已退款订单:%ld\n",[oporder searchOrderByBuyer:newuser.name andOrderSta:RefundOK andSaler:nil andKeyToErgodic:NO]);
                 printf("🅱️我是卖家\n");
                 printf("      1️⃣.查看需要发货订单（买家已付款）:%ld\n",[oporder searchOrderByBuyer:nil andOrderSta:Create andSaler:newuser.name andKeyToErgodic:NO]);
                 printf("      2️⃣.查看已发货订单:%ld\n",[oporder searchOrderByBuyer:nil andOrderSta:SendWare andSaler:newuser.name andKeyToErgodic:NO]);
                 printf("      3️⃣.查看已完成订单（买家已确认评价）:%ld\n",[oporder searchOrderByBuyer:nil andOrderSta:SureWare andSaler:newuser.name andKeyToErgodic:NO]);
-                printf("      4️⃣.查看已取消订单:%ld\n",[oporder searchOrderByBuyer:nil andOrderSta:Cancel andSaler:newuser.name andKeyToErgodic:NO]);
-                printf("      5️⃣.查看退款订单（买家申请退款）:%ld\n",[oporder searchOrderByBuyer:nil andOrderSta:RequestRefund andSaler:newuser.name andKeyToErgodic:NO]);
-                printf("      6️⃣.查看退款已完成订单:%ld\n",[oporder searchOrderByBuyer:nil andOrderSta:RefundOK andSaler:newuser.name andKeyToErgodic:NO]);
+                printf("      4️⃣.查看买家取消订单:%ld\n",[oporder searchOrderByBuyer:nil andOrderSta:Cancel andSaler:newuser.name andKeyToErgodic:NO]);
+                printf("      5️⃣.查看买家申请退款订单:%ld\n",[oporder searchOrderByBuyer:nil andOrderSta:RequestRefund andSaler:newuser.name andKeyToErgodic:NO]);
+                printf("      6️⃣.查看已退款订单:%ld\n",[oporder searchOrderByBuyer:nil andOrderSta:RefundOK andSaler:newuser.name andKeyToErgodic:NO]);
                 
                 tempstatu = uicommon_OperaOrder_choose;
                 break;
@@ -1696,14 +1806,17 @@
                         newuser.money += neworder.orderallmoney;
                         [newop upUserData:newuser withWho:LCQChooseUpdata_money];
                         
+                        
                         //资金流向要有管理员给用户的
-                        newmoney.opname     = Admin;
-                        newmoney.allmoney   = newuser.money;    //接收人的总金额
-                        newmoney.opaction   = [NSString stringWithFormat:@"%@ByOrder%ld",AdminToBuyer,neworder.ordernumb]; // AdminToBuyer +ByOrder+numb
-                        newmoney.opmoney    = neworder.orderallmoney;
-                        newmoney.opmoneytopeople = newuser.name;
-                        [opmoney addOpMoney:newmoney];           //更新资金操作表
-                    
+                        newbas.basopname            = Admin;
+                        newbas.basallmoney          = 0;    //无意义
+                        newbas.basordernumb         = neworder.ordernumb;
+                        newbas.basopaction          = CancelToBuyer;
+                        newbas.basopmoney           = neworder.orderallmoney;
+                        newbas.basopmoneytopeople   = neworder.orderbuyer;
+                        
+                        [opbas addOpBuyAndSale:newbas];
+                        
                         //更新plist
                         [newop saveCommonUserData:newuser];
                         printf("✅取消订单成功\n");
@@ -1742,7 +1855,7 @@
                 break;
                 
             case uicommon_OperaOrder_choosesendwarenumb:   //选择已发货的商品
-                printf("▶️请先选中需要操作的商品序号，再进行🔴确认收货🔴或🔵请求退款🔵(🔙可输入'...'返回🔙)：");
+                printf("▶️请先选中需要操作的商品序号，再进行🔴确认收货 或🔵请求退款(🔙可输入'...'返回🔙)：");
                 temp_namestatu = [super seekRule:LCQKeyRule_Numb AndJudgeSaveUser:&olduserdata];
                 if (temp_namestatu == LCQResultKeyRule_OK)
                 {
@@ -1804,17 +1917,19 @@
 
                         //资金流向
                         //读出被管理员扣款的资金流向
-                        [opmoney lookOpaction:[NSString stringWithFormat:@"%@ByOrder%ld",BuyerToAdmin,neworder.ordernumb] andSaveArray:&temp_alluser];
+                        [opbas selectOpBuyAndSaleName:neworder.orderbuyer andOrderNum:neworder.ordernumb andop:BuyerToAdmin SaveArray:&temp_alluser];
+                        
                         if (temp_alluser.count != 0)
                         {
-                            newmoney = [temp_alluser[0] copy];
+                            newbas = [temp_alluser[0] copy];
                         
                             //买家给管理员的删掉
-                            [opmoney deletOpMoneyWithUser:[NSString stringWithFormat:@"%@ByOrder%ld",BuyerToAdmin,neworder.ordernumb]];
+                            [opbas deletBuyAndSaleByWho:newbas.basopname andOrderNum:newbas.basordernumb];
+                            
                             //添加新的，给卖家的
-                            newmoney.opaction = [NSString stringWithFormat:@"%@ByOrder%ld",BuyerToSaler,neworder.ordernumb];
-                            newmoney.opmoneytopeople = neworder.ordersaler;
-                            [opmoney addOpMoney:newmoney];
+                            newbas.basopaction          = BuyerToSaler;
+                            newbas.basopmoneytopeople   = neworder.ordersaler;
+                            [opbas addOpBuyAndSale:newbas];
                         }
                         //卖家资金要多一笔账
                         [newop selectUser:neworder.ordersaler andSaveArray:&temp_alluser];
@@ -1823,6 +1938,13 @@
                             newuser = [temp_alluser[0] copy];
                             newuser.money += neworder.orderallmoney;
                             [newop upUserData:newuser withWho:LCQChooseUpdata_money];
+                            
+                             //添加新的，给卖家的        订单、资金没变
+                            newbas.basopname    = neworder.ordersaler;      //订单的卖家
+                            newbas.basallmoney  = newuser.money;            //卖家总资金
+                            newbas.basopaction  = SalerSuccess;             //成功销售
+                            newbas.basopmoneytopeople = neworder.orderbuyer;//订单的买家
+                            [opbas addOpBuyAndSale:newbas];
                         }
                         tempstatu = uicommon_OperaOrder_chooseevaluationlevel;
                         printf("=========================================\n");
@@ -1877,11 +1999,11 @@
                 break;
                 
             case uicommon_OperaOrder_chooseevaluationpoint:
-                printf("         1️⃣.1星评价\n");
-                printf("         2️⃣.2星评价\n");
-                printf("         3️⃣.3星评价\n");
-                printf("         4️⃣.4星评价\n");
-                printf("         5️⃣.5星评价\n");
+                printf("         1️⃣.评价为1星⭐️\n");
+                printf("         2️⃣.评价为2星⭐️⭐️\n");
+                printf("         3️⃣.评价为3星⭐️⭐️⭐️\n");
+                printf("         4️⃣.评价为4星⭐️⭐️⭐️⭐️\n");
+                printf("         5️⃣.评价为5星⭐️⭐️⭐️⭐️⭐️\n");
                 printf("▶️请给该商品评价(1-5):");
                 while (1)
                 {
@@ -1949,9 +2071,62 @@
                 
                 
             case uicommon_OperaOrder_looksureware:          //已完成订单，只能查看，不能操作
-                [oporder searchOrderByBuyer:newuser.name andOrderSta:SureWare andSaler:nil andKeyToErgodic:YES];
-                tempstatu = uicommon_OperaOrder_OK;
-                printf("=========================================\n");
+//                [oporder searchOrderByBuyer:newuser.name andOrderSta:SureWare andSaler:nil andKeyToErgodic:YES];
+//                tempstatu = uicommon_OperaOrder_OK;
+//                printf("=========================================\n");
+                [oporder selectOrderByWho:newuser.name andOrderSta:SureWare andOrdernumb:0 andSaler:nil andSaveArray:&temp_alluser];
+                if (temp_alluser.count !=0 )
+                {
+                    for (NSInteger i = 0; i<temp_alluser.count ; i++)
+                    {
+                        printf("(%ld)->",i+1);
+                        neworder = [temp_alluser[i] copy];
+                        [neworder printfAllData];
+                        printf("---------\n");
+                    }
+                
+                    printf("▶️请输入要查看评价过商品序号(🔙可输入'...'取消查看🔙)：");
+                    temp_namestatu = [super seekRule:LCQKeyRule_Numb AndJudgeSaveUser:&olduserdata];
+                    if (temp_namestatu == LCQResultKeyRule_OK)
+                    {
+                        NSInteger tempjudge = [olduserdata.member intValue];
+                        if(tempjudge <= temp_alluser.count && tempjudge>=1 )
+                        {
+                            newware = [temp_alluser[tempjudge-1] copy];     //选择的信息拷贝出来
+                            tempstatu = uicommon_OperaOrder_buyerlookevalua;
+                            printf("=========================================\n");
+                        }
+                        else
+                        {
+                            printf("%s",ERROR0x01_ILLEGAL_NUM);            //超过序号
+                        }
+                    }
+                }
+                else
+                {
+                    printf("✅暂无此类订单\n");
+                    tempstatu = uicommon_OperaOrder_OK;
+                    printf("=========================================\n");
+                }
+                break;
+                
+            case uicommon_OperaOrder_buyerlookevalua:
+                printf("✅您选择的商品如下：\n");
+                [opevaluation selectEvaluationByWho:newuser.name andWare:newware.warename andSaler:nil andSaveArray:&temp_alluser];        //遍
+                if(temp_alluser.count != 0)
+                {
+                    newevaluation = [temp_alluser[0] copy];
+                    printf("✅该商品评价记录如下：\n");
+                    [newevaluation printfAllData];
+                    tempstatu = uicommon_OperaOrder_OK;
+                    printf("=========================================\n");
+                }
+                else
+                {
+                    printf("❗️暂无此类商品评价❗️\n");
+                    tempstatu = uicommon_OperaOrder_OK;
+                    printf("=========================================\n");
+                }
                 break;
                 
             case uicommon_OperaOrder_lookcancel:            //已取消订单，只能查看，不能操作
@@ -2033,9 +2208,66 @@
                 break;
             
             case uicommon_OperaOrder_Saler_lookBuyersureware:       //查看已完成订单，只能查看，不能操作
-                [oporder searchOrderByBuyer:nil andOrderSta:SureWare andSaler:newuser.name andKeyToErgodic:YES];
-                tempstatu = uicommon_OperaOrder_OK;
-                printf("=========================================\n");
+//                [oporder searchOrderByBuyer:nil andOrderSta:SureWare andSaler:newuser.name andKeyToErgodic:YES];
+//                tempstatu = uicommon_OperaOrder_OK;
+//                printf("=========================================\n");
+                
+                //                [oporder searchOrderByBuyer:newuser.name andOrderSta:SureWare andSaler:nil andKeyToErgodic:YES];
+                //                tempstatu = uicommon_OperaOrder_OK;
+                //                printf("=========================================\n");
+                [oporder selectOrderByWho:nil andOrderSta:SureWare andOrdernumb:0 andSaler:newuser.name andSaveArray:&temp_alluser];
+                if (temp_alluser.count !=0 )
+                {
+                    for (NSInteger i = 0; i<temp_alluser.count ; i++)
+                    {
+                        printf("(%ld)->",i+1);
+                        neworder = [temp_alluser[i] copy];
+                        [neworder printfAllData];
+                        printf("---------\n");
+                    }
+                    
+                    printf("▶️请输入要查看评价过商品序号(🔙可输入'...'取消查看🔙)：");
+                    temp_namestatu = [super seekRule:LCQKeyRule_Numb AndJudgeSaveUser:&olduserdata];
+                    if (temp_namestatu == LCQResultKeyRule_OK)
+                    {
+                        NSInteger tempjudge = [olduserdata.member intValue];
+                        if(tempjudge <= temp_alluser.count && tempjudge>=1 )
+                        {
+                            newware = [temp_alluser[tempjudge-1] copy];     //选择的信息拷贝出来
+                            tempstatu = uicommon_OperaOrder_salerlookevalua;
+                            printf("=========================================\n");
+                        }
+                        else
+                        {
+                            printf("%s",ERROR0x01_ILLEGAL_NUM);            //超过序号
+                        }
+                    }
+                }
+                else
+                {
+                    printf("✅暂无此类订单\n");
+                    tempstatu = uicommon_OperaOrder_OK;
+                    printf("=========================================\n");
+                }
+                break;
+                
+            case uicommon_OperaOrder_salerlookevalua:
+                printf("✅您选择的商品如下：\n");
+                [opevaluation selectEvaluationByWho:nil andWare:newware.warename andSaler:newuser.name andSaveArray:&temp_alluser];        //遍
+                if(temp_alluser.count != 0)
+                {
+                    newevaluation = [temp_alluser[0] copy];
+                    printf("✅该商品评价记录如下：\n");
+                    [newevaluation printfAllData];
+                    tempstatu = uicommon_OperaOrder_OK;
+                    printf("=========================================\n");
+                }
+                else
+                {
+                    printf("❗️暂无此类商品评价❗️\n");
+                    tempstatu = uicommon_OperaOrder_OK;
+                    printf("=========================================\n");
+                }
                 break;
                 
             case uicommon_OperaOrder_Saler_lookBuyercancel:         //查看已取消订单，只能查看，不能操作
@@ -2063,9 +2295,6 @@
                     tempstatu = uicommon_OperaOrder_OK;
                     printf("=========================================\n");
                 }
-                
-                
-                //点退款->钱打回去
                 break;
                 
             case uicommon_OperaOrder_surerefund:
@@ -2083,6 +2312,18 @@
                         //订单记为已退款
                         neworder.ordersta = RefundOK;
                         [oporder upOrderData:neworder withStatu:LCQChooseUpOrderdata_ordersta];
+                        
+                        
+                        //资金流向要有管理员给用户的
+                        newbas.basopname            = Admin;
+                        newbas.basallmoney          = 0;    //无意义
+                        newbas.basordernumb         = neworder.ordernumb;
+                        newbas.basopaction          = RefundToBuyer;
+                        newbas.basopmoney           = neworder.orderallmoney;
+                        newbas.basopmoneytopeople   = neworder.orderbuyer;
+                        
+                        [opbas addOpBuyAndSale:newbas];
+
                         
                         tempstatu = uicommon_OperaOrder_OK;
                         printf("=========================================\n");
@@ -2147,8 +2388,9 @@
     Manageorder *neworder           = [[Manageorder alloc]init];        //订单操作
     Operateorder *oporder           = [[Operateorder alloc]init];       //订单表操作
     
-    Managemoney *newmoney           = [[Managemoney alloc]init];        //资金操作
-    Operatemoney *opmoney           = [[Operatemoney alloc]init];       //资金表操作
+    Managebuyandsale *newbas        = [[Managebuyandsale alloc]init];   //资金操作
+    Operatebuyandsale *opbas        = [[Operatebuyandsale alloc]init];  //资金表操作
+
     
     uicommon_ShopCar tempstatu    = uicommon_ShopCar_seek;              //该方法的状态
     
@@ -2170,6 +2412,14 @@
                 [opshopcar selectShopCarByWho:newuser.name andWare:nil andSaveArray:&temp_alluser];
                 if(temp_alluser.count != 0)
                 {
+                    printf("▶️您购物车里有以下商品：\n");
+                    for (NSInteger i = 0; i<temp_alluser.count ; i++)
+                    {
+                        printf("(%ld)->",i+1);
+                        newshopcar = [temp_alluser[i] copy];
+                        [newshopcar printfAllData];
+                        printf("---------\n");
+                    }
                     tempstatu = uicommon_ShopCar_choose;
                 }
                 else
@@ -2182,15 +2432,6 @@
                 break;
 
             case uicommon_ShopCar_choose:
-                printf("▶️您购物车里有以下商品：\n");
-                for (NSInteger i = 0; i<temp_alluser.count ; i++)
-                {
-                    printf("(%ld)->",i+1);
-                    newshopcar = [temp_alluser[i] copy];
-                    [newshopcar printfAllData];
-                    printf("---------\n");
-                }
-                
                 printf("▶️请输入要购买的商品序号(🔙可输入'...'取消购物车操作🔙)：");
                 temp_namestatu = [super seekRule:LCQKeyRule_Numb AndJudgeSaveUser:&olduserdata];
                 if (temp_namestatu == LCQResultKeyRule_OK)
@@ -2220,9 +2461,13 @@
                 printf("✅该商品卖家剩余");
                 newware.warename = newshopcar.shopcarname;  
                 [opware selectWareByWho:nil andFlag:UpWare andWare:newware.warename andClass:nil andSaveArray:&temp_alluser];
-                newware = [temp_alluser[0] copy];
-                [newware printfWaresum];
-                printf("\n");               
+                
+                if(temp_alluser.count != 0)
+                {
+                    newware = [temp_alluser[0] copy];
+                    [newware printfWaresum];
+                    printf("\n");               
+                }
                 
                 if(newware.waresum < newshopcar.shopcarquantity)
                 {
@@ -2407,12 +2652,14 @@
                 [newop saveCommonUserData:newuser];         //更新plist
                 
                 
-                newmoney.opname             = newuser.name;
-                newmoney.allmoney           = newuser.money;
-                newmoney.opaction           = [NSString stringWithFormat:@"%@ByOrder%ld",BuyerToAdmin,neworder.ordernumb];
-                newmoney.opmoney            = neworder.orderallmoney;
-                newmoney.opmoneytopeople    = Admin;
-                [opmoney addOpMoney:newmoney];           //更新资金操作表
+                newbas.basopname            = newuser.name;
+                newbas.basallmoney          = newuser.money;
+                newbas.basordernumb         = neworder.ordernumb;
+                newbas.basopaction          = BuyerToAdmin;
+                newbas.basopmoney           = neworder.orderallmoney;
+                newbas.basopmoneytopeople   = Admin;
+                
+                [opbas addOpBuyAndSale:newbas];     //更新买卖操作表
                 
                 tempstatu = uicommon_ShopCar_toorderok;
                 break;

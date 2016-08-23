@@ -13,32 +13,18 @@
 #define Deposit     @"Deposit"      //存款
 #define DrawMoney   @"DrawMoney"    //取款
 #define Transfers   @"Transfers"    //转账
-#define Buy         @"Buy"          //购买
-#define Saler       @"Saler"        //出售
+#define Receipt     @"Receipt "     //收款
+
 #define MySelf      @"MySelf"       //存取款要用到
-
-//===========两者只能选其一
-#define BuyerToAdmin  @"BuyerToAdmin"   //钱到管理者手里
-#define BuyerToSaler  @"BuyerToSaler"   //钱到卖家手里
-//===========
-#define AdminToBuyer  @"AdminToBuyer"   //钱到管理者手里
-#define SalerToBuyer  @"SalerToBuyer"   //钱到卖家手里
-//===========
-#define Admin       @"Admin"            //管理员
-
-
-
 
 
 //用户资金表
-
-// 用户名 | 总资金 | 资金流向 | 操作时间 |...
 
 @property (nonatomic,copy)      NSString    *opname;            //用户名                   --关联
 @property (nonatomic,assign)    NSInteger   allmoney;           //总资金
 @property (nonatomic,copy)      NSString    *opaction;          //资金操作 (存、取、转)
 @property (nonatomic,assign)    NSInteger   opmoney;            //资金
-@property (nonatomic,copy)      NSString    *opmoneytopeople;   //资金流向谁             --关联
+@property (nonatomic,copy)      NSString    *opmoneytopeople;   //对象             --关联
 @property (nonatomic,copy)      NSString    *optime;            //操作时间
 
 

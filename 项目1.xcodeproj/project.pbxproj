@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2584D5C11D6BF920001BFF26 /* Managebuyandsale.m in Sources */ = {isa = PBXBuildFile; fileRef = 2584D5C01D6BF920001BFF26 /* Managebuyandsale.m */; };
+		2584D5C41D6C21F6001BFF26 /* Operatebuyandsale.m in Sources */ = {isa = PBXBuildFile; fileRef = 2584D5C31D6C21F6001BFF26 /* Operatebuyandsale.m */; };
 		2585F1EE1D5DAA78005E86CC /* Status+Regex.m in Sources */ = {isa = PBXBuildFile; fileRef = 2585F1ED1D5DAA78005E86CC /* Status+Regex.m */; };
 		25EFD3CD1D5ABA7F0054829B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 25EFD3CC1D5ABA7F0054829B /* main.m */; };
 		25EFD3DD1D5AC7690054829B /* Status.m in Sources */ = {isa = PBXBuildFile; fileRef = 25EFD3DC1D5AC7690054829B /* Status.m */; };
@@ -47,6 +49,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2584D5BF1D6BF920001BFF26 /* Managebuyandsale.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Managebuyandsale.h; sourceTree = "<group>"; };
+		2584D5C01D6BF920001BFF26 /* Managebuyandsale.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Managebuyandsale.m; sourceTree = "<group>"; };
+		2584D5C21D6C21F6001BFF26 /* Operatebuyandsale.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Operatebuyandsale.h; sourceTree = "<group>"; };
+		2584D5C31D6C21F6001BFF26 /* Operatebuyandsale.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Operatebuyandsale.m; sourceTree = "<group>"; };
 		2585F1EC1D5DAA78005E86CC /* Status+Regex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Status+Regex.h"; sourceTree = "<group>"; };
 		2585F1ED1D5DAA78005E86CC /* Status+Regex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Status+Regex.m"; sourceTree = "<group>"; };
 		25EFD3C91D5ABA7F0054829B /* 项目1 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "项目1"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -179,6 +185,17 @@
 			name = SQLOpEvaluation;
 			sourceTree = "<group>";
 		};
+		2584D5B81D6BF81D001BFF26 /* SQLOpMoney_BuyAndSaler */ = {
+			isa = PBXGroup;
+			children = (
+				2584D5BF1D6BF920001BFF26 /* Managebuyandsale.h */,
+				2584D5C01D6BF920001BFF26 /* Managebuyandsale.m */,
+				2584D5C21D6C21F6001BFF26 /* Operatebuyandsale.h */,
+				2584D5C31D6C21F6001BFF26 /* Operatebuyandsale.m */,
+			);
+			name = SQLOpMoney_BuyAndSaler;
+			sourceTree = "<group>";
+		};
 		25EFD3C01D5ABA7F0054829B = {
 			isa = PBXGroup;
 			children = (
@@ -215,6 +232,7 @@
 				25F7DE691D5C731100B12B4F /* Uicommonuser.m */,
 				2031AB471D68D04A0066DDC9 /* SQLOpUserDatas */,
 				2031AB481D68D07C0066DDC9 /* SQLOpMoney */,
+				2584D5B81D6BF81D001BFF26 /* SQLOpMoney_BuyAndSaler */,
 				2031AB491D68D0CD0066DDC9 /* SQLOpWares */,
 				20EA3A941D6977C20005CED6 /* SQLOpShopCar */,
 				20EA3A951D698BBE0005CED6 /* SQLOpOrder */,
@@ -300,6 +318,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2584D5C11D6BF920001BFF26 /* Managebuyandsale.m in Sources */,
 				25F7DE421D5C13DF00B12B4F /* Manageorder.m in Sources */,
 				25F7DE581D5C1B3300B12B4F /* Operateshopcar.m in Sources */,
 				25F7DE5B1D5C1B4D00B12B4F /* Operateevaluation.m in Sources */,
@@ -323,6 +342,7 @@
 				25F7DE671D5C72F600B12B4F /* Uisuperuser.m in Sources */,
 				25EFD3DD1D5AC7690054829B /* Status.m in Sources */,
 				25EFD3F21D5B1A350054829B /* FMDatabaseAdditions.m in Sources */,
+				2584D5C41D6C21F6001BFF26 /* Operatebuyandsale.m in Sources */,
 				25F7DE451D5C162800B12B4F /* Managewares.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

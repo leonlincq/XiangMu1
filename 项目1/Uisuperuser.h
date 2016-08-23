@@ -103,6 +103,28 @@ enum
     uisuper_SeekProPassword_chooseone  = 0x02,
 };
 //===========================================
+typedef NSUInteger uisuper_OperaWares;
+enum
+{
+    uisuper_OperaWares_name     = 0x00,
+    uisuper_OperaWares_choose   = 0x01,
+    uisuper_OperaWares_password = 0x03,
+    uisuper_OperaWares_sureorno = 0x04,
+    uisuper_OperaWares_yes      = 0x05,
+    uisuper_OperaWares_no       = 0x06,
+};
+//===========================================
+typedef NSUInteger uisuper_OperaOrder;
+enum
+{
+    uisuper_OperaOrder_name     = 0x00,
+    uisuper_OperaOrder_choose   = 0x01,
+    uisuper_OperaOrder_password = 0x03,
+    uisuper_OperaOrder_sureorno = 0x04,
+    uisuper_OperaOrder_yes      = 0x05,
+    uisuper_OperaOrder_no       = 0x06,
+};
+//===========================================
 typedef NSUInteger uisuper_AddUser;
 enum
 {

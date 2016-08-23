@@ -52,21 +52,12 @@
     }
     else if ([self.opaction isEqualToString:Transfers])
     {
-        printf("操作：转账");
+        printf("操作：转账给他人");
     }
-    else if ([self.opaction isEqualToString:BuyerToAdmin])
+    else if ([self.opaction isEqualToString:Receipt])
     {
-        printf("操作：买(钱汇至第三方)");
+        printf("操作：收到他人汇款");
     }
-    else if ([self.opaction isEqualToString:BuyerToSaler])
-    {
-        printf("操作：买(钱汇给卖家)");
-    }
-    else if ([self.opaction isEqualToString:Saler])
-    {
-        printf("操作：卖出商品");
-    }
-    
 }
 
 
@@ -90,15 +81,15 @@
     
     if (printfdata == nil)
     {
-        printf("接收方：无");
+        printf("对象：无");
     }
     else if ([self.opmoneytopeople isEqualToString:MySelf])
     {
-        printf("接收方：自己");
+        printf("对象：自己");
     }
     else
     {
-        printf("接收方：%s",printfdata);
+        printf("对象：%s",printfdata);
     }
 }
 
@@ -125,9 +116,9 @@
     [self printfOpname];
     printf(" ,");
     
-//    printf("1️⃣");
-//    [self printfAllmoney];
-//    printf(" ,");
+    printf("1️⃣");
+    [self printfAllmoney];
+    printf(" ,");
     
     printf("2️⃣");
     [self printfOpaction];
@@ -178,11 +169,11 @@
     }
     else if ([_opaction isEqualToString:Transfers])
     {
-        return @"转账";
+        return @"转账给他人";
     }
-    else if ([_opaction isEqualToString:Buy])
+    else if ([_opaction isEqualToString:Receipt])
     {
-        return @"买";
+        return @"收到他人汇款";
     }
     
     return @"无";

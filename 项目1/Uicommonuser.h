@@ -45,7 +45,11 @@ enum
     uicommon_LookMoneyGo_transfers  = 0x04,
     uicommon_LookMoneyGo_buy        = 0x05,
     uicommon_LookMoneyGo_sale       = 0x06,
-    uicommon_LookMoneyGo_ok         = 0x07,
+    uicommon_LookMoneyGo_refun      = 0x07,
+    
+    uicommon_LookMoneyGo_onlymoney  = 0x08,
+    
+    uicommon_LookMoneyGo_ok         = 0xFF,
     
 };
 //==========================================
@@ -154,6 +158,8 @@ enum
     
     uicommon_OperaOrder_surerefund              = 0x18,     //卖家选择退款
     
+    uicommon_OperaOrder_buyerlookevalua     = 0x19,
+    uicommon_OperaOrder_salerlookevalua     = 0x1A,
     
     
     uicommon_OperaOrder_NOTHING             = 0xFE,

@@ -143,13 +143,13 @@
     printf("✅           🐑2.修改用户名字           \n");
     printf("✅           🐧3.删除用户信息           \n");
     printf("             🐶4.用户资金操作           \n");
-    printf("             🐘5.商品操作               \n");
-    printf("             🐤6.订单操作               \n");
+    printf("✅           🐘5.商品操作              \n");
+    printf("✅           🐤6.订单操作              \n");
     printf("✅           🐔7.添加用户               \n");
     printf("✅           🐹8.密保库清0              \n");
     printf("✅           🐼9.历史资金清除           \n");
     printf("✅           🐬10.查看用户密保          \n");
-    printf("✅           🐠11.返回登录界面          \n");
+    printf("✅           🐠11.注销,返回登录界面     \n");
     printf("======================================\n");
     
     while (1)
@@ -501,7 +501,118 @@
 //==========================
 -(void)uiSuperUserOperaWares
 {
-    [self uiSuperUserUping];
+    Status *MyStatuP                = [Status statusShallOneData];      //更改主方法状态
+
+    Manageuserdatas *olduserdata    = [[Manageuserdatas alloc]init];    //找到数据并保存
+    LCQResultKeyRule temp_namestatu = LCQResultKeyRule_Nil;             //按键状态
+    
+    Managewares *newware            = [[Managewares alloc]init];        //商品操作
+    Operatewares *opware            = [[Operatewares alloc]init];       //商品表操作
+    
+    uisuper_OperaWares tempstatu    = uisuper_OperaWares_name;        //该方法的状态
+    
+    
+    NSMutableArray *temp_alluser = [[NSMutableArray alloc]init];
+    
+    
+    printf("=========================================\n");
+    
+    
+    while (1)
+    {
+        switch (tempstatu)
+        {
+            case uisuper_OperaWares_name:
+                [opware selectWareByWho:nil andFlag:UpWare andWare:nil andClass:nil andSaveArray:&temp_alluser];
+                if (temp_alluser.count != 0)
+                {
+                    for (NSInteger i = 0; i<temp_alluser.count ; i++)
+                    {
+                        printf("(%ld)->",i+1);
+                        newware = [temp_alluser[i] copy];
+                        [newware printfAllData];
+                        printf("---------\n");
+                        tempstatu = uisuper_OperaWares_choose;
+                    }
+                }
+                else
+                {
+                    printf("❗️找不到任何上架商品❗️\n");
+                    [MyStatuP StatuChange:(SuperUser | S_home)];
+                    [self enterWaitTimer];
+                }
+                break;
+                
+            case uisuper_OperaWares_choose:
+                printf("▶️请输入要下架的商品序号(🔙可输入'...'取消商品操作🔙)：");
+                temp_namestatu = [super seekRule:LCQKeyRule_Numb AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_OK)
+                {
+                    NSInteger tempjudge = [olduserdata.member intValue];
+                    if(tempjudge <= temp_alluser.count && tempjudge>=1 )
+                    {
+                        newware = [temp_alluser[tempjudge-1] copy];     //选择的信息拷贝出来
+                        tempstatu = uisuper_OperaWares_password;
+                        printf("=========================================\n");
+                    }
+                    else
+                    {
+                        printf("%s",ERROR0x01_ILLEGAL_NUM);            //超过序号
+                    }
+                }
+                break;
+                
+            case uisuper_OperaWares_password:
+                printf("▶️请输入超级用户密码以获取权限下架(🔙可输入'...'取消商品操作🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_Admin AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_OK)
+                {
+                    tempstatu = uisuper_OperaWares_sureorno;
+                }
+                break;
+                
+            case uisuper_OperaWares_sureorno:
+                printf("▶️是否要下架:(输入'YES'或'N0')(🔙可输入'...'取消商品操作🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_YesOrNo AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_OK)
+                {
+                    if ([olduserdata.member characterAtIndex:0] == 'Y' || [olduserdata.member characterAtIndex:0] == 'y')
+                    {
+                        tempstatu = uisuper_OperaWares_yes;
+                    }
+                    else
+                    {
+                        tempstatu = uisuper_OperaWares_no;
+                    }
+                    printf("=========================================\n");
+                }
+                break;
+                
+                
+            case uisuper_OperaWares_yes:
+                if ( [opware upWareData:newware withStatu:LCQChooseUpWaredata_wareflag] == FILEYES)
+                {
+                    printf("✅下架该商品成功\n");
+                    [MyStatuP StatuChange:(SuperUser | S_home)];
+                    [self enterWaitTimer];
+                    return;
+                }
+                break;
+                
+            case uisuper_OperaWares_no:
+                tempstatu = uisuper_OperaWares_name;
+                break;
+                
+            default:
+                break;
+        }
+        //这里的状态是底层UI.m检测到'...'，想切回主界面，但困在while出不去
+        if (MyStatuP.StaNow == (SuperUser | S_home))
+        {
+            [self enterWaitTimer];
+            break;
+        }
+    }
 }
 
 //==========================
@@ -509,7 +620,131 @@
 //==========================
 -(void)uiSuperUserOperaOrder
 {
-    [self uiSuperUserUping];
+    Status *MyStatuP                = [Status statusShallOneData];      //更改主方法状态
+
+    Manageuserdatas *olduserdata    = [[Manageuserdatas alloc]init];    //找到数据并保存
+    LCQResultKeyRule temp_namestatu = LCQResultKeyRule_Nil;             //按键状态
+
+    Manageorder *neworder           = [[Manageorder alloc]init];        //订单操作
+    Operateorder *oporder           = [[Operateorder alloc]init];       //订单表操作
+    
+    Managebuyandsale *newbas        = [[Managebuyandsale alloc]init];   //资金操作
+    Operatebuyandsale *opbas        = [[Operatebuyandsale alloc]init];  //资金表操作
+    
+    uisuper_OperaOrder tempstatu    = uisuper_OperaOrder_name;        //该方法的状态
+    
+    NSMutableArray *temp_alluser = [[NSMutableArray alloc]init];
+    
+    printf("=========================================\n");
+    
+    while (1)
+    {
+        switch (tempstatu)
+        {
+            case uisuper_OperaOrder_name:      //需要对退款进行操作
+                [oporder selectOrderByWho:nil andOrderSta:RequestRefund andOrdernumb:0 andSaler:nil andSaveArray:&temp_alluser];
+                if (temp_alluser.count != 0)
+                {
+                    for (NSInteger i = 0; i<temp_alluser.count ; i++)
+                    {
+                        printf("(%ld)->",i+1);
+                        neworder = [temp_alluser[i] copy];
+                        [neworder printfAllData];
+                        printf("---------\n");
+                    }
+                    tempstatu = uisuper_OperaOrder_choose;
+                }
+                else
+                {
+                    printf("❗️找不到任何请求退款订单❗️\n");
+                    [MyStatuP StatuChange:(SuperUser | S_home)];
+                    [self enterWaitTimer];
+                }
+                break;
+                
+            case uisuper_OperaOrder_choose:
+                printf("▶️若要对某订单进行退款，请输入括号里的序号(🔙可输入'...'取消退款🔙)：");
+                temp_namestatu = [super seekRule:LCQKeyRule_Numb AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_OK)
+                {
+                    NSInteger tempjudge = [olduserdata.member intValue];
+                    if(tempjudge <= temp_alluser.count && tempjudge>=1 )
+                    {
+                        neworder = [temp_alluser[tempjudge-1] copy];     //选择的信息拷贝出来
+                        tempstatu = uisuper_OperaOrder_password;
+                        printf("=========================================\n");
+                    }
+                    else
+                    {
+                        printf("%s",ERROR0x01_ILLEGAL_NUM);            //超过序号
+                    }
+                }
+                break;
+                
+            case uisuper_OperaOrder_password:
+                printf("▶️请输入超级用户密码以获取权限退款(🔙可输入'...'取消退款操作🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_Admin AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_OK)
+                {
+                    tempstatu = uisuper_OperaOrder_sureorno;
+                }
+                break;
+                
+            case uisuper_OperaOrder_sureorno:
+                printf("▶️是否要下架:(输入'YES'或'N0')(🔙可输入'...'取消商品操作🔙)：\n");
+                temp_namestatu = [super seekRule:LCQKeyRule_YesOrNo AndJudgeSaveUser:&olduserdata];
+                if (temp_namestatu == LCQResultKeyRule_OK)
+                {
+                    if ([olduserdata.member characterAtIndex:0] == 'Y' || [olduserdata.member characterAtIndex:0] == 'y')
+                    {
+                        tempstatu = uisuper_OperaOrder_yes;
+                    }
+                    else
+                    {
+                        tempstatu = uisuper_OperaOrder_no;
+                    }
+                    printf("=========================================\n");
+                }
+                break;
+                
+                
+            case uisuper_OperaOrder_yes:
+                printf("✅您选择了该订单，并成功退款给买家\n");
+                [neworder printfAllData];
+                
+                //订单记为已退款
+                neworder.ordersta = RefundOK;
+                [oporder upOrderData:neworder withStatu:LCQChooseUpOrderdata_ordersta];
+                
+                //资金流向要有管理员给用户的
+                newbas.basopname            = Admin;
+                newbas.basallmoney          = 0;    //无意义
+                newbas.basordernumb         = neworder.ordernumb;
+                newbas.basopaction          = RefundToBuyer;
+                newbas.basopmoney           = neworder.orderallmoney;
+                newbas.basopmoneytopeople   = neworder.orderbuyer;
+                
+                [opbas addOpBuyAndSale:newbas];
+                
+                printf("✅下架该商品成功\n");
+                [MyStatuP StatuChange:(SuperUser | S_home)];
+                [self enterWaitTimer];
+                return;
+                
+            case uisuper_OperaOrder_no:
+                tempstatu = uisuper_OperaOrder_name;
+                break;
+                
+            default:
+                break;
+        }
+        //这里的状态是底层UI.m检测到'...'，想切回主界面，但困在while出不去
+        if (MyStatuP.StaNow == (SuperUser | S_home))
+        {
+            [self enterWaitTimer];
+            break;
+        }
+    }
 }
 
 //==========================
@@ -523,7 +758,7 @@
     Manageuserdatas *olduserdata    = [[Manageuserdatas alloc]init];    //找到数据并保存
     LCQResultKeyRule temp_namestatu = LCQResultKeyRule_Nil;             //按键状态
     
-    uisuper_AddUser tempstatu            = uisuper_AddUser_name;                  //该方法的状态
+    uisuper_AddUser tempstatu       = uisuper_AddUser_name;                  //该方法的状态
     printf("=========================================\n");
     
     while (1)
@@ -867,6 +1102,7 @@
     Managemoney *opmoney = [[Managemoney alloc]init];
     Operatemoney *opmoneyp = [[Operatemoney alloc]init];
     NSMutableArray *temp_alluser = [[NSMutableArray alloc]init];
+    NSMutableArray *temp_alluser2 = [[NSMutableArray alloc]init];
     
     printf("=========================================\n");
     
@@ -910,7 +1146,9 @@
 
                     newuser = [olduserdata copy];
                     [opmoneyp selectOpMoneyName:newuser.name andSaveArray:&temp_alluser];
-                    if(temp_alluser.count == 0)
+                    [opmoneyp selectOpMoneyName:newuser.name andSaveArray:&temp_alluser2];
+                    
+                    if(temp_alluser.count == 0 && temp_alluser2.count == 0)
                     {
                         printf("❗️");
                         [newuser printfName];
@@ -920,14 +1158,28 @@
                     }
                     
                     printf("✅查到的用户资金操作如下：\n");
-                    for (NSInteger i = 0; i<temp_alluser.count ; i++)
+                    
+                    if(temp_alluser.count != 0)
                     {
-                        printf("(%ld)->",i+1);
-                        opmoney = [temp_alluser[i] copy];
-                        [opmoney printfAllData];
-                        printf("---------\n");
+                        for (NSInteger i = 0; i<temp_alluser.count ; i++)
+                        {
+                            printf("(%ld)->",i+1);
+                            opmoney = [temp_alluser[i] copy];
+                            [opmoney printfAllData];
+                            printf("---------\n");
+                        }
                     }
-
+                    if(temp_alluser2.count != 0)
+                    {
+                        for (NSInteger i = 0; i<temp_alluser2.count ; i++)
+                        {
+                            printf("(%ld)->",i+1);
+                            opmoney = [temp_alluser2[i] copy];
+                            [opmoney printfAllData];
+                            printf("---------\n");
+                        }
+                    }
+                    
                     cleanchoose = uisuper_CleanMoneyRecord_chooseone;
                     tempstatu = uisuper_CleanMoneyRecord_password;
                     printf("=========================================\n");
@@ -963,33 +1215,6 @@
                     }
                     printf("=========================================\n");
                 }
-                break;
-                
-            case uisuper_CleanMoneyRecord_yes:
-                if (cleanchoose == uisuper_CleanMoneyRecord_chooseone)
-                {
-                    if ( [opmoneyp deletOpMoneyWithUser:newuser.name] == FILEYES )
-                    {
-                        printf("✅清空该用户资金记录成功\n");
-                        [MyStatuP StatuChange:(SuperUser | S_home)];
-                        [self enterWaitTimer];
-                        return;
-                    }
-                }
-                else if (cleanchoose == uisuper_CleanMoneyRecord_chooseall)
-                {
-                    if ( [opmoneyp deletOpMoneyWithUser:nil] == FILEYES )
-                    {
-                        printf("✅清空所有用户资金记录成功\n");
-                        [MyStatuP StatuChange:(SuperUser | S_home)];
-                        [self enterWaitTimer];
-                        return;
-                    }
-                }
-                break;
-                
-            case uisuper_CleanMoneyRecord_no:
-                tempstatu = uisuper_CleanMoneyRecord_name;
                 break;
                 
             default:
