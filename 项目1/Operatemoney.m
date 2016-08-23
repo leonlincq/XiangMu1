@@ -189,7 +189,7 @@
     }
     else if([op isEqualToString:Buy])
     {
-        fileresult = [fileop executeQuery:@"SELECT opname,allmoney,opaction,opmoney,opmoneytopeople,CreatedTime From OpMoney where opname = ? and opaction = ?",name,BuyToAdmin];
+        fileresult = [fileop executeQuery:@"SELECT opname,allmoney,opaction,opmoney,opmoneytopeople,CreatedTime From OpMoney where opname = ? and opaction = ?",name,BuyerToAdmin];
     }
     else
     {
@@ -221,7 +221,7 @@
             return tempsta;
         }
 
-        fileresult = [fileop executeQuery:@"SELECT opname,allmoney,opaction,opmoney,opmoneytopeople,CreatedTime From OpMoney where opname = ? and opaction = ?",name,BuyToSaler];
+        fileresult = [fileop executeQuery:@"SELECT opname,allmoney,opaction,opmoney,opmoneytopeople,CreatedTime From OpMoney where opname = ? and opaction = ?",name,BuyerToSaler];
 
         while ([fileresult next])
         {
@@ -245,7 +245,7 @@
             return tempsta;
         }
 
-        fileresult = [fileop executeQuery:@"SELECT opname,allmoney,opaction,opmoney,opmoneytopeople,CreatedTime From OpMoney where opname = ? and opaction = ?",name,AdminToBuy];
+        fileresult = [fileop executeQuery:@"SELECT opname,allmoney,opaction,opmoney,opmoneytopeople,CreatedTime From OpMoney where opname = ? and opaction = ?",name,AdminToBuyer];
         
         while ([fileresult next])
         {
@@ -269,7 +269,7 @@
             return tempsta;
         }
         
-        fileresult = [fileop executeQuery:@"SELECT opname,allmoney,opaction,opmoney,opmoneytopeople,CreatedTime From OpMoney where opname = ? and opaction = ?",name,SalerToBuy];
+        fileresult = [fileop executeQuery:@"SELECT opname,allmoney,opaction,opmoney,opmoneytopeople,CreatedTime From OpMoney where opname = ? and opaction = ?",name,SalerToBuyer];
         
         while ([fileresult next])
         {

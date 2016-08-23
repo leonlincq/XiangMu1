@@ -54,11 +54,11 @@
     {
         printf("操作：转账");
     }
-    else if ([self.opaction isEqualToString:BuyToAdmin])
+    else if ([self.opaction isEqualToString:BuyerToAdmin])
     {
         printf("操作：买(钱汇至第三方)");
     }
-    else if ([self.opaction isEqualToString:BuyToSaler])
+    else if ([self.opaction isEqualToString:BuyerToSaler])
     {
         printf("操作：买(钱汇给卖家)");
     }
@@ -125,9 +125,9 @@
     [self printfOpname];
     printf(" ,");
     
-    printf("1️⃣");
-    [self printfAllmoney];
-    printf(" ,");
+//    printf("1️⃣");
+//    [self printfAllmoney];
+//    printf(" ,");
     
     printf("2️⃣");
     [self printfOpaction];

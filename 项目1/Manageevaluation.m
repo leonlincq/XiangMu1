@@ -54,30 +54,43 @@
 
 -(void)printfEvaluationByLevel
 {
-    const char *printfdata;
-    printfdata = [self.evaluationByLevel UTF8String];
-    if (printfdata == nil)
+    if ([self.evaluationByLevel isEqualToString:GOOD])
     {
-        printf("评价等级：无");
+        printf("评价等级：好评");
     }
-    else
+    else if ([self.evaluationByLevel isEqualToString:General])
     {
-        printf("评价等级：%s",printfdata);
+        printf("评价等级：中评");
+    }
+    else if ([self.evaluationByLevel isEqualToString:Poor])
+    {
+        printf("评价等级：差评");
     }
 }
 
 -(void)printfEvaluationByPoint
 {
-    const char *printfdata;
-    printfdata = [self.evaluationByPoint UTF8String];
-    if (printfdata == nil)
+    if ([self.evaluationByPoint isEqualToString:OneStar])
     {
-        printf("评价分数：无");
+        printf("评价分数：一星评价");
     }
-    else
+    else if ([self.evaluationByPoint isEqualToString:TwoStar])
     {
-        printf("评价分数：%s",printfdata);
+        printf("评价分数：两星评价");
     }
+    else if ([self.evaluationByPoint isEqualToString:ThreeStar])
+    {
+        printf("评价分数：三星评价");
+    }
+    else if ([self.evaluationByPoint isEqualToString:FourStar])
+    {
+        printf("评价分数：四星评价");
+    }
+    else if ([self.evaluationByPoint isEqualToString:FiveStar])
+    {
+        printf("评价分数：五星评价");
+    }
+
 }
 
 -(void)printfAllData

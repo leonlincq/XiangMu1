@@ -239,9 +239,9 @@
     
     FMResultSet *fileresult;
     
-    NSString *tempdata = [NSString stringWithFormat:@"SELECT warebypeople,wareflag,warename,wareclass,wareprice,waresum From Ware WHERE warename LIKE '%%%@%%' ",ware];
+    NSString *tempdata = [NSString stringWithFormat:@"SELECT warebypeople,wareflag,warename,wareclass,wareprice,waresum From Ware WHERE  wareflag = ? and warename LIKE '%%%@%%'",ware];
     
-    fileresult = [fileop executeQuery:tempdata];
+    fileresult = [fileop executeQuery:tempdata,UpWare];
 
     
     while ([fileresult next])

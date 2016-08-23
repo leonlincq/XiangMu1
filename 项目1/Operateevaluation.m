@@ -73,4 +73,53 @@
     return tempsta;
 }
 
+-(FILESTATUS)selectEvaluationByWho:(NSString*)buyer andWare:(NSString*)warename andSaler:(NSString*)saler andSaveArray:(NSMutableArray**)array
+{
+    FILESTATUS tempsta = FILEYES;
+    NSMutableArray *dataarray = [[NSMutableArray alloc]init];
+    
+    FMDatabase *fileop = [FMDatabase databaseWithPath:[self filepath]];
+    
+    if ([fileop open] == NO )
+    {
+        tempsta = FILEOpenError;
+        return tempsta;
+    }
+    
+    FMResultSet *fileresult;
+    
+    if (buyer == nil && warename == nil && saler == nil)    //全选
+    {
+        fileresult = [fileop executeQuery:@"SELECT evaluationBySaler,evaluationByWare,evaluationByBuyer,evaluationByLevel,evaluationByPoint From Evaluation"];
+    }
+    else if (buyer == nil && warename != nil && saler != nil)
+    {
+        fileresult = [fileop executeQuery:@"SELECT evaluationBySaler,evaluationByWare,evaluationByBuyer,evaluationByLevel,evaluationByPoint From Evaluation where evaluationByWare = ? and evaluationBySaler = ?",warename,saler];
+    }
+    else if (buyer != nil && warename == nil && saler == nil)
+    {
+        fileresult = [fileop executeQuery:@"SELECT evaluationBySaler,evaluationByWare,evaluationByBuyer,evaluationByLevel,evaluationByPoint From Evaluation where evaluationByBuyer = ?",buyer];
+    }
+    
+    
+    while ([fileresult next])
+    {
+        Manageevaluation *temp_date = [[Manageevaluation alloc]init];
+        
+        temp_date.evaluationBySaler = [fileresult stringForColumn:@"evaluationBySaler"];
+        temp_date.evaluationByWare  = [fileresult stringForColumn:@"evaluationByWare"];
+        temp_date.evaluationByBuyer = [fileresult stringForColumn:@"evaluationByBuyer"];
+        temp_date.evaluationByLevel = [fileresult stringForColumn:@"evaluationByLevel"];
+        temp_date.evaluationByPoint = [fileresult stringForColumn:@"evaluationByPoint"];
+        
+        [dataarray addObject:temp_date];
+    };
+    
+    *array = dataarray;
+    
+    [fileop close];
+    return tempsta;
+    
+}
+
 @end

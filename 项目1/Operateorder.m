@@ -198,7 +198,7 @@
     {
             
         case LCQChooseUpOrderdata_ordersta:
-            if ([fileop executeUpdate:@"UPDATE Orders SET ordersta = ? where orderware = ? and orderbuyer = ?",orderdata.ordersta,orderdata.orderware,orderdata.orderbuyer] == NO )
+            if ([fileop executeUpdate:@"UPDATE Orders SET ordersta = ? where orderware = ? and orderbuyer = ? and ordernumb = ?",orderdata.ordersta,orderdata.orderware,orderdata.orderbuyer,[NSNumber numberWithInteger:orderdata.ordernumb]] == NO )
             {
                 [fileop close];
                 tempsta = FILEUpDataError;
@@ -207,7 +207,7 @@
             break;
             
         case LCQChooseUpOrderdata_ordernumb:
-            if ([fileop executeUpdate:@"UPDATE Orders SET ordernumb = ? where orderware = ?",[NSNumber numberWithInteger:orderdata.ordernumb],orderdata.orderware] == NO )
+            if ([fileop executeUpdate:@"UPDATE Orders SET ordernumb = ? where orderware = ? and ordernumb = ?",[NSNumber numberWithInteger:orderdata.ordernumb],orderdata.orderware,[NSNumber numberWithInteger:orderdata.ordernumb]] == NO )
             {
                 [fileop close];
                 tempsta = FILEUpDataError;

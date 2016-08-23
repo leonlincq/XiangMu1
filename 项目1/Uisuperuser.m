@@ -364,7 +364,7 @@
             case uisuper_Delete_name:
                 printf("         1️⃣.删除所有用户\n");
                 printf("         2️⃣.删除单个用户\n");
-                printf("▶️请输入操作序号(1~2)(🔙可输入'...'取消查看🔙):");
+                printf("▶️请输入操作序号(1~2)(🔙可输入'...'取消删除🔙):");
                 temp_namestatu = [super seekRule:LCQKeyRule_Numb AndJudgeSaveUser:&olduserdata];
                 if (temp_namestatu == LCQResultKeyRule_OK)
                 {
@@ -660,7 +660,7 @@
                 break;
                 
             case uisuper_AddUser_payword:               //输入支付密码
-                printf("▶️请输入6位纯数字支付密码(🔙可输入'...'取消注册🔙)：\n");
+                printf("▶️请输入6位纯数字支付密码(🔙可输入'...'取消添加🔙)：\n");
                 temp_namestatu = [super seekRule:LCQKeyRule_Numb AndJudgeSaveUser:&olduserdata];
                 if (temp_namestatu == LCQResultKeyRule_OK)
                 {
@@ -678,7 +678,7 @@
                 break;
                 
             case uisuper_AddUser_address:        //输入地址
-                printf("▶️请输入地址（只能字母、数字）(🔙可输入'...'取消注册🔙)：\n");
+                printf("▶️请输入地址（只能字母、数字）(🔙可输入'...'取消添加🔙)：\n");
                 temp_namestatu = [super seekRule:LCQKeyRule_Address AndJudgeSaveUser:&olduserdata];
                 if (temp_namestatu == LCQResultKeyRule_OK)
                 {
@@ -689,7 +689,7 @@
                 break;
                 
             case uisuper_AddUser_money:        //输入金额
-                printf("▶️请输入该用户金额(🔙可输入'...'取消注册🔙)：\n");
+                printf("▶️请输入该用户金额(🔙可输入'...'取消添加🔙)：\n");
                 temp_namestatu = [super seekRule:LCQKeyRule_Money AndJudgeSaveUser:&olduserdata];
                 if (temp_namestatu == LCQResultKeyRule_OK)
                 {
@@ -740,7 +740,7 @@
             case uisuper_CleanProPassword_name:
                 printf("         1️⃣.清空所有用户密保\n");
                 printf("         2️⃣.清空单个用户密保\n");
-                printf("▶️请输入操作序号(1~2)(🔙可输入'...'取消查看🔙):");
+                printf("▶️请输入操作序号(1~2)(🔙可输入'...'取消清空🔙):");
                 temp_namestatu = [super seekRule:LCQKeyRule_Numb AndJudgeSaveUser:&olduserdata];
                 if (temp_namestatu == LCQResultKeyRule_OK)
                 {
@@ -877,7 +877,7 @@
             case uisuper_CleanMoneyRecord_name:
                 printf("         1️⃣.清空所有用户资金操作记录\n");
                 printf("         2️⃣.清空单个用户资金操作记录\n");
-                printf("▶️请输入操作序号(1~2)(🔙可输入'...'取消查看🔙):");
+                printf("▶️请输入操作序号(1~2)(🔙可输入'...'取消清空🔙):");
                 temp_namestatu = [super seekRule:LCQKeyRule_Numb AndJudgeSaveUser:&olduserdata];
                 if (temp_namestatu == LCQResultKeyRule_OK)
                 {

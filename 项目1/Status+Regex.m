@@ -170,7 +170,7 @@
 //===========================================
 -(BOOL)isValidateAB16:(NSString *)data
 {
-    NSString *dataRegex = @"[Aa][1-6]|[Bb][1-5]";
+    NSString *dataRegex = @"[Aa][1-6]|[Bb][1-6]";
     NSPredicate *dataTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", dataRegex];
     return [dataTest evaluateWithObject:data];
 }

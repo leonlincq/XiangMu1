@@ -133,25 +133,26 @@ enum
     uicommon_OperaOrder_lookrefundok        = 0x07,     //查看已退款完成订单
     
     uicommon_OperaOrder_Saler_lookBuyercreateorder      = 0x08,     //查看需要发货订单（买家已付款）
-    uicommon_OperaOrder_Saler_lookBuyersureware         = 0x09,     //查看已完成订单（买家已确认收货）
-    uicommon_OperaOrder_Saler_lookBuyercancel           = 0x0A,     //查看已取消订单
-    uicommon_OperaOrder_Saler_ookrBuyerequestrefund     = 0x0B,     //查看申请退款订单
-    uicommon_OperaOrder_Saler_lookBuyerrefundok         = 0x0C,     //查看退款已完成订单
+    uicommon_OperaOrder_Saler_lookSalersendware         = 0x09,     //查看需要发货订单（买家已付款）
+    uicommon_OperaOrder_Saler_lookBuyersureware         = 0x0A,     //查看已完成订单（买家已确认收货）
+    uicommon_OperaOrder_Saler_lookBuyercancel           = 0x0B,     //查看已取消订单
+    uicommon_OperaOrder_Saler_ookrBuyerequestrefund     = 0x0C,     //查看申请退款订单
+    uicommon_OperaOrder_Saler_lookBuyerrefundok         = 0x0D,     //查看退款已完成订单
 
-    uicommon_OperaOrder_cancelorderbynumb   = 0x0D,     //买家选择订单号是否取消
-    uicommon_OperaOrder_surecancelorder     = 0x0E,     //买家确定取消订单号
+    uicommon_OperaOrder_cancelorderbynumb   = 0x0E,     //买家选择订单号是否取消
+    uicommon_OperaOrder_surecancelorder     = 0x0F,     //买家确定取消订单号
     
-    uicommon_OperaOrder_sendwarebynumb      = 0x0F,     //卖家选择发货
+    uicommon_OperaOrder_sendwarebynumb      = 0x10,     //卖家选择发货
     
-    uicommon_OperaOrder_choosesendwarenumb = 0x10,     //选择已发货的商品
-    uicommon_OperaOrder_choosesureorrefund = 0x11,     //选择确认或退款
-    uicommon_OperaOrder_choosesureget      = 0x12,     //确认收货
-    uicommon_OperaOrder_payword            = 0x13,     //支付密码
-    uicommon_OperaOrder_chooseevaluationlevel   = 0x14,     //评价等级
-    uicommon_OperaOrder_chooseevaluationpoint   = 0x15,     //评价分数
-    uicommon_OperaOrder_chooserefund            = 0x16,     //退款
+    uicommon_OperaOrder_choosesendwarenumb = 0x11,     //选择已发货的商品
+    uicommon_OperaOrder_choosesureorrefund = 0x12,     //选择确认或退款
+    uicommon_OperaOrder_choosesureget      = 0x13,     //确认收货
+    uicommon_OperaOrder_payword            = 0x14,     //支付密码
+    uicommon_OperaOrder_chooseevaluationlevel   = 0x15,     //评价等级
+    uicommon_OperaOrder_chooseevaluationpoint   = 0x16,     //评价分数
+    uicommon_OperaOrder_chooserefund            = 0x17,     //退款
     
-    uicommon_OperaOrder_surerefund              = 0x17,     //卖家选择退款
+    uicommon_OperaOrder_surerefund              = 0x18,     //卖家选择退款
     
     
     

@@ -18,13 +18,13 @@
 #define MySelf      @"MySelf"       //存取款要用到
 
 //===========两者只能选其一
-#define BuyToAdmin  @"BuyToAdmin"   //钱到管理者手里
-#define BuyToSaler  @"BuyToSaler"   //钱到卖家手里
+#define BuyerToAdmin  @"BuyerToAdmin"   //钱到管理者手里
+#define BuyerToSaler  @"BuyerToSaler"   //钱到卖家手里
 //===========
-#define AdminToBuy  @"AdminToBuy"   //钱到管理者手里
-#define SalerToBuy  @"SalerToBuy"   //钱到卖家手里
+#define AdminToBuyer  @"AdminToBuyer"   //钱到管理者手里
+#define SalerToBuyer  @"SalerToBuyer"   //钱到卖家手里
 //===========
-#define Admin       @"Admin"        //管理员
+#define Admin       @"Admin"            //管理员
 
 
 
