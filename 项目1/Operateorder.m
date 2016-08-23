@@ -113,7 +113,10 @@
     {
         fileresult = [fileop executeQuery:@"SELECT orderbuyer,ordernumb,ordersta,orderware,ordersaler,ordermoney,orderquantity,orderallmoney,orderaddress From Orders where ordersta = ? and ordersaler = ?",sta,saler];
     }
-    
+    else if (name == nil && sta != nil && numb == 0 && saler == nil)
+    {
+        fileresult = [fileop executeQuery:@"SELECT orderbuyer,ordernumb,ordersta,orderware,ordersaler,ordermoney,orderquantity,orderallmoney,orderaddress From Orders where ordersta = ? ",sta];
+    }
     
     
     while ([fileresult next])

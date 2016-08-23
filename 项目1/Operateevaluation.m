@@ -75,6 +75,7 @@
 
 -(FILESTATUS)selectEvaluationByWho:(NSString*)buyer andWare:(NSString*)warename andSaler:(NSString*)saler andSaveArray:(NSMutableArray**)array
 {
+
     FILESTATUS tempsta = FILEYES;
     NSMutableArray *dataarray = [[NSMutableArray alloc]init];
     
@@ -100,7 +101,10 @@
     {
         fileresult = [fileop executeQuery:@"SELECT evaluationBySaler,evaluationByWare,evaluationByBuyer,evaluationByLevel,evaluationByPoint From Evaluation where evaluationByBuyer = ?",buyer];
     }
-    
+    else if (buyer != nil && warename != nil && saler == nil)
+    {
+        fileresult = [fileop executeQuery:@"SELECT evaluationBySaler,evaluationByWare,evaluationByBuyer,evaluationByLevel,evaluationByPoint From Evaluation where evaluationByBuyer = ? and evaluationByWare = ?",buyer,warename];
+    }
     
     while ([fileresult next])
     {

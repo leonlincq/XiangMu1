@@ -113,7 +113,10 @@
     {
         fileresult = [fileop executeQuery:@"SELECT warebypeople,wareflag,warename,wareclass,wareprice,waresum From Ware where wareflag = ? and wareclass = ?",flag,class];
     }
-    
+    else if(name == nil && flag != nil && ware == nil && class == nil)
+    {
+        fileresult = [fileop executeQuery:@"SELECT warebypeople,wareflag,warename,wareclass,wareprice,waresum From Ware where wareflag = ? ",flag];
+    }
     
     while ([fileresult next])
     {

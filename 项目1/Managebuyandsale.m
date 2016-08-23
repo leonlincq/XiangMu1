@@ -28,11 +28,11 @@
 {
     if (self.basallmoney == 0)
     {
-        printf("总金额：0");
+        printf("操作后剩余总金额：0");
     }
     else
     {
-        printf("总金额：%ld",self.basallmoney);
+        printf("操作后剩余总金额：%ld",self.basallmoney);
     }
 }
 
@@ -56,23 +56,23 @@
     }
     else if ([self.basopaction isEqualToString:BuyerToAdmin])
     {
-        printf("操作：钱汇给管理者");
+        printf("操作：钱汇给管理者➡️");
     }
     else if ([self.basopaction isEqualToString:BuyerToSaler])
     {
-        printf("操作：钱汇给卖家");
+        printf("操作：钱汇给卖家➡️");
     }
     else if ([self.basopaction isEqualToString:SalerSuccess])
     {
-        printf("操作：成功卖出商品");
+        printf("操作：成功卖出商品⬅️");
     }
-    else if ([self.basopaction isEqualToString:CancelToBuyer])
+    else if ([self.basopaction isEqualToString:CancelByBuyer])
     {
-        printf("操作：取消给买家");
+        printf("操作：取消订单钱回给买家⬅️");
     }
-    else if ([self.basopaction isEqualToString:RefundToBuyer])
+    else if ([self.basopaction isEqualToString:RefundByBuyer])
     {
-        printf("操作：退款给买家");
+        printf("操作：退款钱回给买家⬅️");
     }
 }
 

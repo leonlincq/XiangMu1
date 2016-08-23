@@ -17,9 +17,9 @@
 #define BuyerToSaler  @"BuyerToSaler"   //钱到卖家手里
 #define SalerSuccess  @"SalerSuccess"   //销售成功
 
-#define CancelToBuyer @"CancelToBuyer"  //取消给卖家
+#define CancelByBuyer @"CancelByBuyer"  //取消给卖家
 
-#define RefundToBuyer @"RefundToBuyer"  //退款给卖家
+#define RefundByBuyer @"RefundByBuyer"  //退款给卖家
 
 
 

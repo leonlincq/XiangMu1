@@ -46,6 +46,9 @@
 #define ERROR0x10_OVER_WARENUMB                 "❌请重新输入（错误代码0x10：超过卖家商品数量）❌\n"
 #define ERROR0x11_ILLEGAL_WARENUMB              "❌请重新输入（错误代码0x11：输入的数量有误）❌\n"
 
+#define ERROR0x12_ILLEGAL_MONEY                 "❌请重新输入（错误代码0x12：金额不能为0）❌\n"
+
+
 #define ERROR0xFE_FILE_OPNE_ERROR               "❌错误（错误代码0xFE：打不开文档）❌\n"
 #define ERROR0xFF_NO_ERROR                      "❌错误（错误代码0xFF：没有错误😂）❌\n"
 

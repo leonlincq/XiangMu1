@@ -103,7 +103,7 @@
     }
     else if (name !=nil && op != nil && num != 0)   //查看某人、某项、某订单号操作
     {
-        fileresult = [fileop executeQuery:@"SELECT basopname,basallmoney,basordernumb,basopaction,basopmoney,basopmoneytopeople,CreatedTime From OpBuyAndSale where basopname = ? and basopaction = ?a nd basordernumb = ?",name,op,num];
+        fileresult = [fileop executeQuery:@"SELECT basopname,basallmoney,basordernumb,basopaction,basopmoney,basopmoneytopeople,CreatedTime From OpBuyAndSale where basopname = ? and basopaction = ? and basordernumb = ?",name,op,[NSNumber numberWithInteger:num]];
     }
     
     
@@ -164,7 +164,7 @@
     }
     else if (name != nil && ordernum != 0)
     {
-        if ([fileop executeUpdate:@"DELETE FROM OpBuyAndSale WHERE basopname = ? and basordernumb = ?",name,ordernum] == NO )
+        if ([fileop executeUpdate:@"DELETE FROM OpBuyAndSale WHERE basopname = ? and basordernumb = ?",name,[NSNumber numberWithInteger:ordernum]] == NO )
         {
             [fileop close];
             tempsta = FILEDeleError;

@@ -540,6 +540,7 @@
                     printf("❗️找不到任何上架商品❗️\n");
                     [MyStatuP StatuChange:(SuperUser | S_home)];
                     [self enterWaitTimer];
+                    return;
                 }
                 break;
                 
@@ -590,6 +591,7 @@
                 
                 
             case uisuper_OperaWares_yes:
+                newware.wareflag = DownWare;
                 if ( [opware upWareData:newware withStatu:LCQChooseUpWaredata_wareflag] == FILEYES)
                 {
                     printf("✅下架该商品成功\n");
@@ -625,6 +627,9 @@
     Manageuserdatas *olduserdata    = [[Manageuserdatas alloc]init];    //找到数据并保存
     LCQResultKeyRule temp_namestatu = LCQResultKeyRule_Nil;             //按键状态
 
+    Manageuserdatas *newuser        = [[Manageuserdatas alloc]init];    //要保存的实例
+    Operateuserdatas *newop         = [[Operateuserdatas alloc]init];   //文件操作
+    
     Manageorder *neworder           = [[Manageorder alloc]init];        //订单操作
     Operateorder *oporder           = [[Operateorder alloc]init];       //订单表操作
     
@@ -659,6 +664,7 @@
                     printf("❗️找不到任何请求退款订单❗️\n");
                     [MyStatuP StatuChange:(SuperUser | S_home)];
                     [self enterWaitTimer];
+                    return;
                 }
                 break;
                 
@@ -691,7 +697,7 @@
                 break;
                 
             case uisuper_OperaOrder_sureorno:
-                printf("▶️是否要下架:(输入'YES'或'N0')(🔙可输入'...'取消商品操作🔙)：\n");
+                printf("▶️是否要退款:(输入'YES'或'N0')(🔙可输入'...'取消商品操作🔙)：\n");
                 temp_namestatu = [super seekRule:LCQKeyRule_YesOrNo AndJudgeSaveUser:&olduserdata];
                 if (temp_namestatu == LCQResultKeyRule_OK)
                 {
@@ -716,20 +722,28 @@
                 neworder.ordersta = RefundOK;
                 [oporder upOrderData:neworder withStatu:LCQChooseUpOrderdata_ordersta];
                 
-                //资金流向要有管理员给用户的
-                newbas.basopname            = Admin;
-                newbas.basallmoney          = 0;    //无意义
-                newbas.basordernumb         = neworder.ordernumb;
-                newbas.basopaction          = RefundToBuyer;
-                newbas.basopmoney           = neworder.orderallmoney;
-                newbas.basopmoneytopeople   = neworder.orderbuyer;
+                [newop selectUser:neworder.orderbuyer andSaveArray:&temp_alluser];
+                if (temp_alluser.count != 0)
+                {
+                    newuser = [temp_alluser[0] copy];
+                    newuser.money += neworder.orderallmoney;
+                    [newop upUserData:newuser withWho:LCQChooseUpdata_money];
+                    
+                    //资金流向要有管理员给用户的
+                    newbas.basopname            = neworder.orderbuyer;
+                    newbas.basallmoney          = newuser.money;
+                    newbas.basordernumb         = neworder.ordernumb;
+                    newbas.basopaction          = RefundByBuyer;
+                    newbas.basopmoney           = neworder.orderallmoney;
+                    newbas.basopmoneytopeople   = Admin;
+                    
+                    [opbas addOpBuyAndSale:newbas];
+                }
                 
-                [opbas addOpBuyAndSale:newbas];
-                
-                printf("✅下架该商品成功\n");
-                [MyStatuP StatuChange:(SuperUser | S_home)];
-                [self enterWaitTimer];
+                printf("✅退款成功\n");
+                [super uiReturnUpUi:(MainInterface | M_home)];
                 return;
+
                 
             case uisuper_OperaOrder_no:
                 tempstatu = uisuper_OperaOrder_name;
@@ -1099,8 +1113,12 @@
     uisuper_CleanMoneyRecord tempstatu  = uisuper_CleanMoneyRecord_name;              //该方法的状态
     uisuper_CleanMoneyRecord_choose cleanchoose = uisuper_CleanMoneyRecord_choosenil;
     
-    Managemoney *opmoney = [[Managemoney alloc]init];
-    Operatemoney *opmoneyp = [[Operatemoney alloc]init];
+    Managemoney *opmoney            = [[Managemoney alloc]init];
+    Operatemoney *opmoneyp          = [[Operatemoney alloc]init];
+    
+    Managebuyandsale *newbas        = [[Managebuyandsale alloc]init];   //资金表操作
+    Operatebuyandsale *opbas        = [[Operatebuyandsale alloc]init];  //资金表操作
+    
     NSMutableArray *temp_alluser = [[NSMutableArray alloc]init];
     NSMutableArray *temp_alluser2 = [[NSMutableArray alloc]init];
     
@@ -1146,7 +1164,7 @@
 
                     newuser = [olduserdata copy];
                     [opmoneyp selectOpMoneyName:newuser.name andSaveArray:&temp_alluser];
-                    [opmoneyp selectOpMoneyName:newuser.name andSaveArray:&temp_alluser2];
+                    [opbas selectOpBuyAndSaleName:newuser.name andOrderNum:0 andop:nil SaveArray:&temp_alluser2];
                     
                     if(temp_alluser.count == 0 && temp_alluser2.count == 0)
                     {
@@ -1163,7 +1181,7 @@
                     {
                         for (NSInteger i = 0; i<temp_alluser.count ; i++)
                         {
-                            printf("(%ld)->",i+1);
+                            //printf("(%ld)->",i+1);
                             opmoney = [temp_alluser[i] copy];
                             [opmoney printfAllData];
                             printf("---------\n");
@@ -1173,9 +1191,9 @@
                     {
                         for (NSInteger i = 0; i<temp_alluser2.count ; i++)
                         {
-                            printf("(%ld)->",i+1);
-                            opmoney = [temp_alluser2[i] copy];
-                            [opmoney printfAllData];
+                            //printf("(%ld)->",i+1);
+                            newbas = [temp_alluser2[i] copy];
+                            [newbas printfAllData];
                             printf("---------\n");
                         }
                     }
@@ -1216,6 +1234,37 @@
                     printf("=========================================\n");
                 }
                 break;
+                
+            case uisuper_CleanMoneyRecord_yes:
+                if (cleanchoose == uisuper_Clean_chooseone)
+                {
+                    if ( [opmoneyp deletOpMoneyWithUser:newuser.name] == FILEYES && [opbas deletBuyAndSaleByWho:newuser.name andOrderNum:0] == FILEYES )
+                    {
+                        printf("✅清空");
+                        [newuser printfName];
+                        printf("历史资金成功\n");
+                        [MyStatuP StatuChange:(SuperUser | S_home)];
+                        [self enterWaitTimer];
+                        return;
+                    }
+                }
+                else if (cleanchoose == uisuper_Clean_chooseall)
+                {
+                    if ( [opmoneyp deletOpMoneyWithUser:nil] == FILEYES && [opbas deletBuyAndSaleByWho:nil andOrderNum:0] )
+                    {
+                        printf("✅清空所有用户历史资金成功\n");
+                        [MyStatuP StatuChange:(SuperUser | S_home)];
+                        [self enterWaitTimer];
+                        return;
+                    }
+                }
+                break;
+                
+            case uisuper_CleanMoneyRecord_no:
+                tempstatu = uisuper_CleanMoneyRecord_name;
+                break;
+                
+                
                 
             default:
                 break;

@@ -28,11 +28,11 @@
 {
     if (self.allmoney == 0)
     {
-        printf("总金额：0");
+        printf("操作后剩余总金额：0");
     }
     else
     {
-        printf("总金额：%ld",self.allmoney);
+        printf("操作后剩余总金额：%ld",self.allmoney);
     }
 }
 

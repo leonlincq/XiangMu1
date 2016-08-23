@@ -79,7 +79,7 @@
 //  输入:name:选择的用户
 //  返回:错误代码
 //=====================================================
--(FILESTATUS)deletOpMoneyWithUser:(NSString *)opaction
+-(FILESTATUS)deletOpMoneyWithUser:(NSString *)name
 {
     FILESTATUS tempsta = FILEYES;
     FMDatabase *fileop = [FMDatabase databaseWithPath:[self filepath]];
@@ -90,7 +90,7 @@
         return tempsta;
     }
     
-    if (opaction == nil)
+    if (name == nil)
     {
         if ([fileop executeUpdate:@"DELETE FROM OpMoney"] == NO )
         {
@@ -101,7 +101,7 @@
     }
     else
     {
-        if ([fileop executeUpdate:@"DELETE FROM OpMoney WHERE opaction = ?",opaction] == NO )
+        if ([fileop executeUpdate:@"DELETE FROM OpMoney WHERE opname = ?",name] == NO )
         {
             [fileop close];
             tempsta = FILEDeleError;

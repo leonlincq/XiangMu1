@@ -13,7 +13,7 @@
 #define Deposit     @"Deposit"      //存款
 #define DrawMoney   @"DrawMoney"    //取款
 #define Transfers   @"Transfers"    //转账
-#define Receipt     @"Receipt "     //收款
+#define Receipt     @"Receipt"     //收款
 
 #define MySelf      @"MySelf"       //存取款要用到
 
